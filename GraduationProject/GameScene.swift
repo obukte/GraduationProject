@@ -17,6 +17,7 @@ class GameScene: SKScene {
     var manager: CMMotionManager?
     var timer: Timer?
     var seconds: Double?
+    var frictionMap: [[Double]] = []
     
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
@@ -79,7 +80,57 @@ class GameScene: SKScene {
                 currentPixel += 1
             }
         }
+    }
+    
+    func getFriction(_ image: UIImage) {
+        // 1. Get pixels of image
+        let inputCGImage = image.cgImage
+        let width: Int = (inputCGImage?.width)!
+        let height: Int = (inputCGImage?.height)!
+        let bytesPerPixel: Int = 4
+        let bytesPerRow: Int = bytesPerPixel * width
+        let bitsPerComponent: Int = 8
+        let pixels = UnsafeMutablePointer<UInt32>.allocate(capacity: (width * height))
+        let bitmapInfo: UInt32 = CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue
+        let colorSpace: CGColorSpace = CGColorSpaceCreateDeviceRGB()
+        let context = CGContext(data: pixels, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo)
+        context?.draw(inputCGImage!, in: CGRect(x: 0, y: 0, width: CGFloat(width), height: CGFloat(height)))
         
+        func Mask8(x: Int) -> Int {
+            return (x & 0xff)
+        }
+        func R(x: Int) -> Int {
+            return Mask8(x: x)
+        }
+        func G(x: Int) -> Int {
+            return (Mask8(x: x >> 8))
+        }
+        func B(x: Int) -> Int {
+            return (Mask8(x: x >> 16))
+        }
+        func A(x: Int) -> Int {
+            return (Mask8(x: x >> 24))
+        }
+        
+        var currentPixel = pixels
+        for j in 0..<height {
+            for i in 0..<width {
+                let color = currentPixel.pointee.hashValue
+                let alpha = A(x: color)
+                if (alpha == 0){
+                    frictionMap[j][i] = 1.0
+                }else if (alpha <= 20 ){
+                    frictionMap[j][i] = 0.9
+                }else if (alpha <= 50 ){
+                    frictionMap[j][i] = 0.8
+                }else if (alpha <= 100 ){
+                    frictionMap[j][i] = 0.7
+                }else if (alpha <= 200 ){
+                    frictionMap[j][i] = 0.3
+                }
+                currentPixel += 1
+            }
+        }
     }
     
     
@@ -145,8 +196,9 @@ class GameScene: SKScene {
             
             // applyImpulse() is much better than applyForce()
             // ball.physicsBody?.applyForce(CGVector(dx: CGFloat(gravityX) * 5000.0, dy: CGFloat(gravityY) * 5000.0))
-            
-            ball.physicsBody?.applyImpulse(CGVector(dx: CGFloat(gravityX) * 200.0, dy: CGFloat(gravityY) * 200.0))
+            getFriction(#imageLiteral(resourceName: "friction"))
+            var friction = frictionMap[Int(ball.position.x)][Int(ball.position.y)]
+            ball.physicsBody?.applyImpulse(CGVector(dx: CGFloat(gravityX) * 200.0 * CGFloat(friction), dy: CGFloat(gravityY) * 200.0 * CGFloat(friction)))
         }
     }
     
