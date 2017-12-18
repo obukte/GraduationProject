@@ -11,13 +11,14 @@ import CoreMotion
 import GameplayKit
 import UIKit
 
+
 class GameScene: SKScene {
     
     var ball: SKSpriteNode!
     var manager: CMMotionManager?
     var timer: Timer?
     var seconds: Double?
-    //var frictionMap: [[[Double]]]  = [[[0.0]],[[0.0]],[[0.0]]]//i,j,friction.
+    var matrix = Matrix(rows: 750, columns: 1334)
     
     
     private var label : SKLabelNode?
@@ -25,6 +26,29 @@ class GameScene: SKScene {
     
     let deviceHeight = 1334.0
     let deviceWidth = 750.0
+    
+    struct Matrix {
+        let rows: Int, columns: Int
+        var grid: [Double]
+        init(rows: Int, columns: Int) {
+            self.rows = rows
+            self.columns = columns
+            grid = Array(repeating: 0.0, count: rows * columns)
+        }
+        func indexIsValid(row: Int, column: Int) -> Bool {
+            return row >= 0 && row < rows && column >= 0 && column < columns
+        }
+        subscript(row: Int, column: Int) -> Double {
+            get {
+                assert(indexIsValid(row: row, column: column), "Index out of range")
+                return grid[(row * columns) + column]
+            }
+            set {
+                assert(indexIsValid(row: row, column: column), "Index out of range")
+                grid[(row * columns) + column] = newValue
+            }
+        }
+    }
     
     func logPixelsOf(_ image: UIImage) {
         /* override init() {
@@ -34,8 +58,7 @@ class GameScene: SKScene {
          required init?(coder aDecoder: NSCoder) {
          fatalError("init(coder:) has not been implemented")
          }*/
-        print("1")
-        // 1. Get pixels of image
+        
         let inputCGImage = image.cgImage
         let width: Int = (inputCGImage?.width)!
         let height: Int = (inputCGImage?.height)!
@@ -66,10 +89,7 @@ class GameScene: SKScene {
         
         var currentPixel = pixels
         let pixelWidth = (750.0/Float(width))
-        print(width)
-        print(height)
         let pixelHeight = (1334.0/Float(height))
-        print(CGFloat(pixelWidth))
         for j in 0..<height {
             for i in 0..<width {
                 let color = currentPixel.pointee.hashValue
@@ -94,41 +114,6 @@ class GameScene: SKScene {
     
     func setFriction(_ image: UIImage) {
         
-        //https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/Subscripts.html   alındı.
-        struct Matrix {
-            let rows: Int, columns: Int
-            var grid: [Double]
-            init(rows: Int, columns: Int) {
-                self.rows = rows
-                self.columns = columns
-                grid = Array(repeating: 0.0, count: rows * columns)
-            }
-            func indexIsValid(row: Int, column: Int) -> Bool {
-                return row >= 0 && row < rows && column >= 0 && column < columns
-            }
-            subscript(row: Int, column: Int) -> Double {
-                get {
-                    assert(indexIsValid(row: row, column: column), "Index out of range")
-                    return grid[(row * columns) + column]
-                }
-                set {
-                    assert(indexIsValid(row: row, column: column), "Index out of range")
-                    grid[(row * columns) + column] = newValue
-                }
-            }
-        }
-        var matrix = Matrix(rows: 750, columns: 1334)
-        
-        
-        
-        
-        
-        
-        
-        print("2")
-        //var friction = frictionMap[Int(ball.position.x)][Int(ball.position.y)]
-        
-        // 1. Get pixels of image
         let inputCGImage = image.cgImage
         let width: Int = (inputCGImage?.width)!
         let height: Int = (inputCGImage?.height)!
@@ -160,36 +145,28 @@ class GameScene: SKScene {
         var currentPixel = pixels
         for j in 0..<height {// y coordinate
             for i in 0..<width {// x coordinate
-                //var friction: [Double] = [0.0]
                 let color = currentPixel.pointee.hashValue
                 let alpha = A(x: color)
                 if (alpha == 0){
-                    //friction = [0.5]
                     matrix[i,j] = 0.5
                 }else if (alpha <= 20 ){
                     matrix[i,j] = 0.9
-                    //frictionMap[i][j] = 0.9
                 }else if (alpha <= 50 ){
                     matrix[i,j] = 0.8
-                    //frictionMap[i][j] = 0.8
                 }else if (alpha <= 100 ){
                     matrix[i,j] = 0.7
-                    //frictionMap[i][j] = 0.7
                 }else if (alpha <= 200 ){
                     matrix[i,j] = 0.3
-                    //frictionMap[i][j] = 0.3
                 }
-                //var temp = frictionMap[i][j][friction]
                 currentPixel += 1
-                //print("currentPixel: ",currentPixel, "alpha:" ,alpha, "frictionMap:" ,matrix, "i:" ,i, "j:" ,j)
             }
         }
-        print("frictionMap:" ,matrix)
+//        print("frictionMap:" ,matrix)
     }
     
     
     override func didMove(to view: SKView) {
-        print("3")
+        
         logPixelsOf(#imageLiteral(resourceName: "obstaclex4"))
         setFriction(#imageLiteral(resourceName: "friction"))
         
@@ -244,11 +221,19 @@ class GameScene: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        print("4")
+        
         if let gravityX = manager?.deviceMotion?.gravity.x, let gravityY = manager?.deviceMotion?.gravity.y, ball != nil {
-            /* 18.12.2017 Faris Commented
-             let friction = frictionMap[Int(ball.position.x)][Int(ball.position.y)]
-             */
+            
+            /* ekranin tam ortasini 0 noktasi kabul ediyor o yuzden yarisi kadar ekleme yaptim */
+            
+            let ballFriction = matrix[Int(ball.position.x)+375,Int(ball.position.y)+667]
+            
+            /* noktayi anlamak icin */
+            
+            print("X: ")
+            print(ball.position.x)
+            print("Y: ")
+            print(ball.position.y)
             
             // let newPosition = CGPoint(x: Double(ball.position.x) + gravityX * 35.0, y: Double(ball.position.y) + gravityY * 35.0)
             // let moveAction = SKAction.moveTo(newPosition, duration: 0.0)
@@ -258,15 +243,11 @@ class GameScene: SKScene {
             // ball.physicsBody?.applyForce(CGVector(dx: CGFloat(gravityX) * 5000.0, dy: CGFloat(gravityY) * 5000.0))
             
             
-            // var friction = frictionMap[Int(ball.position.x)][Int(ball.position.y)]
-            /* 18.12.2017 Faris Commented
-             ball.physicsBody?.applyImpulse(CGVector(dx: CGFloat(gravityX) * 200.0 * CGFloat(friction), dy: CGFloat(gravityY) * 200.0 * CGFloat(friction)))
-             */
+             ball.physicsBody?.applyImpulse(CGVector(dx: CGFloat(gravityX) * 200.0 * CGFloat(ballFriction), dy: CGFloat(gravityY) * 200.0 * CGFloat(ballFriction)))
         }
     }
     
     func centerBall() {
-        print("5")
         ball.physicsBody?.velocity = CGVector(dx: 0.0, dy: 0.0)
         let moveAction = SKAction.move(to: CGPoint(x: frame.midX, y: frame.midY), duration: 0.0)
         ball.run(moveAction)
@@ -275,12 +256,10 @@ class GameScene: SKScene {
     // MARK: - Timer Methods
     
     @objc func increaseTimer() {
-        print("6")
         seconds = (seconds ?? 0.0) + 0.01
     }
     
     func resetTimer() {
-        print("7")
         seconds = 0.0
     }
     
