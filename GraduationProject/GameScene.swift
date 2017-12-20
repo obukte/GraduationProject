@@ -18,6 +18,7 @@ class GameScene: SKScene {
     var timer: Timer?
     var seconds: Double?
     var frictionMap = [[Double]](repeating: [Double](repeating: 0.0, count: 1334), count: 750)
+    var heightMap = [[Double]](repeating: [Double](repeating: 0.0, count: 1334), count: 750)
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
@@ -85,12 +86,8 @@ class GameScene: SKScene {
     
     func setFriction(_ image: UIImage) {
         
-        //https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/Subscripts.html   alındı.
-        
         print("2")
-        //var friction = frictionMap[Int(ball.position.x)][Int(ball.position.y)]
         
-        // 1. Get pixels of image
         let inputCGImage = image.cgImage
         let width: Int = (inputCGImage?.width)!
         let height: Int = (inputCGImage?.height)!
@@ -145,11 +142,80 @@ class GameScene: SKScene {
 //        print("frictionMap:" ,frictionMap)
     }
     
+    func setHeight(_ image: UIImage) {
+        
+        let inputCGImage = image.cgImage
+        let width: Int = (inputCGImage?.width)!
+        let height: Int = (inputCGImage?.height)!
+        let bytesPerPixel: Int = 4
+        let bytesPerRow: Int = bytesPerPixel * width
+        let bitsPerComponent: Int = 8
+        let pixels = UnsafeMutablePointer<UInt32>.allocate(capacity: (width * height))
+        let bitmapInfo: UInt32 = CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue
+        let colorSpace: CGColorSpace = CGColorSpaceCreateDeviceRGB()
+        let context = CGContext(data: pixels, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo)
+        context?.draw(inputCGImage!, in: CGRect(x: 0, y: 0, width: CGFloat(width), height: CGFloat(height)))
+        
+        func Mask8(x: Int) -> Int {
+            return (x & 0xff)
+        }
+        func R(x: Int) -> Int {
+            return Mask8(x: x)
+        }
+        func G(x: Int) -> Int {
+            return (Mask8(x: x >> 8))
+        }
+        func B(x: Int) -> Int {
+            return (Mask8(x: x >> 16))
+        }
+        func A(x: Int) -> Int {
+            return (Mask8(x: x >> 24))
+        }
+        
+        var currentPixel = pixels
+        for j in 0..<height {// y coordinate
+            for i in 0..<width {// x coordinate
+                let color = currentPixel.pointee.hashValue
+                let red = R(x: color)
+                let green = G(x: color)
+                let blue = B(x: color)
+                let alpha = A(x: color)
+                if (blue < 10 ){
+                    heightMap[i][j] = 10
+                }else if (blue > 10 && blue < 20  ){
+                    heightMap[i][j] = 9
+                }else if (blue > 20 && blue < 30  ){
+                    heightMap[i][j] = 8
+                }else if (blue > 30 &&  blue < 40){
+                    heightMap[i][j] = 7
+                }else if (blue > 40 &&  blue < 50){
+                    heightMap[i][j] = 6
+                }else if (blue > 50 &&  blue < 60){
+                    heightMap[i][j] = 5
+                }else if (blue > 60 &&  blue < 70){
+                    heightMap[i][j] = 4
+                }else if (blue > 70 &&  blue < 80){
+                    heightMap[i][j] = 3
+                }else if (blue > 80 &&  blue < 90){
+                    heightMap[i][j] = 2
+                }else if (blue > 90 &&  blue < 100){
+                    heightMap[i][j] = 1
+                }else {
+                    heightMap[i][j] = 0
+                }
+                currentPixel += 1
+            }
+        }
+        
+    }
+    
+    
     
     override func didMove(to view: SKView) {
         print("3")
         logPixelsOf(#imageLiteral(resourceName: "obstaclex4"))
         setFriction(#imageLiteral(resourceName: "NewFrictionMap"))
+        setHeight(#imageLiteral(resourceName: "HeightMap"))
         
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(GameScene.increaseTimer), userInfo: nil, repeats: true)
         
