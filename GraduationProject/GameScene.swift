@@ -18,7 +18,7 @@ class GameScene: SKScene {
     var timer: Timer?
     var seconds: Double?
     var frictionMap = [[Double]](repeating: [Double](repeating: 0.0, count: 1334), count: 750)
-    var heightMap = [[Double]](repeating: [Double](repeating: 0.0, count: 1334), count: 750)
+    var heightMap = [[Int]](repeating: [Int](repeating: 0, count: 1334), count: 750)
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
@@ -207,6 +207,38 @@ class GameScene: SKScene {
             }
         }
         
+        
+        //20.12.2017
+        var currentBallPositionX = ball.position.x
+        var backBallPositionX = ball.position.x-1
+        var nextBallPositionX = ball.position.x+1
+        
+        var currentBallPositionY = ball.position.y
+        var backBallPositionY = ball.position.y-1
+        var nextBallPositionY = ball.position.y+1
+        
+        let heightOfPos = heightMap[Int(ball.position.x) + 375][Int(ball.position.y) + 667]
+        var x: Int?
+        var y: Int?
+        var heightDifference: Int?
+        var comparedDifference = 0
+        
+        for i in 0...2{
+            for j in 0...2{
+                if(i != 1 && j != 1 ){
+                    let nextHeight = heightMap[i-1][j-1]// [x-1][y-1], [x-1][y+1], [x+1][y-1], [x+1][y+1]
+                    heightDifference = heightOfPos - nextHeight
+                    
+                    if(heightDifference! > comparedDifference){
+                        
+                        x = i-1
+                        y = j-1
+                        comparedDifference = heightDifference!
+                        //velocity
+                    }
+                }
+            }
+        }
     }
     
     
