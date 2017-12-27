@@ -19,6 +19,9 @@ class GameScene: SKScene {
     var seconds: Double?
     var velocityX = CGFloat(0.0)
     var velocityY = CGFloat(0.0)
+    
+    let maxVelocity = CGFloat(50.0)
+    
     var frictionMap = [[Double]](repeating: [Double](repeating: 0.0, count: 1334), count: 750)
     var heightMap = [[Int]](repeating: [Int](repeating: 0, count: 1334), count: 750)
     private var label : SKLabelNode?
@@ -127,11 +130,11 @@ class GameScene: SKScene {
                 let blue = B(x: color)
                 let alpha = A(x: color)
                 if (red < 150 ){
-                    frictionMap[i][j] = 0.8
+                    frictionMap[i][j] = 0.02
                 }else if (red > 230 && red < 250  ){
-                    frictionMap[i][j] = 0.6
+                    frictionMap[i][j] = 0.03
                 }else if (red > 250 && alpha == 255 ){
-                    frictionMap[i][j] = 0.5
+                    frictionMap[i][j] = 0.04
                 }else if (red == 255 &&  alpha == 255){
                     frictionMap[i][j] = 1.0
                 }else {
@@ -141,107 +144,107 @@ class GameScene: SKScene {
                 //print("currentPixel: ",currentPixel, "alpha:" ,alpha, "frictionMap:" ,matrix, "i:" ,i, "j:" ,j)
             }
         }
-//        print("frictionMap:" ,frictionMap)
+        //        print("frictionMap:" ,frictionMap)
     }
     
-//    func setHeight(_ image: UIImage) {
-//
-//        let inputCGImage = image.cgImage
-//        let width: Int = (inputCGImage?.width)!
-//        let height: Int = (inputCGImage?.height)!
-//        let bytesPerPixel: Int = 4
-//        let bytesPerRow: Int = bytesPerPixel * width
-//        let bitsPerComponent: Int = 8
-//        let pixels = UnsafeMutablePointer<UInt32>.allocate(capacity: (width * height))
-//        let bitmapInfo: UInt32 = CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue
-//        let colorSpace: CGColorSpace = CGColorSpaceCreateDeviceRGB()
-//        let context = CGContext(data: pixels, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo)
-//        context?.draw(inputCGImage!, in: CGRect(x: 0, y: 0, width: CGFloat(width), height: CGFloat(height)))
-//
-//        func Mask8(x: Int) -> Int {
-//            return (x & 0xff)
-//        }
-//        func R(x: Int) -> Int {
-//            return Mask8(x: x)
-//        }
-//        func G(x: Int) -> Int {
-//            return (Mask8(x: x >> 8))
-//        }
-//        func B(x: Int) -> Int {
-//            return (Mask8(x: x >> 16))
-//        }
-//        func A(x: Int) -> Int {
-//            return (Mask8(x: x >> 24))
-//        }
-//
-//        var currentPixel = pixels
-//        for j in 0..<height {// y coordinate
-//            for i in 0..<width {// x coordinate
-//                let color = currentPixel.pointee.hashValue
-//                let red = R(x: color)
-//                let green = G(x: color)
-//                let blue = B(x: color)
-//                let alpha = A(x: color)
-//                if (blue < 10 ){
-//                    heightMap[i][j] = 10
-//                }else if (blue > 10 && blue < 20  ){
-//                    heightMap[i][j] = 9
-//                }else if (blue > 20 && blue < 30  ){
-//                    heightMap[i][j] = 8
-//                }else if (blue > 30 &&  blue < 40){
-//                    heightMap[i][j] = 7
-//                }else if (blue > 40 &&  blue < 50){
-//                    heightMap[i][j] = 6
-//                }else if (blue > 50 &&  blue < 60){
-//                    heightMap[i][j] = 5
-//                }else if (blue > 60 &&  blue < 70){
-//                    heightMap[i][j] = 4
-//                }else if (blue > 70 &&  blue < 80){
-//                    heightMap[i][j] = 3
-//                }else if (blue > 80 &&  blue < 90){
-//                    heightMap[i][j] = 2
-//                }else if (blue > 90 &&  blue < 100){
-//                    heightMap[i][j] = 1
-//                }else {
-//                    heightMap[i][j] = 0
-//                }
-//                currentPixel += 1
-//            }
-//        }
-//
-//
-//        //20.12.2017
-//        var currentBallPositionX = ball.position.x
-//        var backBallPositionX = ball.position.x-1
-//        var nextBallPositionX = ball.position.x+1
-//
-//        var currentBallPositionY = ball.position.y
-//        var backBallPositionY = ball.position.y-1
-//        var nextBallPositionY = ball.position.y+1
-//
-//        let heightOfPos = heightMap[Int(ball.position.x) + 375][Int(ball.position.y) + 667]
-//        var x: Int?
-//        var y: Int?
-//        var heightDifference: Int?
-//        var comparedDifference = 0
-//
-//        for i in 0...2{
-//            for j in 0...2{
-//                if(i != 1 && j != 1 ){
-//                    let nextHeight = heightMap[i-1][j-1]// [x-1][y-1], [x-1][y+1], [x+1][y-1], [x+1][y+1]
-//                    heightDifference = heightOfPos - nextHeight
-//
-//                    if(heightDifference! > comparedDifference){
-//
-//                        x = i-1
-//                        y = j-1
-//                        comparedDifference = heightDifference!
-//                        //velocity
-//                    }
-//                }
-//            }
-//        }
-//    }
+    //    func setHeight(_ image: UIImage) {
+    //
+    //        let inputCGImage = image.cgImage
+    //        let width: Int = (inputCGImage?.width)!
+    //        let height: Int = (inputCGImage?.height)!
+    //        let bytesPerPixel: Int = 4
+    //        let bytesPerRow: Int = bytesPerPixel * width
+    //        let bitsPerComponent: Int = 8
+    //        let pixels = UnsafeMutablePointer<UInt32>.allocate(capacity: (width * height))
+    //        let bitmapInfo: UInt32 = CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue
+    //        let colorSpace: CGColorSpace = CGColorSpaceCreateDeviceRGB()
+    //        let context = CGContext(data: pixels, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo)
+    //        context?.draw(inputCGImage!, in: CGRect(x: 0, y: 0, width: CGFloat(width), height: CGFloat(height)))
+    //
+    //        func Mask8(x: Int) -> Int {
+    //            return (x & 0xff)
+    //        }
+    //        func R(x: Int) -> Int {
+    //            return Mask8(x: x)
+    //        }
+    //        func G(x: Int) -> Int {
+    //            return (Mask8(x: x >> 8))
+    //        }
+    //        func B(x: Int) -> Int {
+    //            return (Mask8(x: x >> 16))
+    //        }
+    //        func A(x: Int) -> Int {
+    //            return (Mask8(x: x >> 24))
+    //        }
+    //
+    //        var currentPixel = pixels
+    //        for j in 0..<height {// y coordinate
+    //            for i in 0..<width {// x coordinate
+    //                let color = currentPixel.pointee.hashValue
+    //                let red = R(x: color)
+    //                let green = G(x: color)
+    //                let blue = B(x: color)
+    //                let alpha = A(x: color)
+    //                if (blue < 10 ){
+    //                    heightMap[i][j] = 10
+    //                }else if (blue > 10 && blue < 20  ){
+    //                    heightMap[i][j] = 9
+    //                }else if (blue > 20 && blue < 30  ){
+    //                    heightMap[i][j] = 8
+    //                }else if (blue > 30 &&  blue < 40){
+    //                    heightMap[i][j] = 7
+    //                }else if (blue > 40 &&  blue < 50){
+    //                    heightMap[i][j] = 6
+    //                }else if (blue > 50 &&  blue < 60){
+    //                    heightMap[i][j] = 5
+    //                }else if (blue > 60 &&  blue < 70){
+    //                    heightMap[i][j] = 4
+    //                }else if (blue > 70 &&  blue < 80){
+    //                    heightMap[i][j] = 3
+    //                }else if (blue > 80 &&  blue < 90){
+    //                    heightMap[i][j] = 2
+    //                }else if (blue > 90 &&  blue < 100){
+    //                    heightMap[i][j] = 1
+    //                }else {
+    //                    heightMap[i][j] = 0
+    //                }
+    //                currentPixel += 1
+    //            }
+    //        }
+    //
+    //
+    //        //20.12.2017
+    //        var currentBallPositionX = ball.position.x
+    //        var backBallPositionX = ball.position.x-1
+    //        var nextBallPositionX = ball.position.x+1
+    //
+    //        var currentBallPositionY = ball.position.y
+    //        var backBallPositionY = ball.position.y-1
+    //        var nextBallPositionY = ball.position.y+1
+    //
+    //        let heightOfPos = heightMap[Int(ball.position.x) + 375][Int(ball.position.y) + 667]
+    //        var x: Int?
+    //        var y: Int?
+    //        var heightDifference: Int?
+    //        var comparedDifference = 0
+    //
+    //        for i in 0...2{
+    //            for j in 0...2{
+    //                if(i != 1 && j != 1 ){
+    //                    let nextHeight = heightMap[i-1][j-1]// [x-1][y-1], [x-1][y+1], [x+1][y-1], [x+1][y+1]
+    //                    heightDifference = heightOfPos - nextHeight
+    //
+    //                    if(heightDifference! > comparedDifference){
+    //
+    //                        x = i-1
+    //                        y = j-1
+    //                        comparedDifference = heightDifference!
+    //                        //velocity
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
     
     
     
@@ -249,7 +252,7 @@ class GameScene: SKScene {
         print("3")
         logPixelsOf(#imageLiteral(resourceName: "obstaclex4"))
         setFriction(#imageLiteral(resourceName: "NewFrictionMap"))
-//        setHeight(#imageLiteral(resourceName: "HeightMap"))
+        //        setHeight(#imageLiteral(resourceName: "HeightMap"))
         
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(GameScene.increaseTimer), userInfo: nil, repeats: true)
         
@@ -273,6 +276,7 @@ class GameScene: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
+        //bu neden if içinde?
         if let gravityX = manager?.deviceMotion?.gravity.x, let gravityY = manager?.deviceMotion?.gravity.y, ball != nil {
             
             let friction = frictionMap[Int(ball.position.x) + 375][Int(ball.position.y) + 667]
@@ -286,28 +290,58 @@ class GameScene: SKScene {
             // let moveAction = SKAction.moveTo(newPosition, duration: 0.0)
             // ball.runAction(moveAction)
             
-//             applyImpulse() is much better than applyForce()
-//             ball.physicsBody?.applyForce(CGVector(dx: CGFloat(gravityX) * (ball.physicsBody?.mass)! * CGFloat(9.8) , dy: CGFloat(gravityY) * (ball.physicsBody?.mass)! * CGFloat(9.8)))
+            //             applyImpulse() is much better than applyForce()
+            //             ball.physicsBody?.applyForce(CGVector(dx: CGFloat(gravityX) * (ball.physicsBody?.mass)! * CGFloat(9.8) , dy: CGFloat(gravityY) * (ball.physicsBody?.mass)! * CGFloat(9.8)))
             
             
             if friction == 1.0 {
                 ball.physicsBody?.applyImpulse(CGVector(dx: impulseX , dy: impulseY))
+                
+                
+                
+                
+                //  ball.physicsBody?.velocity = (CGVector(dx: impulseX  , dy: impulseY))
+                print("Frictionless Hız \(ball.physicsBody!.velocity.dx, ball.physicsBody!.velocity.dy)")
             }
-            
+                
             else if friction < 1.0 {
-                let frictionTotal = CGFloat((ball.physicsBody?.mass)! * CGFloat(9.8) * CGFloat(friction))
+                let frictionTotal = CGFloat((ball.physicsBody?.mass)! * CGFloat(9.8) * CGFloat(friction)) // Fs = k * mass * gravity
                 let totalImpulse = impulseX + impulseY
+                
                 let frictionX = (frictionTotal/totalImpulse) * impulseX
                 let frictionY = (frictionTotal/totalImpulse) * impulseY
-                ball.physicsBody?.applyImpulse(CGVector(dx: impulseX - frictionX  , dy: impulseY - frictionY ))
-                if ((ball.physicsBody?.velocity.dx)! < frictionX || (ball.physicsBody?.velocity.dy)! < frictionY ){
-                ball.physicsBody?.velocity.dx = 0.0
-                ball.physicsBody?.velocity.dy = 0.0
+                
+                let lastVelocityX = impulseX - frictionX
+                let lastVelocityY = impulseY - frictionY
+                
+                ball.physicsBody?.applyImpulse(CGVector(dx: lastVelocityX, dy: lastVelocityY ))
+                
+                let velocityX = sqrt(ball.physicsBody!.velocity.dx * ball.physicsBody!.velocity.dx)
+                let velocityY = sqrt(ball.physicsBody!.velocity.dy * ball.physicsBody!.velocity.dy)
+                
+                let totalVelocity = velocityX + velocityY
+                print("sürtünmeli ortam Hızı \(ball.physicsBody!.velocity.dx, ball.physicsBody!.velocity.dy)")
+                
+                if(totalVelocity > maxVelocity){
+                    ball.physicsBody!.linearDamping = 0.4
+                    //Linear damping reduces the body's linear velocity.
+                    print("azaltılmış hız \(ball.physicsBody!.velocity.dx, ball.physicsBody!.velocity.dy)")
+                } else {
+                    ball.physicsBody!.linearDamping = 0.0
                 }
-                print("velocity \(ball.physicsBody?.velocity)")
+                
+                // ball.physicsBody?.velocity = (CGVector(dx: velocityX + lastVelocityX  , dy: velocityY + lastVelocityY ))
+                
+                
+                
+                /*if ((ball.physicsBody?.velocity.dx)! < frictionX || (ball.physicsBody?.velocity.dy)! < frictionY ){
+                 ball.physicsBody?.velocity.dx = 0.0
+                 ball.physicsBody?.velocity.dy = 0.0
+                 }*/
+                
             }
-
-
+            
+            
         }
     }
     
