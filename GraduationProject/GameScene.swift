@@ -129,15 +129,18 @@ class GameScene: SKScene {
                 let green = G(x: color)
                 let blue = B(x: color)
                 let alpha = A(x: color)
-                if (red < 150 ){
+                if ((red == 150 && blue == 0 && green == 0) || (red == 0 && blue == 150 && green == 0 )){
                     frictionMap[i][j] = 0.3
-                }else if (red > 230 && red < 250  ){
+                }else if ((red == 200 && blue == 0 && green == 0) || (red == 0 && blue == 200 && green == 0 )){
                     frictionMap[i][j] = 0.5
-                }else if (red > 250 && alpha == 255 ){
+                }else if ((red == 240 && blue == 0 && green == 0) || (red == 0 && blue == 240 && green == 0 )){
                     frictionMap[i][j] = 0.8
-                }else if (red == 255 &&  alpha == 255){
-                    frictionMap[i][j] = 0.0
-                }else {
+                }else if ((red == 0 && blue == 0 && green == 200) || (red == 255 && blue == 0 && green == 255 )){
+                    frictionMap[i][j] = 0.01
+                }else if ((red == 0 && blue == 0 && green == 160) || (red == 255 && blue == 0 && green == 220 )){
+                    frictionMap[i][j] = 0.02
+                }
+                else {
                     frictionMap[i][j] = 0.0
                 }
                 currentPixel += 1
@@ -251,7 +254,7 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
         print("3")
         logPixelsOf(#imageLiteral(resourceName: "obstaclex4"))
-        setFriction(#imageLiteral(resourceName: "NewFrictionMap"))
+        setFriction(#imageLiteral(resourceName: "blueRedYellowGreenFriction"))
         //        setHeight(#imageLiteral(resourceName: "HeightMap"))
         
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(GameScene.increaseTimer), userInfo: nil, repeats: true)
@@ -283,164 +286,36 @@ class GameScene: SKScene {
             let friction = CGFloat(frictionFactor) * (ball.physicsBody?.mass)! * CGFloat(9.8)
             let impulseX = CGFloat(gravityX) * (ball.physicsBody?.mass)! * CGFloat(9.8)
             let impulseY = CGFloat(gravityY) * (ball.physicsBody?.mass)! * CGFloat(9.8)
+            let velocityX = CGFloat(ball.physicsBody!.velocity.dx)
+            let velocityY = CGFloat(ball.physicsBody!.velocity.dy)
             let ballVelocity = sqrt((ball.physicsBody!.velocity.dx * ball.physicsBody!.velocity.dx) + (ball.physicsBody!.velocity.dy * ball.physicsBody!.velocity.dy))
             let impulse = sqrt((impulseX * impulseX ) + (impulseY * impulseY))
+            
             var frictionX = CGFloat(0.0)
             var frictionY = CGFloat(0.0)
-
             
-            if ballVelocity == CGFloat(0.0) && impulse > CGFloat(0.0) {
-
+            
             if ballVelocity == CGFloat(0.0) {
-
-                frictionX = CGFloat((impulseX * friction) / impulse)
-                frictionY = CGFloat((impulseY * friction) / impulse)
+                frictionX = CGFloat(abs((impulseX * friction) / impulse))
+                frictionY = CGFloat(abs((impulseY * friction) / impulse))
             } else {
-                frictionX = CGFloat((ball.physicsBody!.velocity.dx * friction) / ballVelocity)
-                frictionY = CGFloat((ball.physicsBody!.velocity.dy * friction) / ballVelocity)
-            }
-
-            
-            
-            
-            print("ImpulseX: \(impulseX) && FrictionX: \(frictionX) ImpulseY: \(impulseY) && FrictionY: \(frictionY)")
-            
-            if friction == 0.0 {
-                ball.physicsBody?.applyImpulse(CGVector(dx: impulseX , dy: impulseY))
-            }
-            else if friction > 0.0 {
-                if ballVelocity != CGFloat(0.0) {//top hareketlıyse
-                    if impulse > friction && impulse > ballVelocity{//impulse frictiondan ve topun hizindan buyuk ise
-                        if impulseX > 0.0 && impulseY > 0.0 {
-                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX - frictionX , dy: impulseY - frictionY))
-                        }else if impulseX > 0.0 && impulseY < 0.0 {
-                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX - frictionX , dy: impulseY + frictionY))
-                        }else if impulseX < 0.0 && impulseY > 0.0 {
-                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY - frictionY))
-                        }else if impulseX < 0.0 && impulseY < 0.0 {
-                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
-                        }
-                    }else if impulse > friction && impulse < ballVelocity {
-                        if (ball.physicsBody!.velocity.dx > 0.0 && ball.physicsBody!.velocity.dy > 0.0) {
-                            frictionX = -(frictionX)
-                            frictionY = -(frictionY)
-                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
-                        }else if(ball.physicsBody!.velocity.dx > 0.0 && ball.physicsBody!.velocity.dy < 0.0){
-                            frictionX = -(frictionX)
-                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
-                        }else if(ball.physicsBody!.velocity.dx < 0.0 && ball.physicsBody!.velocity.dy > 0.0){
-                            frictionY = -(frictionY)
-                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
-                        }else if (ball.physicsBody!.velocity.dx < 0.0 && ball.physicsBody!.velocity.dy < 0.0){
-                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
-                        }
-                    }else if friction > impulse {
-                        if ((ball.physicsBody!.velocity.dx < CGFloat(0.0) && impulseX < CGFloat(0.0)) || (ball.physicsBody!.velocity.dx > CGFloat(0.0) && impulseX > CGFloat(0.0))) && ((ball.physicsBody!.velocity.dy < CGFloat(0.0) && impulseY < CGFloat(0.0)) || (ball.physicsBody!.velocity.dy > CGFloat(0.0) && impulseY > CGFloat(0.0))) {
-                            
-                            if (abs(ball.physicsBody!.velocity.dx + impulseX) < frictionX){
-                                if (abs(ball.physicsBody!.velocity.dy + impulseY) < frictionY){
-                                    ball.physicsBody?.applyImpulse(CGVector(dx: -CGFloat(ball.physicsBody!.velocity.dx),  dy: -CGFloat(ball.physicsBody!.velocity.dy)))
-                                }else if (abs(ball.physicsBody!.velocity.dy + impulseY) > frictionY){
-                                    if impulseY > CGFloat(0.0) {
-                                        ball.physicsBody?.applyImpulse(CGVector(dx: -CGFloat(ball.physicsBody!.velocity.dx),  dy: impulseY - frictionY ))
-                                    }else {
-                                        ball.physicsBody?.applyImpulse(CGVector(dx: -CGFloat(ball.physicsBody!.velocity.dx),  dy: impulseY + frictionY ))
-                                    }
-                                }
-                            }else if (abs(ball.physicsBody!.velocity.dx + impulseX) > frictionX){
-                                if (abs(ball.physicsBody!.velocity.dy + impulseY) < frictionY){
-                                    if impulseX > CGFloat(0.0){
-                                        ball.physicsBody?.applyImpulse(CGVector(dx: impulseX - frictionX,  dy: -CGFloat(ball.physicsBody!.velocity.dy)))
-                                    }else {
-                                        ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX,  dy: -CGFloat(ball.physicsBody!.velocity.dy)))
-                                    }
-                                }else if (abs(ball.physicsBody!.velocity.dy + impulseY) > frictionY){
-                                    if impulseY > CGFloat(0.0) {
-                                        if impulseX > CGFloat(0.0){
-                                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX - frictionX,  dy: impulseY - frictionY ))
-                                        }else {
-                                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX,  dy: impulseY - frictionY ))
-                                        }
-                                    }else {
-                                        if impulseX > CGFloat(0.0){
-                                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX - frictionX,  dy: impulseY + frictionY ))
-                                        }else {
-                                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX,  dy: impulseY + frictionY ))
-                                        }
-                                    }
-                                }
-                            }
-                            
-                            
-                            
-                            
-                            
-                            
-                        } else if ((ball.physicsBody!.velocity.dx < CGFloat(0.0) && impulseX < CGFloat(0.0)) || (ball.physicsBody!.velocity.dx > CGFloat(0.0) && impulseX > CGFloat(0.0))) && ((ball.physicsBody!.velocity.dy < CGFloat(0.0) && impulseY > CGFloat(0.0)) || (ball.physicsBody!.velocity.dy > CGFloat(0.0) && impulseY < CGFloat(0.0))){
-                            
-                            if (abs(ball.physicsBody!.velocity.dx + impulseX) < frictionX){
-                                if (abs(ball.physicsBody!.velocity.dy) < (abs(impulseY) + frictionY)){
-                                    
-                                    ball.physicsBody?.applyImpulse(CGVector(dx: -CGFloat(ball.physicsBody!.velocity.dx),  dy: -CGFloat(ball.physicsBody!.velocity.dy)))
-                                    
-                                }else if (abs(ball.physicsBody!.velocity.dy) > (abs(impulseY) + frictionY)){
-                                    if impulseY > CGFloat(0.0) {
-                                        ball.physicsBody?.applyImpulse(CGVector(dx: -CGFloat(ball.physicsBody!.velocity.dx),  dy: impulseY - frictionY ))
-                                    }else {
-                                        ball.physicsBody?.applyImpulse(CGVector(dx: -CGFloat(ball.physicsBody!.velocity.dx),  dy: impulseY + frictionY ))
-                                    }
-                                }
-                            }else if (abs(ball.physicsBody!.velocity.dx + impulseX) > frictionX){
-                                if (abs(ball.physicsBody!.velocity.dy + impulseY) < frictionY){
-                                    if impulseX > CGFloat(0.0){
-                                        ball.physicsBody?.applyImpulse(CGVector(dx: impulseX - frictionX,  dy: -CGFloat(ball.physicsBody!.velocity.dy)))
-                                    }else {
-                                        ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX,  dy: -CGFloat(ball.physicsBody!.velocity.dy)))
-                                    }
-                                }else if (abs(ball.physicsBody!.velocity.dy + impulseY) > frictionY){
-                                    if impulseY > CGFloat(0.0) {
-                                        if impulseX > CGFloat(0.0){
-                                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX - frictionX,  dy: impulseY - frictionY ))
-                                        }else {
-                                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX,  dy: impulseY - frictionY ))
-                                        }
-                                    }else {
-                                        if impulseX > CGFloat(0.0){
-                                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX - frictionX,  dy: impulseY + frictionY ))
-                                        }else {
-                                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX,  dy: impulseY + frictionY ))
-                                        }
-                                    }
-                                }
-                            }
-                            
-                            
-                            
-                        } else if ((ball.physicsBody!.velocity.dx < CGFloat(0.0) && impulseX > CGFloat(0.0)) || (ball.physicsBody!.velocity.dx > CGFloat(0.0) && impulseX < CGFloat(0.0))) && ((ball.physicsBody!.velocity.dy < CGFloat(0.0) && impulseY < CGFloat(0.0)) || (ball.physicsBody!.velocity.dy > CGFloat(0.0) && impulseY > CGFloat(0.0))){
-                        }else if ((ball.physicsBody!.velocity.dx < CGFloat(0.0) && impulseX > CGFloat(0.0)) || (ball.physicsBody!.velocity.dx > CGFloat(0.0) && impulseX < CGFloat(0.0))) && ((ball.physicsBody!.velocity.dy < CGFloat(0.0) && impulseY > CGFloat(0.0)) || (ball.physicsBody!.velocity.dy > CGFloat(0.0) && impulseY < CGFloat(0.0))){
-                        }
-                            if ball.physicsBody!.velocity.dx < (impulseX + frictionX) && ball.physicsBody!.velocity.dy < (impulseY + frictionY){
-                                ball.physicsBody?.velocity.dx = 0.0
-                                ball.physicsBody?.velocity.dy = 0.0
-                            }else{
-                                ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
-                            }
-                    }
-                }else if ballVelocity == CGFloat(0.0) {//top hareketsizse
-                    if friction < impulse {
-                        if impulseX > 0.0 && impulseY > 0.0{
-                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX - frictionX , dy: impulseY - frictionY))
-                        }else if impulseX > 0.0 && impulseY < 0.0 {
-                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX - frictionX , dy: impulseY + frictionY))
-                        }else if impulseX < 0.0 && impulseY > 0.0 {
-                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY - frictionY))
-                        }else if impulseX < 0.0 && impulseY < 0.0 {
-                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
-                        }
-                    }
+                if frictionFactor == 0.3 {
+                    frictionX = -CGFloat(velocityX/10.0)
+                    frictionY = -CGFloat(velocityY/10.0)
+                }else if frictionFactor == 0.5{
+                    frictionX = -CGFloat(velocityX/7.0)
+                    frictionY = -CGFloat(velocityY/7.0)
+                }else if frictionFactor == 0.8{
+                    frictionX = -CGFloat(velocityX/5.0)
+                    frictionY = -CGFloat(velocityY/5.0)
+                }else if frictionFactor == 0.01{
+                    frictionX = CGFloat(velocityX/15.0)
+                    frictionY = CGFloat(velocityY/15.0)
+                }else if frictionFactor == 0.02{
+                    frictionX = CGFloat(velocityX/10.0)
+                    frictionY = CGFloat(velocityY/10.0)
                 }
-                //impulse velocity arttırıyorsa
-
+            }
             print("ImpulseX: \(impulseX) && FrictionX: \(frictionX) ImpulseY: \(impulseY) && FrictionY: \(frictionY)")
             if friction == 0.0 {
                 ball.physicsBody?.applyImpulse(CGVector(dx: impulseX , dy: impulseY))
@@ -455,60 +330,99 @@ class GameScene: SKScene {
                 
                 if ballVelocity != CGFloat(0.0) {//top hareketlıyse
                     if impulse > friction {
-                        if (ball.physicsBody!.velocity.dx > 0.0 && ball.physicsBody!.velocity.dy > 0.0) {
-                            frictionX = -(frictionX)
-                            frictionY = -(frictionY)
-                        }else if(ball.physicsBody!.velocity.dx > 0.0 && ball.physicsBody!.velocity.dy < 0.0){
-                            frictionX = -(frictionX)
-                        }else if(ball.physicsBody!.velocity.dx < 0.0 && ball.physicsBody!.velocity.dy > 0.0){
-                            frictionY = -(frictionY)
-                        }else if (ball.physicsBody!.velocity.dx < 0.0 && ball.physicsBody!.velocity.dy < 0.0){
-                            
-                        }
+                        /*    if (ball.physicsBody!.velocity.dx > 0.0 && ball.physicsBody!.velocity.dy > 0.0) {
+                         frictionX = -(frictionX)
+                         frictionY = -(frictionY)
+                         }else if(ball.physicsBody!.velocity.dx > 0.0 && ball.physicsBody!.velocity.dy < 0.0){
+                         frictionX = -(frictionX)
+                         }else if(ball.physicsBody!.velocity.dx < 0.0 && ball.physicsBody!.velocity.dy > 0.0){
+                         frictionY = -(frictionY)
+                         }else if (ball.physicsBody!.velocity.dx < 0.0 && ball.physicsBody!.velocity.dy < 0.0){
+                         
+                         } */
                         ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
                     }
-                    else if friction > impulse {
-                        if (ball.physicsBody!.velocity.dx > 0.0 && ball.physicsBody!.velocity.dy > 0.0) {
-                            frictionX = -(frictionX)
-                            frictionY = -(frictionY)
-                        }else if(ball.physicsBody!.velocity.dx > 0.0 && ball.physicsBody!.velocity.dy < 0.0){
-                            frictionX = -(frictionX)
-                        }else if(ball.physicsBody!.velocity.dx < 0.0 && ball.physicsBody!.velocity.dy > 0.0){
-                            frictionY = -(frictionY)
-                        }else if (ball.physicsBody!.velocity.dx < 0.0 && ball.physicsBody!.velocity.dy < 0.0){
+                    else if friction > 0.0 {
+                        
+                        if ballVelocity != CGFloat(0.0) {//top hareketlıyse
+                            if impulse > friction {
+                                if ((velocityX + impulseX) > CGFloat(0.0) && (velocityY + impulseY) > CGFloat(0.0)) {
+                                    /*    frictionX = -(frictionX)
+                                     frictionY = -(frictionY) */
+                                    ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
+                                }else if ((velocityX + impulseX) > CGFloat(0.0) && (velocityY + impulseY) < CGFloat(0.0)){
+                                    /*  frictionX = -(frictionX) */
+                                    ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
+                                }else if ((velocityX + impulseX) < CGFloat(0.0) && (velocityY + impulseY) > CGFloat(0.0)){
+                                    /*   frictionY = -(frictionY) */
+                                    ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
+                                }else if ((velocityX + impulseX) < CGFloat(0.0) && (velocityY + impulseY) < CGFloat(0.0)){
+                                    ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
+                                }else if ((velocityX + impulseX) == CGFloat(0.0) && (velocityY + impulseY) == CGFloat(0.0)){
+                                    ball.physicsBody?.velocity.dx = 0.0
+                                    ball.physicsBody?.velocity.dy = 0.0
+                                }else if ((velocityX + impulseX) != CGFloat(0.0) && (velocityY + impulseY) == CGFloat(0.0)){
+                                    ball.physicsBody?.velocity.dy = 0.0
+                                    if((velocityX + impulseX) > CGFloat(0.0) ){
+                                        /*    frictionX = -(frictionX) */
+                                        ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: CGFloat(0.0)))
+                                    }else {
+                                        ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: CGFloat(0.0)))
+                                    }
+                                }else if ((velocityX + impulseX) == CGFloat(0.0) && (velocityY + impulseY) != CGFloat(0.0)){
+                                    ball.physicsBody?.velocity.dy = 0.0
+                                    if((velocityY + impulseY) > CGFloat(0.0) ){
+                                        /*   frictionY = -(frictionY) */
+                                        ball.physicsBody?.applyImpulse(CGVector(dx: CGFloat(0.0) , dy: impulseY + frictionY))
+                                    }else {
+                                        ball.physicsBody?.applyImpulse(CGVector(dx: CGFloat(0.0) , dy: impulseY + frictionY))
+                                    }
+                                }
+                                
+                            }
                             
+                            /*      else if friction >= impulse {
+                             if (ball.physicsBody!.velocity.dx > 0.0 && ball.physicsBody!.velocity.dy > 0.0) {
+                             frictionX = -(frictionX)
+                             frictionY = -(frictionY)
+                             }else if(ball.physicsBody!.velocity.dx > 0.0 && ball.physicsBody!.velocity.dy < 0.0){
+                             frictionX = -(frictionX)
+                             }else if(ball.physicsBody!.velocity.dx < 0.0 && ball.physicsBody!.velocity.dy > 0.0){
+                             frictionY = -(frictionY)
+                             }else if (ball.physicsBody!.velocity.dx < 0.0 && ball.physicsBody!.velocity.dy < 0.0){
+                             
+                             }
+                             if ball.physicsBody!.velocity.dx < impulseX + frictionX && ball.physicsBody!.velocity.dy < impulseY + frictionY{
+                             ball.physicsBody?.velocity.dx = 0.0
+                             ball.physicsBody?.velocity.dy = 0.0
+                             }else {
+                             ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
+                             }
+                             }
+                             
+                             } */
                         }
-                        if ball.physicsBody!.velocity.dx < impulseX + frictionX && ball.physicsBody!.velocity.dy < impulseY + frictionY{
-                            ball.physicsBody?.velocity.dx = 0.0
-                            ball.physicsBody?.velocity.dy = 0.0
-                        }else {
+                        
+                    }
+                }
+                
+                if ballVelocity == CGFloat(0.0) {
+                    if friction < impulse {
+                        if impulseX > 0.0 && impulseY > 0.0{
+                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX - frictionX , dy: impulseY - frictionY))
+                        }else if impulseX > 0.0 && impulseY < 0.0 {
+                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX - frictionX , dy: impulseY + frictionY))
+                        }else if impulseX < 0.0 && impulseY > 0.0 {
+                            ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY - frictionY))
+                        }else if impulseX < 0.0 && impulseY < 0.0 {
                             ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
                         }
                     }
-                    
-                    
                 }
-
+                //impulse velocity arttırıyorsa
             }
-            
-            if ballVelocity == CGFloat(0.0) {
-                if friction < impulse {
-                    if impulseX > 0.0 && impulseY > 0.0{
-                        ball.physicsBody?.applyImpulse(CGVector(dx: impulseX - frictionX , dy: impulseY - frictionY))
-                    }else if impulseX > 0.0 && impulseY < 0.0 {
-                        ball.physicsBody?.applyImpulse(CGVector(dx: impulseX - frictionX , dy: impulseY + frictionY))
-                    }else if impulseX < 0.0 && impulseY > 0.0 {
-                        ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY - frictionY))
-                    }else if impulseX < 0.0 && impulseY < 0.0 {
-                        ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
-                    }
-                }
-            }
-            //impulse velocity arttırıyorsa
         }
     }
-
-
     func centerBall() {
         ball.physicsBody?.velocity = CGVector(dx: 0.0, dy: 0.0)
         let moveAction = SKAction.move(to: CGPoint(x: frame.midX, y: frame.midY), duration: 0.0)
@@ -518,31 +432,11 @@ class GameScene: SKScene {
     // MARK: - Timer Methods
     
     @objc func increaseTimer() {
-        seconds = (seconds ?? 0.0) + 0.001
+        seconds = (seconds ?? 0.0) + 0.00001
     }
     
     func resetTimer() {
         seconds = 0.0
     }
     
-
-func centerBall() {
-    ball.physicsBody?.velocity = CGVector(dx: 0.0, dy: 0.0)
-    let moveAction = SKAction.move(to: CGPoint(x: frame.midX, y: frame.midY), duration: 0.0)
-    ball.run(moveAction)
 }
-
-// MARK: - Timer Methods
-
-@objc func increaseTimer() {
-    seconds = (seconds ?? 0.0) + 0.001
-}
-
-func resetTimer() {
-    seconds = 0.0
-}
-
-
-}
-
-
