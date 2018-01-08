@@ -293,16 +293,12 @@ class GameScene: SKScene {
             
             var frictionX = CGFloat(0.0)
             var frictionY = CGFloat(0.0)
-            
-<<<<<<< HEAD
-            
-=======
->>>>>>> origin/master
+
             if ballVelocity == CGFloat(0.0) {
                 frictionX = CGFloat(abs((impulseX * friction) / impulse))
                 frictionY = CGFloat(abs((impulseY * friction) / impulse))
             } else {
-<<<<<<< HEAD
+
                 if frictionFactor == 0.3 {
                     frictionX = -CGFloat(velocityX/10.0)
                     frictionY = -CGFloat(velocityY/10.0)
@@ -319,10 +315,10 @@ class GameScene: SKScene {
                     frictionX = CGFloat(velocityX/10.0)
                     frictionY = CGFloat(velocityY/10.0)
                 }
-=======
+
                 frictionX = CGFloat(abs((velocityX * friction) / ballVelocity))
                 frictionY = CGFloat(abs((velocityY * friction) / ballVelocity))
->>>>>>> origin/master
+
             }
             print("ImpulseX: \(impulseX) && FrictionX: \(frictionX) ImpulseY: \(impulseY) && FrictionY: \(frictionY)")
             if friction == 0.0 {
@@ -338,7 +334,7 @@ class GameScene: SKScene {
                 
                 if ballVelocity != CGFloat(0.0) {//top hareketlıyse
                     if impulse > friction {
-<<<<<<< HEAD
+
                         /*    if (ball.physicsBody!.velocity.dx > 0.0 && ball.physicsBody!.velocity.dy > 0.0) {
                          frictionX = -(frictionX)
                          frictionY = -(frictionY)
@@ -349,7 +345,7 @@ class GameScene: SKScene {
                          }else if (ball.physicsBody!.velocity.dx < 0.0 && ball.physicsBody!.velocity.dy < 0.0){
                          
                          } */
-=======
+
                         if (ball.physicsBody!.velocity.dx > 0.0 && ball.physicsBody!.velocity.dy > 0.0) {
                             frictionX = -(frictionX)
                             frictionY = -(frictionY)
@@ -360,7 +356,7 @@ class GameScene: SKScene {
                         }else if (ball.physicsBody!.velocity.dx < 0.0 && ball.physicsBody!.velocity.dy < 0.0){
                             
                         }
->>>>>>> origin/master
+
                         ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
                     }
                     else if friction > 0.0 {
@@ -368,7 +364,7 @@ class GameScene: SKScene {
                         if ballVelocity != CGFloat(0.0) {//top hareketlıyse
                             if impulse > friction {
                                 if ((velocityX + impulseX) > CGFloat(0.0) && (velocityY + impulseY) > CGFloat(0.0)) {
-<<<<<<< HEAD
+
                                     /*    frictionX = -(frictionX)
                                      frictionY = -(frictionY) */
                                     ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
@@ -377,7 +373,7 @@ class GameScene: SKScene {
                                     ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
                                 }else if ((velocityX + impulseX) < CGFloat(0.0) && (velocityY + impulseY) > CGFloat(0.0)){
                                     /*   frictionY = -(frictionY) */
-=======
+
                                     frictionX = -(frictionX)
                                     frictionY = -(frictionY)
                                     ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
@@ -386,7 +382,7 @@ class GameScene: SKScene {
                                     ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
                                 }else if ((velocityX + impulseX) < CGFloat(0.0) && (velocityY + impulseY) > CGFloat(0.0)){
                                     frictionY = -(frictionY)
->>>>>>> origin/master
+
                                     ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
                                 }else if ((velocityX + impulseX) < CGFloat(0.0) && (velocityY + impulseY) < CGFloat(0.0)){
                                     ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
@@ -396,11 +392,11 @@ class GameScene: SKScene {
                                 }else if ((velocityX + impulseX) != CGFloat(0.0) && (velocityY + impulseY) == CGFloat(0.0)){
                                     ball.physicsBody?.velocity.dy = 0.0
                                     if((velocityX + impulseX) > CGFloat(0.0) ){
-<<<<<<< HEAD
+
                                         /*    frictionX = -(frictionX) */
-=======
+
                                         frictionX = -(frictionX)
->>>>>>> origin/master
+
                                         ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: CGFloat(0.0)))
                                     }else {
                                         ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: CGFloat(0.0)))
@@ -408,11 +404,11 @@ class GameScene: SKScene {
                                 }else if ((velocityX + impulseX) == CGFloat(0.0) && (velocityY + impulseY) != CGFloat(0.0)){
                                     ball.physicsBody?.velocity.dy = 0.0
                                     if((velocityY + impulseY) > CGFloat(0.0) ){
-<<<<<<< HEAD
+
                                         /*   frictionY = -(frictionY) */
-=======
+
                                         frictionY = -(frictionY)
->>>>>>> origin/master
+
                                         ball.physicsBody?.applyImpulse(CGVector(dx: CGFloat(0.0) , dy: impulseY + frictionY))
                                     }else {
                                         ball.physicsBody?.applyImpulse(CGVector(dx: CGFloat(0.0) , dy: impulseY + frictionY))
@@ -480,8 +476,4 @@ class GameScene: SKScene {
     }
     
 }
-<<<<<<< HEAD
-=======
 
-
->>>>>>> origin/master
