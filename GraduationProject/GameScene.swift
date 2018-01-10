@@ -24,11 +24,13 @@ class GameScene: SKScene {
     
     var frictionMap = [[Double]](repeating: [Double](repeating: 0.0, count: 1334), count: 750)
     var heightMap = [[Int]](repeating: [Int](repeating: 0, count: 1334), count: 750)
+    
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
     let deviceHeight = 1334.0
     let deviceWidth = 750.0
+    
     
     func logPixelsOf(_ image: UIImage) {
         print("1")
@@ -128,7 +130,6 @@ class GameScene: SKScene {
                 let red = R(x: color)
                 let green = G(x: color)
                 let blue = B(x: color)
-                let alpha = A(x: color)
                 if ((red == 150 && blue == 0 && green == 0) || (red == 0 && blue == 150 && green == 0 )){
                     frictionMap[i][j] = 0.3
                 }else if ((red == 200 && blue == 0 && green == 0) || (red == 0 && blue == 200 && green == 0 )){
@@ -149,6 +150,171 @@ class GameScene: SKScene {
         }
         //        print("frictionMap:" ,frictionMap)
     }
+    
+    func backgroundImage(_ obstacleImage:UIImage,  _ frictionImage:UIImage,_ emptyImage: UIImage) -> UIImage{
+        
+        //getting frictionimage as bitmap
+        let inputFrictionImage = frictionImage.cgImage
+        let frictionWidth: Int = (inputFrictionImage?.width)!
+        let frictionHeight: Int = (inputFrictionImage?.height)!
+        let frictionBytesPerPixel: Int = 4
+        let frictionBytesPerRow: Int = frictionBytesPerPixel * frictionWidth
+        let frictionBitsPerComponent: Int = 8
+        let frictionPixels = UnsafeMutablePointer<UInt32>.allocate(capacity: (frictionWidth * frictionHeight))
+        let frictionBitmapInfo: UInt32 = CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue
+        let frictionColorSpace: CGColorSpace = CGColorSpaceCreateDeviceRGB()
+        let frictionContext = CGContext(data: frictionPixels, width: frictionWidth, height: frictionHeight, bitsPerComponent: frictionBitsPerComponent, bytesPerRow: frictionBytesPerRow, space: frictionColorSpace, bitmapInfo: frictionBitmapInfo)
+        frictionContext?.draw(inputFrictionImage!, in: CGRect(x: 0, y: 0, width: CGFloat(frictionWidth), height: CGFloat(frictionHeight)))
+        
+        //getting obstacleImage as bitmap
+        let inputObstacleImage = obstacleImage.cgImage
+        let obstacleWidth: Int = (inputFrictionImage?.width)!
+        let obstacleHeight: Int = (inputFrictionImage?.height)!
+        let obstacleBytesPerPixel: Int = 4
+        let obstacleBytesPerRow: Int = obstacleBytesPerPixel * obstacleWidth
+        let obstacleBitsPerComponent: Int = 8
+        let obstaclePixels = UnsafeMutablePointer<UInt32>.allocate(capacity: (obstacleWidth * obstacleHeight))
+        let obstacleBitmapInfo: UInt32 = CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue
+        let obstacleColorSpace: CGColorSpace = CGColorSpaceCreateDeviceRGB()
+        let obstacleContext = CGContext(data: obstaclePixels, width: obstacleWidth, height: obstacleHeight, bitsPerComponent: obstacleBitsPerComponent, bytesPerRow: obstacleBytesPerRow, space: obstacleColorSpace, bitmapInfo: obstacleBitmapInfo)
+        obstacleContext?.draw(inputObstacleImage!, in: CGRect(x: 0, y: 0, width: CGFloat(obstacleWidth), height: CGFloat(obstacleHeight)))
+        
+        //empty image for combining all
+        let inputEmptyImage = emptyImage.cgImage
+        let emptyWidth: Int = (inputEmptyImage?.width)!
+        let emptyHeight: Int = (inputEmptyImage?.height)!
+        let emptyBytesPerPixel: Int = 4
+        let emptyBytesPerRow: Int = emptyBytesPerPixel * emptyWidth
+        let emptyBitsPerComponent: Int = 8
+        let emptyPixels = UnsafeMutablePointer<UInt32>.allocate(capacity: (emptyWidth * emptyHeight))
+        let emptyBitmapInfo: UInt32 = CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue
+        let emptyColorSpace: CGColorSpace = CGColorSpaceCreateDeviceRGB()
+        let emptyContext = CGContext(data: emptyPixels, width: emptyWidth, height: emptyHeight, bitsPerComponent: emptyBitsPerComponent, bytesPerRow: emptyBytesPerRow, space: emptyColorSpace, bitmapInfo: emptyBitmapInfo)
+        emptyContext?.draw(inputEmptyImage!, in: CGRect(x: 0, y: 0, width: CGFloat(emptyWidth), height: CGFloat(emptyHeight)))
+        
+        
+        func Mask8(x: Int) -> Int {
+            return (x & 0xff)
+        }
+        func R(x: Int) -> Int {
+            return Mask8(x: x)
+        }
+        func G(x: Int) -> Int {
+            return (Mask8(x: x >> 8))
+        }
+        func B(x: Int) -> Int {
+            return (Mask8(x: x >> 16))
+        }
+        func A(x: Int) -> Int {
+            return (Mask8(x: x >> 24))
+        }
+        
+        //HATA NEEDS TO BE FIXED
+        func rgba(red: Int , green: Int , blue: Int , alpha: Int ) -> Int32 {
+            return (Mask8(x: alpha) << 24) | (Mask8(x: red) << 16) | (Mask8(x: green) << 8) | (Mask8(x: blue) << 0)
+        }
+        
+        var obstacleCurrentPixel = obstaclePixels
+        var frictionCurrentPixel = frictionPixels
+        var emptyCurrentPixel = emptyPixels
+        
+        for j in 0..<emptyHeight {// y coordinate
+            for i in 0..<emptyWidth {// x coordinate
+                let colorObst = obstacleCurrentPixel.pointee.hashValue
+                let redObst = R(x: colorObst)
+                let greenObst = G(x: colorObst)
+                let blueObst = B(x: colorObst)
+                let alphaObst = A(x: colorObst)
+                
+                let colorFric = frictionCurrentPixel.pointee.hashValue
+                let redFric = R(x: colorFric)
+                let greenFric = G(x: colorFric)
+                let blueFric = B(x: colorFric)
+                let alphaFric = A(x: colorFric)
+                
+                let colorEmpty = emptyCurrentPixel.pointee.hashValue
+                var redEmpty = R(x: colorEmpty)
+                var greenEmpty = G(x: colorEmpty)
+                var blueEmpty = B(x: colorEmpty)
+                var alphaEmpty = A(x: colorEmpty)
+                
+                if (redObst == 0){
+                    redEmpty = 0
+                    greenEmpty = 0
+                    blueEmpty = 0
+                }
+                else if (redFric == 150 && blueFric == 0 && greenFric == 0) {
+                    redEmpty = 150
+                    greenEmpty = 0
+                    blueEmpty = 0
+                }else if ( redFric == 0 && blueFric == 150 && greenFric == 0 ) {
+                    redEmpty = 0
+                    greenEmpty = 240
+                    blueEmpty = 240
+                }else if ( redFric == 200 && blueFric == 0 && greenFric == 0 ) {
+                    redEmpty = 200
+                    greenEmpty = 0
+                    blueEmpty = 0
+                }else if ( redFric == 0 && blueFric == 200 && greenFric == 0 ) {
+                    redEmpty = 0
+                    greenEmpty = 240
+                    blueEmpty = 240
+                }else if ( redFric == 240 && blueFric == 0 && greenFric == 0 ) {
+                    redEmpty = 240
+                    greenEmpty = 0
+                    blueEmpty = 0
+                }else if ( redFric == 0 && blueFric == 240 && greenFric == 0 ) {
+                    redEmpty = 0
+                    greenEmpty = 240
+                    blueEmpty = 240
+                }else if ( redFric == 0 && blueFric == 0 && greenFric == 200 ) {
+                    redEmpty = 0
+                    greenEmpty = 200
+                    blueEmpty = 0
+                }else if ( redFric == 255 && blueFric == 0 && greenFric == 255 ) {
+                    redEmpty = 0
+                    greenEmpty = 240
+                    blueEmpty = 240
+                }else if ( redFric == 0 && blueFric == 0 && greenFric == 160 ) {
+                    redEmpty = 0
+                    greenEmpty = 160
+                    blueEmpty = 0
+                }else if ( redFric == 255 && blueFric == 0 && greenFric == 220 ) {
+                    redEmpty = 0
+                    greenEmpty = 240
+                    blueEmpty = 240
+                }
+                else {
+                    redEmpty = 0
+                    greenEmpty = 240
+                    blueEmpty = 240
+                }
+                
+                emptyCurrentPixel.pointee = UInt32(rgba(red: redEmpty, green: greenEmpty, blue: blueEmpty, alpha: 0))
+                
+                emptyCurrentPixel = emptyCurrentPixel.successor()
+                
+                emptyCurrentPixel += 1
+                frictionCurrentPixel += 1
+                obstacleCurrentPixel += 1
+            }
+            
+            
+        }
+        
+        //hata need to be fixed
+        
+        let emptyOutputCGImage = CGBitmapContextCreateImage(emptyContext!)
+        let emptyOutputImage = UIImage(CGImage: emptyOutputCGImage!, scale: inputEmptyImage.scale, orientation: inputEmptyImage.imageOrientation)
+        
+        return emptyOutputImage
+    }
+    
+    //hata needs to be fixed
+    
+//    let background = self.backgroundImage(#imageLiteral(resourceName: "obstacle"), #imageLiteral(resourceName: "blueRedYellowGreenFriction"), #imageLiteral(resourceName: "emptyImage"))
+//    var setBackground = SKSpriteNode(imageNamed: "bacground")
+    
     
     //    func setHeight(_ image: UIImage) {
     //
@@ -252,6 +418,9 @@ class GameScene: SKScene {
     
     
     override func didMove(to view: SKView) {
+        setBackground.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
+        addChild(setBackground)
+        
         print("3")
         logPixelsOf(#imageLiteral(resourceName: "obstaclex4"))
         setFriction(#imageLiteral(resourceName: "blueRedYellowGreenFriction"))
@@ -293,12 +462,12 @@ class GameScene: SKScene {
             
             var frictionX = CGFloat(0.0)
             var frictionY = CGFloat(0.0)
-
+            
             if ballVelocity == CGFloat(0.0) {
                 frictionX = CGFloat(abs((impulseX * friction) / impulse))
                 frictionY = CGFloat(abs((impulseY * friction) / impulse))
             } else {
-
+                
                 if frictionFactor == 0.3 {
                     frictionX = -CGFloat(velocityX/10.0)
                     frictionY = -CGFloat(velocityY/10.0)
@@ -315,10 +484,10 @@ class GameScene: SKScene {
                     frictionX = CGFloat(velocityX/10.0)
                     frictionY = CGFloat(velocityY/10.0)
                 }
-
+                
                 frictionX = CGFloat(abs((velocityX * friction) / ballVelocity))
                 frictionY = CGFloat(abs((velocityY * friction) / ballVelocity))
-
+                
             }
             print("ImpulseX: \(impulseX) && FrictionX: \(frictionX) ImpulseY: \(impulseY) && FrictionY: \(frictionY)")
             if friction == 0.0 {
@@ -334,7 +503,7 @@ class GameScene: SKScene {
                 
                 if ballVelocity != CGFloat(0.0) {//top hareketlıyse
                     if impulse > friction {
-
+                        
                         /*    if (ball.physicsBody!.velocity.dx > 0.0 && ball.physicsBody!.velocity.dy > 0.0) {
                          frictionX = -(frictionX)
                          frictionY = -(frictionY)
@@ -345,7 +514,7 @@ class GameScene: SKScene {
                          }else if (ball.physicsBody!.velocity.dx < 0.0 && ball.physicsBody!.velocity.dy < 0.0){
                          
                          } */
-
+                        
                         if (ball.physicsBody!.velocity.dx > 0.0 && ball.physicsBody!.velocity.dy > 0.0) {
                             frictionX = -(frictionX)
                             frictionY = -(frictionY)
@@ -356,7 +525,7 @@ class GameScene: SKScene {
                         }else if (ball.physicsBody!.velocity.dx < 0.0 && ball.physicsBody!.velocity.dy < 0.0){
                             
                         }
-
+                        
                         ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
                     }
                     else if friction > 0.0 {
@@ -364,7 +533,7 @@ class GameScene: SKScene {
                         if ballVelocity != CGFloat(0.0) {//top hareketlıyse
                             if impulse > friction {
                                 if ((velocityX + impulseX) > CGFloat(0.0) && (velocityY + impulseY) > CGFloat(0.0)) {
-
+                                    
                                     /*    frictionX = -(frictionX)
                                      frictionY = -(frictionY) */
                                     ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
@@ -373,7 +542,7 @@ class GameScene: SKScene {
                                     ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
                                 }else if ((velocityX + impulseX) < CGFloat(0.0) && (velocityY + impulseY) > CGFloat(0.0)){
                                     /*   frictionY = -(frictionY) */
-
+                                    
                                     frictionX = -(frictionX)
                                     frictionY = -(frictionY)
                                     ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
@@ -382,7 +551,7 @@ class GameScene: SKScene {
                                     ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
                                 }else if ((velocityX + impulseX) < CGFloat(0.0) && (velocityY + impulseY) > CGFloat(0.0)){
                                     frictionY = -(frictionY)
-
+                                    
                                     ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
                                 }else if ((velocityX + impulseX) < CGFloat(0.0) && (velocityY + impulseY) < CGFloat(0.0)){
                                     ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: impulseY + frictionY))
@@ -392,11 +561,11 @@ class GameScene: SKScene {
                                 }else if ((velocityX + impulseX) != CGFloat(0.0) && (velocityY + impulseY) == CGFloat(0.0)){
                                     ball.physicsBody?.velocity.dy = 0.0
                                     if((velocityX + impulseX) > CGFloat(0.0) ){
-
+                                        
                                         /*    frictionX = -(frictionX) */
-
+                                        
                                         frictionX = -(frictionX)
-
+                                        
                                         ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: CGFloat(0.0)))
                                     }else {
                                         ball.physicsBody?.applyImpulse(CGVector(dx: impulseX + frictionX , dy: CGFloat(0.0)))
@@ -404,11 +573,11 @@ class GameScene: SKScene {
                                 }else if ((velocityX + impulseX) == CGFloat(0.0) && (velocityY + impulseY) != CGFloat(0.0)){
                                     ball.physicsBody?.velocity.dy = 0.0
                                     if((velocityY + impulseY) > CGFloat(0.0) ){
-
+                                        
                                         /*   frictionY = -(frictionY) */
-
+                                        
                                         frictionY = -(frictionY)
-
+                                        
                                         ball.physicsBody?.applyImpulse(CGVector(dx: CGFloat(0.0) , dy: impulseY + frictionY))
                                     }else {
                                         ball.physicsBody?.applyImpulse(CGVector(dx: CGFloat(0.0) , dy: impulseY + frictionY))
@@ -476,4 +645,6 @@ class GameScene: SKScene {
     }
     
 }
+
+
 
