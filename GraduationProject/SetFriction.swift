@@ -6,93 +6,62 @@ import GameplayKit
 import UIKit
 
 
-class SetBackground {
-    func createBackground(_ obstacleImage:UIImage,_ frictionImage:UIImage,_ emptyImage:UIImage) -> UIImage? {
-        
-        guard let inputObstCGImage = obstacleImage.cgImage else {
-            print("unable to get obstacle cgImage")
-            return nil
-        }
+class SetFriction {
+    
+    var friction = [[Double]](repeating: [Double](repeating: 0.0, count: 750), count: 1334)
+    
+    func createBackground(_ frictionImage:UIImage) -> [[Double]]? {
         
         guard let inputFricCGImage = frictionImage.cgImage else {
             print("unable to get friction cgImage")
             return nil
         }
         
-        guard let inputEmptyCGImage = emptyImage.cgImage else {
-            print("unable to get empty cgImage")
-            return nil
-        }
         
         let colorSpace: CGColorSpace = CGColorSpaceCreateDeviceRGB()
-        let width            = inputObstCGImage.width
-        let height           = inputObstCGImage.height
+        let width            = inputFricCGImage.width
+        let height           = inputFricCGImage.height
         let bytesPerPixel    = 4
         let bitsPerComponent = 8
         let bytesPerRow      = bytesPerPixel * width
         let bitmapInfo       = RGBA32.bitmapInfo
-        
-        guard let contextObst = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
-            print("unable to create Obstacle context")
-            return nil
-        }
         
         guard let contextFrict = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
             print("unable to create Friction context")
             return nil
         }
         
-        guard let contextEmpty = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
-            print("unable to create Empty context")
-            return nil
-        }
-        
-        contextObst.draw(inputObstCGImage, in: CGRect(x: 0, y: 0, width: width, height: height))
         contextFrict.draw(inputFricCGImage, in: CGRect(x: 0, y: 0, width: width, height: height))
-        contextEmpty.draw(inputEmptyCGImage, in: CGRect(x: 0, y: 0, width: width, height: height))
-        
-        guard let bufferObst = contextObst.data else {
-            print("unable to get context data")
-            return nil
-        }
         
         guard let bufferFrict = contextFrict.data else {
             print("unable to get context data")
             return nil
         }
         
-        guard let bufferEmpty = contextEmpty.data else {
-            print("unable to get context data")
-            return nil
-        }
         
-        let obstPixelBuffer = bufferObst.bindMemory(to: RGBA32.self, capacity: width * height)
         let fricPixelBuffer = bufferFrict.bindMemory(to: RGBA32.self, capacity: width * height)
-        let emptyPixelBuffer = bufferEmpty.bindMemory(to: RGBA32.self, capacity: width * height)
         
         for row in 0 ..< Int(height) {
             for column in 0 ..< Int(width) {
                 let offset = row * width + column
-                if obstPixelBuffer[offset] == .black {
-                    emptyPixelBuffer[offset] = .black
-                } else if (fricPixelBuffer[offset] == .fRedOne) || (fricPixelBuffer[offset] == .fRedTwo) || (fricPixelBuffer[offset] == .fRedThree) {
-                    emptyPixelBuffer[offset] = fricPixelBuffer[offset]
-                } else if (fricPixelBuffer[offset] == .fBlueOne) || (fricPixelBuffer[offset] == .fBlueTwo) || (fricPixelBuffer[offset] == .fBlueThree) {
-                    emptyPixelBuffer[offset] = .white
-                } else if (fricPixelBuffer[offset] == .fGreenOne) || (fricPixelBuffer[offset] == .fGreenTwo) {
-                    emptyPixelBuffer[offset] = fricPixelBuffer[offset]
-                } else if (fricPixelBuffer[offset] == .fYllwOne) || (fricPixelBuffer[offset] == .fYllwTwo) {
-                    emptyPixelBuffer[offset] = .white
+                if (fricPixelBuffer[offset] == .fRedOne) || (fricPixelBuffer[offset] == .fBlueOne) {
+                    friction[row][column] = 0.3
+                } else if (fricPixelBuffer[offset] == .fRedTwo) || (fricPixelBuffer[offset] == .fBlueTwo) {
+                    friction[row][column] = 0.5
+                } else if (fricPixelBuffer[offset] == .fRedThree) || (fricPixelBuffer[offset] == .fBlueThree) {
+                    friction[row][column] = 0.8
+                } else if (fricPixelBuffer[offset] == .fYllwOne) || (fricPixelBuffer[offset] == .fGreenOne) {
+                    friction[row][column] = 1.3
+                } else if (fricPixelBuffer[offset] == .fYllwTwo) || (fricPixelBuffer[offset] == .fGreenTwo) {
+                    friction[row][column] = 1.6
                 } else {
-                    emptyPixelBuffer[offset] = .white
+                    friction[row][column] = 0.0
                 }
             }
         }
         
-        let outputCGImage = contextEmpty.makeImage()!
-        let outputImage = UIImage(cgImage: outputCGImage, scale: emptyImage.scale, orientation: emptyImage.imageOrientation)
         
-        return outputImage
+        return friction
     }
     
     struct RGBA32: Equatable {
@@ -122,8 +91,6 @@ class SetBackground {
             color = R | G | B | A
         }
         
-        static let white   = RGBA32(red: 255, green: 255, blue: 255, alpha: 255)
-        static let black   = RGBA32(red: 0,   green: 0,   blue: 0,   alpha: 255)
         
         static let fRedOne    = RGBA32(red:150,  green: 0,   blue: 0,    alpha: 255)
         static let fRedTwo    = RGBA32(red:200,  green: 0,   blue: 0,    alpha: 255)
@@ -144,3 +111,5 @@ class SetBackground {
     }
     
 }
+
+

@@ -17,6 +17,8 @@
 		4269770B1FC0DB9900B493C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4269770A1FC0DB9900B493C5 /* Assets.xcassets */; };
 		4269770E1FC0DB9900B493C5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4269770C1FC0DB9900B493C5 /* LaunchScreen.storyboard */; };
 		426977161FC0DBE700B493C5 /* ImageProccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426977151FC0DBE700B493C5 /* ImageProccessor.swift */; };
+		429EDF9B200BF1A100D44221 /* SetObstacles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429EDF9A200BF1A100D44221 /* SetObstacles.swift */; };
+		429EDF9D200BF1B600D44221 /* SetFriction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429EDF9C200BF1B600D44221 /* SetFriction.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		4269770D1FC0DB9900B493C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4269770F1FC0DB9900B493C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		426977151FC0DBE700B493C5 /* ImageProccessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProccessor.swift; sourceTree = "<group>"; };
+		429EDF9A200BF1A100D44221 /* SetObstacles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetObstacles.swift; sourceTree = "<group>"; };
+		429EDF9C200BF1B600D44221 /* SetFriction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetFriction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +73,8 @@
 				426976FF1FC0DB9900B493C5 /* GameScene.sks */,
 				426977011FC0DB9900B493C5 /* Actions.sks */,
 				426977031FC0DB9900B493C5 /* GameScene.swift */,
+				429EDF9A200BF1A100D44221 /* SetObstacles.swift */,
+				429EDF9C200BF1B600D44221 /* SetFriction.swift */,
 				42244CB3200BA24A002B43D9 /* SetBackground.swift */,
 				426977051FC0DB9900B493C5 /* GameViewController.swift */,
 				426977071FC0DB9900B493C5 /* Main.storyboard */,
@@ -156,6 +162,8 @@
 				426977041FC0DB9900B493C5 /* GameScene.swift in Sources */,
 				426977061FC0DB9900B493C5 /* GameViewController.swift in Sources */,
 				426977161FC0DBE700B493C5 /* ImageProccessor.swift in Sources */,
+				429EDF9B200BF1A100D44221 /* SetObstacles.swift in Sources */,
+				429EDF9D200BF1B600D44221 /* SetFriction.swift in Sources */,
 				42244CB4200BA24A002B43D9 /* SetBackground.swift in Sources */,
 				426976FE1FC0DB9900B493C5 /* AppDelegate.swift in Sources */,
 			);
