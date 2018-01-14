@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		42244CB4200BA24A002B43D9 /* SetBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42244CB3200BA24A002B43D9 /* SetBackground.swift */; };
 		426976FE1FC0DB9900B493C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426976FD1FC0DB9900B493C5 /* AppDelegate.swift */; };
 		426977001FC0DB9900B493C5 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 426976FF1FC0DB9900B493C5 /* GameScene.sks */; };
 		426977021FC0DB9900B493C5 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 426977011FC0DB9900B493C5 /* Actions.sks */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		42244CB3200BA24A002B43D9 /* SetBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetBackground.swift; sourceTree = "<group>"; };
 		426976FA1FC0DB9900B493C5 /* GraduationProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GraduationProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		426976FD1FC0DB9900B493C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		426976FF1FC0DB9900B493C5 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 				426976FF1FC0DB9900B493C5 /* GameScene.sks */,
 				426977011FC0DB9900B493C5 /* Actions.sks */,
 				426977031FC0DB9900B493C5 /* GameScene.swift */,
+				42244CB3200BA24A002B43D9 /* SetBackground.swift */,
 				426977051FC0DB9900B493C5 /* GameViewController.swift */,
 				426977071FC0DB9900B493C5 /* Main.storyboard */,
 				4269770A1FC0DB9900B493C5 /* Assets.xcassets */,
@@ -153,6 +156,7 @@
 				426977041FC0DB9900B493C5 /* GameScene.swift in Sources */,
 				426977061FC0DB9900B493C5 /* GameViewController.swift in Sources */,
 				426977161FC0DBE700B493C5 /* ImageProccessor.swift in Sources */,
+				42244CB4200BA24A002B43D9 /* SetBackground.swift in Sources */,
 				426976FE1FC0DB9900B493C5 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
