@@ -45,11 +45,11 @@ class SetFriction {
             for column in 0 ..< Int(width) {
                 let offset = row * width + column
                 if (fricPixelBuffer[offset] == .fRedOne) || (fricPixelBuffer[offset] == .fBlueOne) {
-                    friction[row][column] = 0.3
+                    friction[row][column] = 0.2
                 } else if (fricPixelBuffer[offset] == .fRedTwo) || (fricPixelBuffer[offset] == .fBlueTwo) {
-                    friction[row][column] = 0.5
+                    friction[row][column] = 0.4
                 } else if (fricPixelBuffer[offset] == .fRedThree) || (fricPixelBuffer[offset] == .fBlueThree) {
-                    friction[row][column] = 0.8
+                    friction[row][column] = 0.6
                 } else if (fricPixelBuffer[offset] == .fYllwOne) || (fricPixelBuffer[offset] == .fGreenOne) {
                     friction[row][column] = 1.3
                 } else if (fricPixelBuffer[offset] == .fYllwTwo) || (fricPixelBuffer[offset] == .fGreenTwo) {
