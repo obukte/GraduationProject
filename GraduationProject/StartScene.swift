@@ -4,7 +4,7 @@ import CoreMotion
 import GameplayKit
 import UIKit
 
-class GameScene: SKScene {
+class StartScene: SKScene {
     
     var ball: SKSpriteNode!
     var manager: CMMotionManager?
@@ -52,14 +52,11 @@ class GameScene: SKScene {
     
     
     
-    
     override func didMove(to view: SKView) {
         
         setBackground()
         
         setObstacles()
-        frictionMap = SetFriction().createFrictionMap(#imageLiteral(resourceName: "newFriction"))!
-        heightMap = SetHeight().createHeightMap(#imageLiteral(resourceName: "height"))!
         
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(GameScene.increaseTimer), userInfo: nil, repeats: true)
         
@@ -81,11 +78,12 @@ class GameScene: SKScene {
         if let gravityX = manager?.deviceMotion?.gravity.x, let gravityY = manager?.deviceMotion?.gravity.y, ball != nil {
             var posY:Int
             if ball.position.y > 0 {
-                 posY = 667 - Int(ball.position.y)
+                posY = 667 - Int(ball.position.y)
             } else {
-                 posY = 667 - Int(ball.position.y)
+                posY = 667 - Int(ball.position.y)
             }
             let frictionFactor = frictionMap[posY][Int(ball.position.x) + 375]
+            print("y: \(posY ) + x: \(Int(ball.position.x) + 375)")
             let friction = CGFloat(frictionFactor) * (ball.physicsBody?.mass)! * CGFloat(9.8)
             let impulseX = CGFloat(gravityX) * (ball.physicsBody?.mass)! * CGFloat(9.8)
             let impulseY = CGFloat(gravityY) * (ball.physicsBody?.mass)! * CGFloat(9.8)
@@ -114,11 +112,11 @@ class GameScene: SKScene {
                     frictionX = -CGFloat(velocityX/15.0)
                     frictionY = -CGFloat(velocityY/15.0)
                 }else if frictionFactor == 1.3{
-                    frictionX = CGFloat(velocityX/30.0)
-                    frictionY = CGFloat(velocityY/30.0)
-                }else if frictionFactor == 1.6{
                     frictionX = CGFloat(velocityX/25.0)
                     frictionY = CGFloat(velocityY/25.0)
+                }else if frictionFactor == 1.6{
+                    frictionX = CGFloat(velocityX/18.0)
+                    frictionY = CGFloat(velocityY/18.0)
                 }
             }
             
@@ -185,3 +183,4 @@ class GameScene: SKScene {
     }
     
 }
+

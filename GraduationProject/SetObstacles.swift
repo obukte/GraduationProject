@@ -44,7 +44,7 @@ class SetObstacles {
         for row in 0 ..< Int(height) {
             for column in 0 ..< Int(width) {
                 let offset = row * width + column
-                if obstPixelBuffer[offset] == .black {
+                if obstPixelBuffer[offset] == .black || obstPixelBuffer[offset] == .red{
                     obstacle[row][column] = 1
                 } else {
                     obstacle[row][column] = 0
@@ -84,17 +84,7 @@ class SetObstacles {
         }
         
         static let black   = RGBA32(red: 0,   green: 0,   blue: 0,   alpha: 255)
-        
-        static let fRedOne    = RGBA32(red:150,  green: 0,   blue: 0,    alpha: 255)
-        static let fRedTwo    = RGBA32(red:200,  green: 0,   blue: 0,    alpha: 255)
-        static let fRedThree  = RGBA32(red:240,  green: 0,   blue: 0,    alpha: 255)
-        static let fBlueOne   = RGBA32(red:0,    green: 0,   blue: 150,  alpha: 255)
-        static let fBlueTwo   = RGBA32(red:0,    green: 0,   blue: 200,  alpha: 255)
-        static let fBlueThree = RGBA32(red:0,    green: 0,   blue: 240,  alpha: 255)
-        static let fYllwOne   = RGBA32(red:255,  green: 255, blue: 0,    alpha: 255)
-        static let fYllwTwo   = RGBA32(red:255,  green: 220, blue: 0,    alpha: 255)
-        static let fGreenOne  = RGBA32(red:0,    green: 160, blue: 0,    alpha: 255)
-        static let fGreenTwo  = RGBA32(red:0,    green: 200, blue: 0,    alpha: 255)
+        static let red     = RGBA32(red:150,  green: 0,   blue: 0,    alpha: 255)
         
         static let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue | CGBitmapInfo.byteOrder32Little.rawValue
         

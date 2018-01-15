@@ -6,62 +6,54 @@ import GameplayKit
 import UIKit
 
 
-class SetFriction {
+class SetHeight {
     
-    var friction = [[Double]](repeating: [Double](repeating: 0.0, count: 750), count: 1334)
+    var heightMp = [[Int]](repeating: [Int](repeating: 0, count: 750), count: 1334)
     
-    func createFrictionMap(_ frictionImage:UIImage) -> [[Double]]? {
+    func createHeightMap(_ heightImage:UIImage) -> [[Int]]? {
         
-        guard let inputFricCGImage = frictionImage.cgImage else {
+        guard let inputHeightCGImage = heightImage.cgImage else {
             print("unable to get friction cgImage")
             return nil
         }
         
         
         let colorSpace: CGColorSpace = CGColorSpaceCreateDeviceRGB()
-        let width            = inputFricCGImage.width
-        let height           = inputFricCGImage.height
+        let width            = inputHeightCGImage.width
+        let height           = inputHeightCGImage.height
         let bytesPerPixel    = 4
         let bitsPerComponent = 8
         let bytesPerRow      = bytesPerPixel * width
         let bitmapInfo       = RGBA32.bitmapInfo
         
-        guard let contextFrict = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
+        guard let contextHeight = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
             print("unable to create Friction context")
             return nil
         }
         
-        contextFrict.draw(inputFricCGImage, in: CGRect(x: 0, y: 0, width: width, height: height))
+        contextHeight.draw(inputHeightCGImage, in: CGRect(x: 0, y: 0, width: width, height: height))
         
-        guard let bufferFrict = contextFrict.data else {
+        guard let bufferHeight = contextHeight.data else {
             print("unable to get context data")
             return nil
         }
         
         
-        let fricPixelBuffer = bufferFrict.bindMemory(to: RGBA32.self, capacity: width * height)
+        let heightPixelBuffer = bufferHeight.bindMemory(to: RGBA32.self, capacity: width * height)
         
         for row in 0 ..< Int(height) {
             for column in 0 ..< Int(width) {
                 let offset = row * width + column
-                if (fricPixelBuffer[offset] == .fRedOne) || (fricPixelBuffer[offset] == .fBlueOne) {
-                    friction[row][column] = 0.2
-                } else if (fricPixelBuffer[offset] == .fRedTwo) || (fricPixelBuffer[offset] == .fBlueTwo) {
-                    friction[row][column] = 0.4
-                } else if (fricPixelBuffer[offset] == .fRedThree) || (fricPixelBuffer[offset] == .fBlueThree) {
-                    friction[row][column] = 0.6
-                } else if (fricPixelBuffer[offset] == .fYllwOne) || (fricPixelBuffer[offset] == .fGreenOne) {
-                    friction[row][column] = 1.3
-                } else if (fricPixelBuffer[offset] == .fYllwTwo) || (fricPixelBuffer[offset] == .fGreenTwo) {
-                    friction[row][column] = 1.6
-                } else {
-                    friction[row][column] = 0.0
+                if (Int(heightPixelBuffer[offset].redComponent) == 0) && (Int(heightPixelBuffer[offset].blueComponent) == 0) {
+                    if (Int(heightPixelBuffer[offset].greenComponent) < 128) {
+                        heightMp[row][column] = -(127 - Int(heightPixelBuffer[offset].greenComponent))
+                    } else {
+                        heightMp[row][column] = (Int(heightPixelBuffer[offset].greenComponent) - 128)
+                    }
                 }
             }
         }
-        
-        
-        return friction
+        return heightMp
     }
     
     struct RGBA32: Equatable {
