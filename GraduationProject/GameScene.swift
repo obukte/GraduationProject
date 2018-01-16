@@ -49,15 +49,24 @@ class GameScene: SKScene {
         }
         
     }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+     print("touched for ending the game!")
+        endGame()
+    }
     
-    
+    func endGame(){
+        print("game is ended!")
+        let reveal = SKTransition.doorsOpenHorizontal(withDuration: 0.5)
+        let startScene = StartScene(size: self.size)
+        self.view?.presentScene(startScene, transition: reveal)
+    }
     
     
     override func didMove(to view: SKView) {
-        
+
         setBackground()
-        
         setObstacles()
+        
         frictionMap = SetFriction().createFrictionMap(#imageLiteral(resourceName: "newFriction"))!
         heightMap = SetHeight().createHeightMap(#imageLiteral(resourceName: "height"))!
         
