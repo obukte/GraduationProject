@@ -24,6 +24,26 @@ class GameScene: SKScene {
     let deviceHeight = 1334.0
     let deviceWidth = 750.0
     
+    fileprivate func creatingPixel(_ size: CGSize, _ column: Int, _ height: Int, _ row: Int) {
+        var pixel: SKSpriteNode!
+        
+        pixel = SKSpriteNode.init()
+        pixel.physicsBody = SKPhysicsBody(rectangleOf: size)
+        pixel.physicsBody?.pinned = true
+        pixel.physicsBody?.isDynamic = false
+        pixel.physicsBody?.affectedByGravity = false
+        pixel.physicsBody?.allowsRotation = false
+        pixel.position = CGPoint(x: (CGFloat(column)*CGFloat(1)-CGFloat(375.0)), y: (CGFloat(height-row)*CGFloat(1)-CGFloat(667.0)))
+        addChild(pixel)
+    }
+    
+    fileprivate func decideMakeObstacle(_ row: Int, _ column: Int, _ height: Int) {
+        if obstacleMap[row][column] == 1 {
+            let size = CGSize(width: CGFloat(1), height: CGFloat(1))
+            creatingPixel(size, column, height, row)
+        }
+    }
+    
     func setObstacles() {
         
         obstacleMap = SetObstacles().setObstacles(#imageLiteral(resourceName: "obstacle"))!
@@ -33,18 +53,7 @@ class GameScene: SKScene {
         
         for row in 0 ..< height {
             for column in 0 ..< width {
-                if obstacleMap[row][column] == 1 {
-                    let size = CGSize(width: CGFloat(1), height: CGFloat(1))
-                    var pixel: SKSpriteNode!
-                    pixel = SKSpriteNode.init()
-                    pixel.physicsBody = SKPhysicsBody(rectangleOf: size)
-                    pixel.physicsBody?.pinned = true
-                    pixel.physicsBody?.isDynamic = false
-                    pixel.physicsBody?.affectedByGravity = false
-                    pixel.physicsBody?.allowsRotation = false
-                    pixel.position = CGPoint(x: (CGFloat(column)*CGFloat(1)-CGFloat(375.0)), y: (CGFloat(height-row)*CGFloat(1)-CGFloat(667.0)))
-                    addChild(pixel)
-                }
+                decideMakeObstacle(row, column, height)
             }
         }
         //
@@ -60,7 +69,6 @@ class GameScene: SKScene {
         let startScene = StartScene(size: self.size)
         self.view?.presentScene(startScene, transition: reveal)
     }
-    
     
     override func didMove(to view: SKView) {
 
@@ -83,7 +91,24 @@ class GameScene: SKScene {
         }
     }
     
-    
+    fileprivate func ballVelocityIsNotZero(_ frictionFactor: Double, _ frictionX: inout CGFloat, _ velocityX: CGFloat, _ frictionY: inout CGFloat, _ velocityY: CGFloat) {
+        if frictionFactor == 0.2 {
+            frictionX = -CGFloat(velocityX/3.0)
+            frictionY = -CGFloat(velocityY/3.0)
+        }else if frictionFactor == 0.4{
+            frictionX = -CGFloat(velocityX/8.0)
+            frictionY = -CGFloat(velocityY/8.0)
+        }else if frictionFactor == 0.6{
+            frictionX = -CGFloat(velocityX/15.0)
+            frictionY = -CGFloat(velocityY/15.0)
+        }else if frictionFactor == 1.3{
+            frictionX = CGFloat(velocityX/30.0)
+            frictionY = CGFloat(velocityY/30.0)
+        }else if frictionFactor == 1.6{
+            frictionX = CGFloat(velocityX/25.0)
+            frictionY = CGFloat(velocityY/25.0)
+        }
+    }
     
     override func update(_ currentTime: TimeInterval) {
         
@@ -94,6 +119,7 @@ class GameScene: SKScene {
             } else {
                  posY = 667 - Int(ball.position.y)
             }
+            
             let frictionFactor = frictionMap[posY][Int(ball.position.x) + 375]
             let friction = CGFloat(frictionFactor) * (ball.physicsBody?.mass)! * CGFloat(9.8)
             let impulseX = CGFloat(gravityX) * (ball.physicsBody?.mass)! * CGFloat(9.8)
@@ -103,8 +129,7 @@ class GameScene: SKScene {
             let ballVelocity = sqrt((ball.physicsBody!.velocity.dx * ball.physicsBody!.velocity.dx) + (ball.physicsBody!.velocity.dy * ball.physicsBody!.velocity.dy))
             let totalImpulse = sqrt((impulseX * impulseX ) + (impulseY * impulseY))
             let totalCalculatedImpulse = sqrt(((impulseX*10) * (impulseX*10) ) + ((impulseY*10) * (impulseY*10)))
-            
-            
+        
             var frictionX = CGFloat(0.0)
             var frictionY = CGFloat(0.0)
             
@@ -113,22 +138,7 @@ class GameScene: SKScene {
                 frictionY = CGFloat(abs((impulseY * friction) / totalImpulse))
             } else {
                 
-                if frictionFactor == 0.2 {
-                    frictionX = -CGFloat(velocityX/3.0)
-                    frictionY = -CGFloat(velocityY/3.0)
-                }else if frictionFactor == 0.4{
-                    frictionX = -CGFloat(velocityX/8.0)
-                    frictionY = -CGFloat(velocityY/8.0)
-                }else if frictionFactor == 0.6{
-                    frictionX = -CGFloat(velocityX/15.0)
-                    frictionY = -CGFloat(velocityY/15.0)
-                }else if frictionFactor == 1.3{
-                    frictionX = CGFloat(velocityX/30.0)
-                    frictionY = CGFloat(velocityY/30.0)
-                }else if frictionFactor == 1.6{
-                    frictionX = CGFloat(velocityX/25.0)
-                    frictionY = CGFloat(velocityY/25.0)
-                }
+                ballVelocityIsNotZero(frictionFactor, &frictionX, velocityX, &frictionY, velocityY)
             }
             
             if frictionFactor == 0.0 {
@@ -143,6 +153,7 @@ class GameScene: SKScene {
                     let ballTotalY = velocityY + impulseY
                     let ballTotal = sqrt((ballTotalX * ballTotalX ) + (ballTotalY * ballTotalY))
                     let frictionTotal = sqrt((frictionX * frictionX ) + (frictionY * frictionY))
+                   
                     if ballTotal < frictionTotal {
                         ball.physicsBody?.velocity.dx = 0.0
                         ball.physicsBody?.velocity.dy = 0.0

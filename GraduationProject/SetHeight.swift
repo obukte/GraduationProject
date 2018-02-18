@@ -83,7 +83,6 @@ class SetHeight {
             color = R | G | B | A
         }
         
-        
         static let fRedOne    = RGBA32(red:150,  green: 0,   blue: 0,    alpha: 255)
         static let fRedTwo    = RGBA32(red:200,  green: 0,   blue: 0,    alpha: 255)
         static let fRedThree  = RGBA32(red:240,  green: 0,   blue: 0,    alpha: 255)

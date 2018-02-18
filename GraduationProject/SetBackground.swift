@@ -7,6 +7,24 @@ import UIKit
 
 
 class SetBackground {
+    
+    fileprivate func settingRGBA(_ obstPixelBuffer: UnsafeMutablePointer<SetBackground.RGBA32>, _ offset: Int, _ emptyPixelBuffer: UnsafeMutablePointer<SetBackground.RGBA32>, _ fricPixelBuffer: UnsafeMutablePointer<SetBackground.RGBA32>) {
+        
+        if obstPixelBuffer[offset] == .black {
+            emptyPixelBuffer[offset] = .black
+        } else if (fricPixelBuffer[offset] == .fRedOne) || (fricPixelBuffer[offset] == .fRedTwo) || (fricPixelBuffer[offset] == .fRedThree) {
+            emptyPixelBuffer[offset] = fricPixelBuffer[offset]
+        } else if (fricPixelBuffer[offset] == .fBlueOne) || (fricPixelBuffer[offset] == .fBlueTwo) || (fricPixelBuffer[offset] == .fBlueThree) {
+            emptyPixelBuffer[offset] = .white
+        } else if (fricPixelBuffer[offset] == .fGreenOne) || (fricPixelBuffer[offset] == .fGreenTwo) {
+            emptyPixelBuffer[offset] = fricPixelBuffer[offset]
+        } else if (fricPixelBuffer[offset] == .fYllwOne) || (fricPixelBuffer[offset] == .fYllwTwo) {
+            emptyPixelBuffer[offset] = .white
+        } else {
+            emptyPixelBuffer[offset] = .white
+        }
+    }
+    
     func createBackground(_ obstacleImage:UIImage,_ frictionImage:UIImage,_ emptyImage:UIImage) -> UIImage? {
         
         guard let inputObstCGImage = obstacleImage.cgImage else {
@@ -73,19 +91,7 @@ class SetBackground {
         for row in 0 ..< Int(height) {
             for column in 0 ..< Int(width) {
                 let offset = row * width + column
-                if obstPixelBuffer[offset] == .black {
-                    emptyPixelBuffer[offset] = .black
-                } else if (fricPixelBuffer[offset] == .fRedOne) || (fricPixelBuffer[offset] == .fRedTwo) || (fricPixelBuffer[offset] == .fRedThree) {
-                    emptyPixelBuffer[offset] = fricPixelBuffer[offset]
-                } else if (fricPixelBuffer[offset] == .fBlueOne) || (fricPixelBuffer[offset] == .fBlueTwo) || (fricPixelBuffer[offset] == .fBlueThree) {
-                    emptyPixelBuffer[offset] = .white
-                } else if (fricPixelBuffer[offset] == .fGreenOne) || (fricPixelBuffer[offset] == .fGreenTwo) {
-                    emptyPixelBuffer[offset] = fricPixelBuffer[offset]
-                } else if (fricPixelBuffer[offset] == .fYllwOne) || (fricPixelBuffer[offset] == .fYllwTwo) {
-                    emptyPixelBuffer[offset] = .white
-                } else {
-                    emptyPixelBuffer[offset] = .white
-                }
+                settingRGBA(obstPixelBuffer, offset, emptyPixelBuffer, fricPixelBuffer)
             }
         }
         
