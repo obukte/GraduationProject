@@ -37,7 +37,7 @@ class SetHeight {
             print("unable to get context data")
             return nil
         }
-        
+       
         
         let heightPixelBuffer = bufferHeight.bindMemory(to: RGBA32.self, capacity: width * height)
         

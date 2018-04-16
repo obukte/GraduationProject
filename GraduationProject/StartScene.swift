@@ -26,15 +26,17 @@ class StartScene: SKScene {
     }
     func resetGame() {
         print("game again started!")
-       
+        
         run(
             SKAction.sequence([
                 SKAction.run() {
                     let transitionDuration = SKTransition.doorsCloseHorizontal(withDuration: 0.2)
-            
+                    
                     if let scene = GameScene(fileNamed: "GameScene") {
                         scene.scaleMode = .aspectFill
                         self.view?.presentScene(scene, transition:transitionDuration)
+                        //   scene.scaleMode = scene.scaleMode
+                        // self.view?.presentScene(scene, transition:SKTransition.init())
                     }
                 }
                 ])

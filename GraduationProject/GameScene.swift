@@ -13,36 +13,26 @@ class GameScene: SKScene {
     var velocityX = CGFloat(0.0)
     var velocityY = CGFloat(0.0)
     
+    var levelTimerLabel = SKLabelNode(fontNamed: "ArialMT")
+    var bestScoreLabel  = SKLabelNode(fontNamed: "ArialMT")
+    
+    var levelTimerValue: Double = 0.0 {
+        didSet {
+            levelTimerLabel.text = "\(round(10*levelTimerValue)/10)"
+        }
+    }
+    
     let maxVelocity = CGFloat(50.0)
     
     var frictionMap = [[Double]](repeating: [Double](repeating: 0.0, count: 1334), count: 750)
     var heightMap = [[Int]](repeating: [Int](repeating: 0, count: 1334), count: 750)
     var obstacleMap = [[Int]](repeating: [Int](repeating: 0, count: 1334), count: 750)
+    
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
     let deviceHeight = 1334.0
     let deviceWidth = 750.0
-    
-    fileprivate func creatingPixel(_ size: CGSize, _ column: Int, _ height: Int, _ row: Int) {
-        var pixel: SKSpriteNode!
-        
-        pixel = SKSpriteNode.init()
-        pixel.physicsBody = SKPhysicsBody(rectangleOf: size)
-        pixel.physicsBody?.pinned = true
-        pixel.physicsBody?.isDynamic = false
-        pixel.physicsBody?.affectedByGravity = false
-        pixel.physicsBody?.allowsRotation = false
-        pixel.position = CGPoint(x: (CGFloat(column)*CGFloat(1)-CGFloat(375.0)), y: (CGFloat(height-row)*CGFloat(1)-CGFloat(667.0)))
-        addChild(pixel)
-    }
-    
-    fileprivate func decideMakeObstacle(_ row: Int, _ column: Int, _ height: Int) {
-        if obstacleMap[row][column] == 1 {
-            let size = CGSize(width: CGFloat(1), height: CGFloat(1))
-            creatingPixel(size, column, height, row)
-        }
-    }
     
     func setObstacles() {
         
@@ -53,25 +43,51 @@ class GameScene: SKScene {
         
         for row in 0 ..< height {
             for column in 0 ..< width {
-                decideMakeObstacle(row, column, height)
+                if obstacleMap[row][column] == 1 {
+                    let size = CGSize(width: CGFloat(1), height: CGFloat(1))
+                    var pixel: SKSpriteNode!
+                    pixel = SKSpriteNode.init()
+                    pixel.physicsBody = SKPhysicsBody(rectangleOf: size)
+                    pixel.physicsBody?.pinned = true
+                    pixel.physicsBody?.isDynamic = false
+                    pixel.physicsBody?.affectedByGravity = false
+                    pixel.physicsBody?.allowsRotation = false
+                    pixel.position = CGPoint(x: (CGFloat(column)*CGFloat(1)-CGFloat(375.0)), y: (CGFloat(height-row)*CGFloat(1)-CGFloat(667.0)))
+                    addChild(pixel)
+                }
             }
         }
-        //
+        
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-     print("touched for ending the game!")
+        
         endGame()
     }
     
     func endGame(){
-        print("game is ended!")
-        let reveal = SKTransition.doorsOpenHorizontal(withDuration: 0.5)
+        /*
+         var bestS = Values().getBestScore()
+         if  bestS == -(1.0) {
+         Values().setBestScore(round(10*levelTimerValue)/10)
+         }else {
+         if levelTimerValue < bestS {
+         Values().setBestScore(round(10*levelTimerValue)/10)
+         }
+         }*/
+        
+        ball.position = CGPoint(x: frame.midX, y: -620)//640 tı
+        
+        //        let reveal = SKTransition.doorsOpenHorizontal(withDuration: 0.00001)
         let startScene = StartScene(size: self.size)
-        self.view?.presentScene(startScene, transition: reveal)
+        self.view?.presentScene(startScene, transition: SKTransition.init())
     }
     
+    
     override func didMove(to view: SKView) {
-
+        
+        addTimer()
+        addBestScore()
+        
         setBackground()
         setObstacles()
         
@@ -89,38 +105,63 @@ class GameScene: SKScene {
             manager.deviceMotionUpdateInterval = 0.001
             manager.startDeviceMotionUpdates()
         }
+        
+        
     }
     
-    fileprivate func ballVelocityIsNotZero(_ frictionFactor: Double, _ frictionX: inout CGFloat, _ velocityX: CGFloat, _ frictionY: inout CGFloat, _ velocityY: CGFloat) {
-        if frictionFactor == 0.2 {
-            frictionX = -CGFloat(velocityX/3.0)
-            frictionY = -CGFloat(velocityY/3.0)
-        }else if frictionFactor == 0.4{
-            frictionX = -CGFloat(velocityX/8.0)
-            frictionY = -CGFloat(velocityY/8.0)
-        }else if frictionFactor == 0.6{
-            frictionX = -CGFloat(velocityX/15.0)
-            frictionY = -CGFloat(velocityY/15.0)
-        }else if frictionFactor == 1.3{
-            frictionX = CGFloat(velocityX/30.0)
-            frictionY = CGFloat(velocityY/30.0)
-        }else if frictionFactor == 1.6{
-            frictionX = CGFloat(velocityX/25.0)
-            frictionY = CGFloat(velocityY/25.0)
-        }
+    func addTimer() {
+        
+        levelTimerLabel.fontColor = SKColor.red
+        levelTimerLabel.fontSize = 30
+        levelTimerLabel.position = CGPoint(x: 0, y: 640)
+        levelTimerValue = round(10*levelTimerValue)/10
+        levelTimerLabel.text = "\(levelTimerValue)"
+        
+        let wait = SKAction.wait(forDuration: 0.01) //change countdown speed here
+        let block = SKAction.run({
+            [unowned self] in
+            self.levelTimerValue = self.levelTimerValue + 0.01
+            
+        })
+        let sequence = SKAction.sequence([wait,block])
+        
+        run(SKAction.repeatForever(sequence), withKey: "countdown")
+        
+        levelTimerLabel.zPosition = 10
+        addChild(levelTimerLabel)
+        
+    }
+    func addBestScore() {
+        
+        bestScoreLabel.fontColor = SKColor.blue
+        bestScoreLabel.fontSize = 30
+        bestScoreLabel.position = CGPoint(x: 280, y: 640)
+        /*if Values().getBestScore() == -1.0 {
+         bestScoreLabel.text = "Best:n/a"
+         }else{
+         bestScoreLabel.text = "Best: \(Values().getBestScore())"
+         }
+         
+         bestScoreLabel.zPosition = 10
+         addChild(bestScoreLabel)*/
+        
     }
     
     override func update(_ currentTime: TimeInterval) {
-        
+        print(Int(ball.position.y))
+        if Int(ball.position.y) == 599 {
+            
+            endGame()
+            
+        }
         if let gravityX = manager?.deviceMotion?.gravity.x, let gravityY = manager?.deviceMotion?.gravity.y, ball != nil {
             var posY:Int
             if ball.position.y > 0 {
-                 posY = 667 - Int(ball.position.y)
+                posY = 667 - Int(ball.position.y)
             } else {
-                 posY = 667 - Int(ball.position.y)
+                posY = 667 - Int(ball.position.y)
             }
-            
-            let frictionFactor = frictionMap[posY][Int(ball.position.x) + 375]
+            let frictionFactor = frictionMap[posY-32][Int(ball.position.x) + 375]
             let friction = CGFloat(frictionFactor) * (ball.physicsBody?.mass)! * CGFloat(9.8)
             let impulseX = CGFloat(gravityX) * (ball.physicsBody?.mass)! * CGFloat(9.8)
             let impulseY = CGFloat(gravityY) * (ball.physicsBody?.mass)! * CGFloat(9.8)
@@ -129,7 +170,8 @@ class GameScene: SKScene {
             let ballVelocity = sqrt((ball.physicsBody!.velocity.dx * ball.physicsBody!.velocity.dx) + (ball.physicsBody!.velocity.dy * ball.physicsBody!.velocity.dy))
             let totalImpulse = sqrt((impulseX * impulseX ) + (impulseY * impulseY))
             let totalCalculatedImpulse = sqrt(((impulseX*10) * (impulseX*10) ) + ((impulseY*10) * (impulseY*10)))
-        
+            
+            
             var frictionX = CGFloat(0.0)
             var frictionY = CGFloat(0.0)
             
@@ -138,7 +180,22 @@ class GameScene: SKScene {
                 frictionY = CGFloat(abs((impulseY * friction) / totalImpulse))
             } else {
                 
-                ballVelocityIsNotZero(frictionFactor, &frictionX, velocityX, &frictionY, velocityY)
+                if frictionFactor == 0.2 {
+                    frictionX = -CGFloat(velocityX/3.0)
+                    frictionY = -CGFloat(velocityY/3.0)
+                }else if frictionFactor == 0.4{
+                    frictionX = -CGFloat(velocityX/8.0)
+                    frictionY = -CGFloat(velocityY/8.0)
+                }else if frictionFactor == 0.6{
+                    frictionX = -CGFloat(velocityX/15.0)
+                    frictionY = -CGFloat(velocityY/15.0)
+                }else if frictionFactor == 1.3{
+                    frictionX = CGFloat(velocityX/30.0)
+                    frictionY = CGFloat(velocityY/30.0)
+                }else if frictionFactor == 1.6{
+                    frictionX = CGFloat(velocityX/25.0)
+                    frictionY = CGFloat(velocityY/25.0)
+                }
             }
             
             if frictionFactor == 0.0 {
@@ -153,7 +210,6 @@ class GameScene: SKScene {
                     let ballTotalY = velocityY + impulseY
                     let ballTotal = sqrt((ballTotalX * ballTotalX ) + (ballTotalY * ballTotalY))
                     let frictionTotal = sqrt((frictionX * frictionX ) + (frictionY * frictionY))
-                   
                     if ballTotal < frictionTotal {
                         ball.physicsBody?.velocity.dx = 0.0
                         ball.physicsBody?.velocity.dy = 0.0
@@ -179,7 +235,7 @@ class GameScene: SKScene {
     func addBallToScene() {
         
         ball = SKSpriteNode(imageNamed: "Ball")
-        ball.position = CGPoint(x: frame.midX, y: frame.midY)
+        ball.position = CGPoint(x: frame.midX, y: -620)//-640 tı
         ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.frame.height / 2.0)
         ball.physicsBody?.mass = 1.0
         ball.physicsBody?.allowsRotation = false
@@ -205,3 +261,4 @@ class GameScene: SKScene {
     }
     
 }
+
