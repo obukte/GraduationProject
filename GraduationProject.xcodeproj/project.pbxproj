@@ -23,6 +23,7 @@
 		42B4C6F8200D21560096258C /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B4C6F7200D21560096258C /* StartScene.swift */; };
 		42E63650200D69FE0083E6F9 /* SetHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E6364F200D69FE0083E6F9 /* SetHeight.swift */; };
 		860FC502200DE2CD005C179B /* GameOverRestartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860FC501200DE2CD005C179B /* GameOverRestartScene.swift */; };
+		86592A182087A182009E8C93 /* StartSceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86592A172087A182009E8C93 /* StartSceneController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		42B4C6F7200D21560096258C /* StartScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
 		42E6364F200D69FE0083E6F9 /* SetHeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetHeight.swift; sourceTree = "<group>"; };
 		860FC501200DE2CD005C179B /* GameOverRestartScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverRestartScene.swift; sourceTree = "<group>"; };
+		86592A172087A182009E8C93 /* StartSceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartSceneController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 				4269770A1FC0DB9900B493C5 /* Assets.xcassets */,
 				4269770C1FC0DB9900B493C5 /* LaunchScreen.storyboard */,
 				4269770F1FC0DB9900B493C5 /* Info.plist */,
+				86592A172087A182009E8C93 /* StartSceneController.swift */,
 			);
 			path = GraduationProject;
 			sourceTree = "<group>";
@@ -181,6 +184,7 @@
 				429EDF9D200BF1B600D44221 /* SetFriction.swift in Sources */,
 				42244CB4200BA24A002B43D9 /* SetBackground.swift in Sources */,
 				426976FE1FC0DB9900B493C5 /* AppDelegate.swift in Sources */,
+				86592A182087A182009E8C93 /* StartSceneController.swift in Sources */,
 				42B4C6F8200D21560096258C /* StartScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
