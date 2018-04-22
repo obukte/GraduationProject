@@ -18,6 +18,7 @@ class GameScene: SKScene {
     
     var levelTimerLabel = SKLabelNode(fontNamed: "ArialMT")
     var bestScoreLabel  = SKLabelNode(fontNamed: "ArialMT")
+    var touchToBeginLabel    = SKLabelNode(fontNamed: "ArialMT")
     
     var levelTimerValue: Double = 0.0 {
         didSet {
@@ -33,7 +34,6 @@ class GameScene: SKScene {
     
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
-    
     
     func setObstacles() {
         
@@ -61,8 +61,10 @@ class GameScene: SKScene {
         
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        endGame()
+        
+        touchToBeginLabel.zPosition = -1
     }
+    
     
     func endGame(){
         /*
@@ -84,29 +86,30 @@ class GameScene: SKScene {
     
     
     override func didMove(to view: SKView) {
-        
+
         addTimer()
         addBestScore()
-        
+        addTouchToBegin()
+
         setBackground()
         setObstacles()
-        
+
         frictionMap = SetFriction().createFrictionMap(#imageLiteral(resourceName: "newFriction"))!
         heightMap = SetHeight().createHeightMap(#imageLiteral(resourceName: "height"))!
-        
+
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(GameScene.increaseTimer), userInfo: nil, repeats: true)
-        
+
         physicsWorld.contactDelegate = self as? SKPhysicsContactDelegate
-        
+
         addBallToScene()
-        
+
         manager = CMMotionManager()
         if let manager = manager, manager.isDeviceMotionAvailable {
             manager.deviceMotionUpdateInterval = 0.001
             manager.startDeviceMotionUpdates()
         }
-        
-        
+
+
     }
     
     func addTimer() {
@@ -131,6 +134,18 @@ class GameScene: SKScene {
         addChild(levelTimerLabel)
         
     }
+    
+    func addTouchToBegin() {
+        
+        touchToBeginLabel.fontColor = SKColor.brown
+        touchToBeginLabel.fontSize = 50
+        touchToBeginLabel.position = CGPoint(x: 0, y: 0)
+        touchToBeginLabel.text = "Touch To Start"
+        
+        touchToBeginLabel.zPosition = 10
+        addChild(touchToBeginLabel)
+        
+    }
     func addBestScore() {
         
         bestScoreLabel.fontColor = SKColor.blue
@@ -148,10 +163,7 @@ class GameScene: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        print(Int(ball.position.y))
-//        if Int(ball.position.y) == 599 {
-//            endGame()
-//        }
+        
         if let gravityX = manager?.deviceMotion?.gravity.x, let gravityY = manager?.deviceMotion?.gravity.y, ball != nil {
             var posY:Int
             if ball.position.y > 0 {
@@ -224,7 +236,6 @@ class GameScene: SKScene {
         }
     }
     
-    
     func setBackground() {
         let newImage = SetBackground().createBackground(#imageLiteral(resourceName: "obstacle"), #imageLiteral(resourceName: "blueRedYellowGreenFriction"), #imageLiteral(resourceName: "emptyImage"))
         let Texture = SKTexture(image: newImage!)
@@ -235,7 +246,6 @@ class GameScene: SKScene {
     }
     
     func addBallToScene() {
-        
         ball = SKSpriteNode(imageNamed: "Ball")
         ball.position = CGPoint(x: frame.midX, y: -620)//-640 tı
         ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.frame.height / 2.0)
@@ -244,7 +254,6 @@ class GameScene: SKScene {
         ball.physicsBody?.isDynamic = true
         ball.physicsBody?.affectedByGravity = false
         addChild(ball)
-        
     }
     
     func centerBall() {
@@ -252,7 +261,6 @@ class GameScene: SKScene {
         let moveAction = SKAction.move(to: CGPoint(x: frame.midX, y: frame.midY), duration: 0.0)
         ball.run(moveAction)
     }
-    
     
     @objc func increaseTimer() {
         seconds = (seconds ?? 0.0) + 0.00001
