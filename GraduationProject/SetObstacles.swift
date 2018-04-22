@@ -1,4 +1,3 @@
-
 import Foundation
 import SpriteKit
 import CoreMotion
@@ -16,7 +15,6 @@ class SetObstacles {
             print("unable to get friction cgImage")
             return nil
         }
-        
         
         let colorSpace: CGColorSpace = CGColorSpaceCreateDeviceRGB()
         let width            = inputObstCGImage.width
@@ -46,7 +44,9 @@ class SetObstacles {
                 let offset = row * width + column
                 if obstPixelBuffer[offset] == .black || obstPixelBuffer[offset] == .red{
                     obstacle[row][column] = 1
-                } else {
+                }else if obstPixelBuffer[offset] == .blue {
+                    obstacle[row][column] = -1
+                }else {
                     obstacle[row][column] = 0
                 }
             }
@@ -83,8 +83,9 @@ class SetObstacles {
             color = R | G | B | A
         }
         
-        static let black   = RGBA32(red: 0,   green: 0,   blue: 0,   alpha: 255)
-        static let red     = RGBA32(red:150,  green: 0,   blue: 0,    alpha: 255)
+        static let black        = RGBA32(red: 0,   green: 0,   blue: 0,   alpha: 255)
+        static let red          = RGBA32(red:150,  green: 0,   blue: 0,    alpha: 255)
+        static let blue     = RGBA32(red:0,    green: 0,   blue: 150,  alpha: 255)
         
         static let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue | CGBitmapInfo.byteOrder32Little.rawValue
         

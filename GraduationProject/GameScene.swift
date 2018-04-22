@@ -1,4 +1,3 @@
-
 import SpriteKit
 import CoreMotion
 import GameplayKit
@@ -6,12 +5,16 @@ import UIKit
 
 class GameScene: SKScene {
     
+    let deviceHeight = UIScreen.main.bounds.height
+    let deviceWidth = UIScreen.main.bounds.width
+    
     var ball: SKSpriteNode!
     var manager: CMMotionManager?
     var timer: Timer?
     var seconds: Double?
     var velocityX = CGFloat(0.0)
     var velocityY = CGFloat(0.0)
+    
     
     var levelTimerLabel = SKLabelNode(fontNamed: "ArialMT")
     var bestScoreLabel  = SKLabelNode(fontNamed: "ArialMT")
@@ -31,8 +34,6 @@ class GameScene: SKScene {
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
-    let deviceHeight = 1334.0
-    let deviceWidth = 750.0
     
     func setObstacles() {
         
@@ -60,7 +61,6 @@ class GameScene: SKScene {
         
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
         endGame()
     }
     
@@ -149,11 +149,9 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         print(Int(ball.position.y))
-        if Int(ball.position.y) == 599 {
-            
-            endGame()
-            
-        }
+//        if Int(ball.position.y) == 599 {
+//            endGame()
+//        }
         if let gravityX = manager?.deviceMotion?.gravity.x, let gravityY = manager?.deviceMotion?.gravity.y, ball != nil {
             var posY:Int
             if ball.position.y > 0 {
@@ -162,6 +160,7 @@ class GameScene: SKScene {
                 posY = 667 - Int(ball.position.y)
             }
             let frictionFactor = frictionMap[posY-32][Int(ball.position.x) + 375]
+            let endGameCheck = obstacleMap[posY-32][Int(ball.position.x) + 375]
             let friction = CGFloat(frictionFactor) * (ball.physicsBody?.mass)! * CGFloat(9.8)
             let impulseX = CGFloat(gravityX) * (ball.physicsBody?.mass)! * CGFloat(9.8)
             let impulseY = CGFloat(gravityY) * (ball.physicsBody?.mass)! * CGFloat(9.8)
@@ -171,6 +170,9 @@ class GameScene: SKScene {
             let totalImpulse = sqrt((impulseX * impulseX ) + (impulseY * impulseY))
             let totalCalculatedImpulse = sqrt(((impulseX*10) * (impulseX*10) ) + ((impulseY*10) * (impulseY*10)))
             
+            if endGameCheck == -1 {
+                endGame()
+            }
             
             var frictionX = CGFloat(0.0)
             var frictionY = CGFloat(0.0)

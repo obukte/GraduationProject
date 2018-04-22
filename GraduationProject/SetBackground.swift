@@ -10,8 +10,8 @@ class SetBackground {
     
     fileprivate func settingRGBA(_ obstPixelBuffer: UnsafeMutablePointer<SetBackground.RGBA32>, _ offset: Int, _ emptyPixelBuffer: UnsafeMutablePointer<SetBackground.RGBA32>, _ fricPixelBuffer: UnsafeMutablePointer<SetBackground.RGBA32>) {
         
-        if obstPixelBuffer[offset] == .black {
-            emptyPixelBuffer[offset] = .black
+        if obstPixelBuffer[offset] == .black || obstPixelBuffer[offset] == .fBlueOne {
+            emptyPixelBuffer[offset] = obstPixelBuffer[offset]
         } else if (fricPixelBuffer[offset] == .fRedOne) || (fricPixelBuffer[offset] == .fRedTwo) || (fricPixelBuffer[offset] == .fRedThree) {
             emptyPixelBuffer[offset] = fricPixelBuffer[offset]
         } else if (fricPixelBuffer[offset] == .fBlueOne) || (fricPixelBuffer[offset] == .fBlueTwo) || (fricPixelBuffer[offset] == .fBlueThree) {
