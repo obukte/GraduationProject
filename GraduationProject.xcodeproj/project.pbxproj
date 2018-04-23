@@ -19,11 +19,7 @@
 		426977161FC0DBE700B493C5 /* ImageProccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426977151FC0DBE700B493C5 /* ImageProccessor.swift */; };
 		429EDF9B200BF1A100D44221 /* SetObstacles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429EDF9A200BF1A100D44221 /* SetObstacles.swift */; };
 		429EDF9D200BF1B600D44221 /* SetFriction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429EDF9C200BF1B600D44221 /* SetFriction.swift */; };
-		42AB2D18208D37300019FE9F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AB2D17208D37300019FE9F /* MainViewController.swift */; };
 		42AB2D1A208D39EC0019FE9F /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AB2D19208D39EC0019FE9F /* ButtonView.swift */; };
-		42AB2D1C208D3F810019FE9F /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AB2D1B208D3F810019FE9F /* MapViewController.swift */; };
-		42AB2D1E208D3F9E0019FE9F /* PlayerIDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AB2D1D208D3F9E0019FE9F /* PlayerIDViewController.swift */; };
-		42AB2D20208D3FB20019FE9F /* EndGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AB2D1F208D3FB20019FE9F /* EndGameViewController.swift */; };
 		42B4C6F6200D21220096258C /* StartScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 42B4C6F5200D21220096258C /* StartScene.sks */; };
 		42B4C6F8200D21560096258C /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B4C6F7200D21560096258C /* StartScene.swift */; };
 		42E63650200D69FE0083E6F9 /* SetHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E6364F200D69FE0083E6F9 /* SetHeight.swift */; };
@@ -46,11 +42,7 @@
 		426977151FC0DBE700B493C5 /* ImageProccessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProccessor.swift; sourceTree = "<group>"; };
 		429EDF9A200BF1A100D44221 /* SetObstacles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetObstacles.swift; sourceTree = "<group>"; };
 		429EDF9C200BF1B600D44221 /* SetFriction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetFriction.swift; sourceTree = "<group>"; };
-		42AB2D17208D37300019FE9F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		42AB2D19208D39EC0019FE9F /* ButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
-		42AB2D1B208D3F810019FE9F /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		42AB2D1D208D3F9E0019FE9F /* PlayerIDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerIDViewController.swift; sourceTree = "<group>"; };
-		42AB2D1F208D3FB20019FE9F /* EndGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameViewController.swift; sourceTree = "<group>"; };
 		42B4C6F5200D21220096258C /* StartScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = StartScene.sks; sourceTree = "<group>"; };
 		42B4C6F7200D21560096258C /* StartScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
 		42E6364F200D69FE0083E6F9 /* SetHeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetHeight.swift; sourceTree = "<group>"; };
@@ -102,11 +94,7 @@
 				860FC501200DE2CD005C179B /* GameOverRestartScene.swift */,
 				42AB2D19208D39EC0019FE9F /* ButtonView.swift */,
 				426977051FC0DB9900B493C5 /* GameViewController.swift */,
-				42AB2D17208D37300019FE9F /* MainViewController.swift */,
 				426977071FC0DB9900B493C5 /* Main.storyboard */,
-				42AB2D1F208D3FB20019FE9F /* EndGameViewController.swift */,
-				42AB2D1B208D3F810019FE9F /* MapViewController.swift */,
-				42AB2D1D208D3F9E0019FE9F /* PlayerIDViewController.swift */,
 				4269770A1FC0DB9900B493C5 /* Assets.xcassets */,
 				4269770C1FC0DB9900B493C5 /* LaunchScreen.storyboard */,
 				4269770F1FC0DB9900B493C5 /* Info.plist */,
@@ -192,11 +180,8 @@
 			files = (
 				42E63650200D69FE0083E6F9 /* SetHeight.swift in Sources */,
 				426977041FC0DB9900B493C5 /* GameScene.swift in Sources */,
-				42AB2D1E208D3F9E0019FE9F /* PlayerIDViewController.swift in Sources */,
 				426977061FC0DB9900B493C5 /* GameViewController.swift in Sources */,
-				42AB2D18208D37300019FE9F /* MainViewController.swift in Sources */,
 				426977161FC0DBE700B493C5 /* ImageProccessor.swift in Sources */,
-				42AB2D20208D3FB20019FE9F /* EndGameViewController.swift in Sources */,
 				860FC502200DE2CD005C179B /* GameOverRestartScene.swift in Sources */,
 				429EDF9B200BF1A100D44221 /* SetObstacles.swift in Sources */,
 				429EDF9D200BF1B600D44221 /* SetFriction.swift in Sources */,
@@ -205,7 +190,6 @@
 				42AB2D1A208D39EC0019FE9F /* ButtonView.swift in Sources */,
 				86592A182087A182009E8C93 /* StartSceneController.swift in Sources */,
 				42B4C6F8200D21560096258C /* StartScene.swift in Sources */,
-				42AB2D1C208D3F810019FE9F /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

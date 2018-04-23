@@ -62,33 +62,22 @@ class GameScene: SKScene {
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        touchToBeginLabel.zPosition = -1
+        touchToBeginLabel.removeFromParent()
+        addTimer()
+        ball.physicsBody?.isDynamic = true
     }
     
     
+    
     func endGame(){
-        /*
-         var bestS = Values().getBestScore()
-         if  bestS == -(1.0) {
-         Values().setBestScore(round(10*levelTimerValue)/10)
-         }else {
-         if levelTimerValue < bestS {
-         Values().setBestScore(round(10*levelTimerValue)/10)
-         }
-         }*/
         
-        ball.position = CGPoint(x: frame.midX, y: -620)//640 tı
+        levelTimerLabel.removeFromParent()
         
-        //        let reveal = SKTransition.doorsOpenHorizontal(withDuration: 0.00001)
-        let startScene = StartScene(size: self.size)
-        self.view?.presentScene(startScene, transition: SKTransition.init())
     }
     
     
     override func didMove(to view: SKView) {
 
-        addTimer()
-        addBestScore()
         addTouchToBegin()
 
         setBackground()
@@ -146,6 +135,7 @@ class GameScene: SKScene {
         addChild(touchToBeginLabel)
         
     }
+    
     func addBestScore() {
         
         bestScoreLabel.fontColor = SKColor.blue
@@ -251,7 +241,7 @@ class GameScene: SKScene {
         ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.frame.height / 2.0)
         ball.physicsBody?.mass = 1.0
         ball.physicsBody?.allowsRotation = false
-        ball.physicsBody?.isDynamic = true
+        ball.physicsBody?.isDynamic = false
         ball.physicsBody?.affectedByGravity = false
         addChild(ball)
     }

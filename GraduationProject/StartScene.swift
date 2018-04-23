@@ -39,7 +39,7 @@ class StartScene: SKScene {
                         // self.view?.presentScene(scene, transition:SKTransition.init())
                     }
                 }
-                ])
+            ])
         )
     }
     
