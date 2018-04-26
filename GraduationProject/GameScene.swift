@@ -15,14 +15,17 @@ class GameScene: SKScene {
     var velocityX = CGFloat(0.0)
     var velocityY = CGFloat(0.0)
     
+    var sequence:SKAction!
+    var wait:SKAction!
+    var block:SKAction!
     
-    var levelTimerLabel = SKLabelNode(fontNamed: "ArialMT")
+    var timerLabel = SKLabelNode(fontNamed: "ArialMT")
     var bestScoreLabel  = SKLabelNode(fontNamed: "ArialMT")
     var touchToBeginLabel    = SKLabelNode(fontNamed: "ArialMT")
     
     var levelTimerValue: Double = 0.0 {
         didSet {
-            levelTimerLabel.text = "\(round(10*levelTimerValue)/10)"
+            timerLabel.text = "\(round(10*levelTimerValue)/10)"
         }
     }
     
@@ -63,26 +66,36 @@ class GameScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         touchToBeginLabel.removeFromParent()
-        addTimer()
+        addChild(timerLabel)
+        
+        startTimer()
         ball.physicsBody?.isDynamic = true
+        
     }
     
     
     
     func endGame(){
         
-        levelTimerLabel.removeFromParent()
+        addChild(touchToBeginLabel)
+        timerLabel.removeFromParent()
+        levelTimerValue = 0.0
+        ball.physicsBody?.isDynamic = false
+        ball.position = CGPoint(x: frame.midX, y: -600)
         
     }
     
     
     override func didMove(to view: SKView) {
 
-        addTouchToBegin()
-
+        createTouchToStartLabel()
+        
+        createTimerLabel()
         setBackground()
         setObstacles()
-
+        
+        addChild(touchToBeginLabel)
+        
         frictionMap = SetFriction().createFrictionMap(#imageLiteral(resourceName: "newFriction"))!
         heightMap = SetHeight().createHeightMap(#imageLiteral(resourceName: "height"))!
 
@@ -97,43 +110,37 @@ class GameScene: SKScene {
             manager.deviceMotionUpdateInterval = 0.001
             manager.startDeviceMotionUpdates()
         }
-
-
     }
     
-    func addTimer() {
+    
+    func createTimerLabel() {
         
-        levelTimerLabel.fontColor = SKColor.red
-        levelTimerLabel.fontSize = 30
-        levelTimerLabel.position = CGPoint(x: 0, y: 640)
+        timerLabel.fontColor = SKColor.red
+        timerLabel.fontSize = 30
+        timerLabel.position = CGPoint(x: 0, y: 640)
         levelTimerValue = round(10*levelTimerValue)/10
-        levelTimerLabel.text = "\(levelTimerValue)"
-        
-        let wait = SKAction.wait(forDuration: 0.01) //change countdown speed here
-        let block = SKAction.run({
+        timerLabel.text = "\(levelTimerValue)"
+        timerLabel.zPosition = 10
+        wait = SKAction.wait(forDuration: 0.01)
+        block = SKAction.run({
             [unowned self] in
             self.levelTimerValue = self.levelTimerValue + 0.01
-            
         })
-        let sequence = SKAction.sequence([wait,block])
         
-        run(SKAction.repeatForever(sequence), withKey: "countdown")
-        
-        levelTimerLabel.zPosition = 10
-        addChild(levelTimerLabel)
-        
+        sequence = SKAction.sequence([wait,block])
     }
     
-    func addTouchToBegin() {
-        
+    func startTimer() {
+        run(SKAction.repeatForever(sequence), withKey: "countdown")
+    }
+    
+    
+    func createTouchToStartLabel() {
         touchToBeginLabel.fontColor = SKColor.brown
         touchToBeginLabel.fontSize = 50
         touchToBeginLabel.position = CGPoint(x: 0, y: 0)
         touchToBeginLabel.text = "Touch To Start"
-        
         touchToBeginLabel.zPosition = 10
-        addChild(touchToBeginLabel)
-        
     }
     
     func addBestScore() {
@@ -237,7 +244,7 @@ class GameScene: SKScene {
     
     func addBallToScene() {
         ball = SKSpriteNode(imageNamed: "Ball")
-        ball.position = CGPoint(x: frame.midX, y: -620)//-640 tı
+        ball.position = CGPoint(x: frame.midX, y: -600)//-640 tı
         ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.frame.height / 2.0)
         ball.physicsBody?.mass = 1.0
         ball.physicsBody?.allowsRotation = false
