@@ -1,5 +1,5 @@
 //
-//  EndMenuViewController.swift
+//  MailViewController.swift
 //  GraduationProject
 //
 //  Created by OMER BUKTE on 5/9/18.
@@ -9,13 +9,22 @@
 import UIKit
 import MessageUI
 
-class EndMenuViewController: UIViewController, MFMessageComposeViewControllerDelegate {
-    
+class MailViewController: UIViewController, MFMessageComposeViewControllerDelegate {
+
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        controller.dismiss(animated: true)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        let mailComposeViewController = configureMailComposeViewController()
+        
+        if MFMailComposeViewController.canSendMail() {
+            self.present(mailComposeViewController, animated: true, completion: nil)
+        }else{
+            self.showSendMailErrorAlert()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -23,35 +32,23 @@ class EndMenuViewController: UIViewController, MFMessageComposeViewControllerDel
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func sendDataButtonTapped(_ sender: Any) {
-        
-        let mailComposeViewController = configureMailComposeViewController()
-
-        if MFMailComposeViewController.canSendMail() {
-            self.present(mailComposeViewController, animated: true, completion: nil)
-        }else{
-            self.showSendMailErrorAlert()
-        }
-        
-    }
-    
     func configureMailComposeViewController() -> MFMailComposeViewController {
         let mailComposerVC = MFMailComposeViewController()
-        mailComposerVC.mailComposeDelegate = self as? MFMailComposeViewControllerDelegate
+        mailComposerVC.mailComposeDelegate = self as! MFMailComposeViewControllerDelegate
         mailComposerVC.setToRecipients(["omer.bukte@ozu.edu.tr"])
         mailComposerVC.setSubject("Experiment Data")
         mailComposerVC.setMessageBody("Experiment Data is attached.", isHTML: false)
         
-        let fileName = "experimentData.txt"
+        let fileName = "myFileName.txt"
         var filePath = ""
         let dirs : [String] = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true)
         let dir = dirs[0]
         filePath = dir.appending("/" + fileName)
         
         if let fileData = NSData(contentsOfFile: filePath) {
-            mailComposerVC.addAttachmentData(fileData as Data, mimeType: "text/txt", fileName: "experimentData")
+            mailComposerVC.addAttachmentData(fileData as Data, mimeType: "text/txt", fileName: "myFileName")
         }
-        
+        mailComposeController(controller: mailComposerVC, didFinishWithResult: nil, error: nil)
         return mailComposerVC
     }
     
@@ -64,11 +61,8 @@ class EndMenuViewController: UIViewController, MFMessageComposeViewControllerDel
     }
     
     func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
-            controller.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
+        
     }
-    
-    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-            controller.dismiss(animated: true, completion: nil)
-    }
-    
+
 }

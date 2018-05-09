@@ -17,12 +17,9 @@
 		426977091FC0DB9900B493C5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 426977071FC0DB9900B493C5 /* Main.storyboard */; };
 		4269770B1FC0DB9900B493C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4269770A1FC0DB9900B493C5 /* Assets.xcassets */; };
 		4269770E1FC0DB9900B493C5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4269770C1FC0DB9900B493C5 /* LaunchScreen.storyboard */; };
-		426977161FC0DBE700B493C5 /* ImageProccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426977151FC0DBE700B493C5 /* ImageProccessor.swift */; };
 		429EDF9B200BF1A100D44221 /* SetObstacles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429EDF9A200BF1A100D44221 /* SetObstacles.swift */; };
 		429EDF9D200BF1B600D44221 /* SetFriction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429EDF9C200BF1B600D44221 /* SetFriction.swift */; };
-		42AB2D1A208D39EC0019FE9F /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AB2D19208D39EC0019FE9F /* ButtonView.swift */; };
 		42E63650200D69FE0083E6F9 /* SetHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E6364F200D69FE0083E6F9 /* SetHeight.swift */; };
-		860FC502200DE2CD005C179B /* GameOverRestartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860FC501200DE2CD005C179B /* GameOverRestartScene.swift */; };
 		86592A182087A182009E8C93 /* StartSceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86592A172087A182009E8C93 /* StartSceneController.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,12 +36,9 @@
 		4269770A1FC0DB9900B493C5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4269770D1FC0DB9900B493C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4269770F1FC0DB9900B493C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		426977151FC0DBE700B493C5 /* ImageProccessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProccessor.swift; sourceTree = "<group>"; };
 		429EDF9A200BF1A100D44221 /* SetObstacles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetObstacles.swift; sourceTree = "<group>"; };
 		429EDF9C200BF1B600D44221 /* SetFriction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetFriction.swift; sourceTree = "<group>"; };
-		42AB2D19208D39EC0019FE9F /* ButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		42E6364F200D69FE0083E6F9 /* SetHeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetHeight.swift; sourceTree = "<group>"; };
-		860FC501200DE2CD005C179B /* GameOverRestartScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverRestartScene.swift; sourceTree = "<group>"; };
 		86592A172087A182009E8C93 /* StartSceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartSceneController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -79,7 +73,6 @@
 			isa = PBXGroup;
 			children = (
 				426976FD1FC0DB9900B493C5 /* AppDelegate.swift */,
-				426977151FC0DBE700B493C5 /* ImageProccessor.swift */,
 				426976FF1FC0DB9900B493C5 /* GameScene.sks */,
 				426977011FC0DB9900B493C5 /* Actions.sks */,
 				426977031FC0DB9900B493C5 /* GameScene.swift */,
@@ -87,8 +80,6 @@
 				429EDF9C200BF1B600D44221 /* SetFriction.swift */,
 				42E6364F200D69FE0083E6F9 /* SetHeight.swift */,
 				42244CB3200BA24A002B43D9 /* SetBackground.swift */,
-				860FC501200DE2CD005C179B /* GameOverRestartScene.swift */,
-				42AB2D19208D39EC0019FE9F /* ButtonView.swift */,
 				426977051FC0DB9900B493C5 /* GameViewController.swift */,
 				4250469D20A3227600C36FF6 /* EndMenuViewController.swift */,
 				426977071FC0DB9900B493C5 /* Main.storyboard */,
@@ -177,14 +168,11 @@
 				42E63650200D69FE0083E6F9 /* SetHeight.swift in Sources */,
 				426977041FC0DB9900B493C5 /* GameScene.swift in Sources */,
 				426977061FC0DB9900B493C5 /* GameViewController.swift in Sources */,
-				426977161FC0DBE700B493C5 /* ImageProccessor.swift in Sources */,
-				860FC502200DE2CD005C179B /* GameOverRestartScene.swift in Sources */,
 				4250469E20A3227600C36FF6 /* EndMenuViewController.swift in Sources */,
 				429EDF9B200BF1A100D44221 /* SetObstacles.swift in Sources */,
 				429EDF9D200BF1B600D44221 /* SetFriction.swift in Sources */,
 				42244CB4200BA24A002B43D9 /* SetBackground.swift in Sources */,
 				426976FE1FC0DB9900B493C5 /* AppDelegate.swift in Sources */,
-				42AB2D1A208D39EC0019FE9F /* ButtonView.swift in Sources */,
 				86592A182087A182009E8C93 /* StartSceneController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -261,7 +249,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -314,7 +302,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -327,11 +315,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = B22JVP99MH;
+				DEVELOPMENT_TEAM = 37HK3NBDAT;
 				INFOPLIST_FILE = GraduationProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "faris.akdem-ozu.edu.tr-";
+				PRODUCT_BUNDLE_IDENTIFIER = "omer.bukte-ozu.edut";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -343,11 +331,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = B22JVP99MH;
+				DEVELOPMENT_TEAM = 37HK3NBDAT;
 				INFOPLIST_FILE = GraduationProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "faris.akdem-ozu.edu.tr-";
+				PRODUCT_BUNDLE_IDENTIFIER = "omer.bukte-ozu.edut";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

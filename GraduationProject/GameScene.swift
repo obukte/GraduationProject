@@ -24,6 +24,8 @@ class GameScene: SKScene {
     var bestScoreLabel  = SKLabelNode(fontNamed: "ArialMT")
     var touchToBeginLabel    = SKLabelNode(fontNamed: "ArialMT")
     
+    var loggedData = ""
+    
     var levelTimerValue: Double = 0.0 {
         didSet {
             timerLabel.text = "\(round(10*levelTimerValue)/10)"
@@ -64,6 +66,7 @@ class GameScene: SKScene {
         }
         
     }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if touchTime == 0 {
@@ -73,27 +76,51 @@ class GameScene: SKScene {
         ball.physicsBody?.isDynamic = true
         touchTime = 1
         }
-        
     }
     
-    
-    
     func endGame(){
-        
         addChild(touchToBeginLabel)
         timerLabel.removeFromParent()
         levelTimerValue = 0.0
         ball.physicsBody?.isDynamic = false
         ball.position = CGPoint(x: frame.midX, y: -600)
         touchTime = 0
-        
+        writeToFile()
     }
     
+    
+    func writeToFile(){
+        let fileName = "experimentData.txt"
+        var filePath = ""
+        let dirs : [String] = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true)
+        
+        let dir = dirs[0]
+        filePath = dir.appending("/" + fileName)
+        print("Local path = \(filePath)")
+        
+        let fileContentToWrite = loggedData
+        
+        do {
+            try fileContentToWrite.write(toFile: filePath, atomically: false, encoding: String.Encoding.utf8)
+        }
+        catch let error as NSError {
+            print("An error took place: \(error)")
+        }
+        
+        do {
+            let contentFromFile = try NSString(contentsOfFile: filePath, encoding: String.Encoding.utf8.rawValue)
+            print(contentFromFile)
+        }
+        catch let error as NSError {
+            print("An error took place: \(error)")
+        }
+        
+        
+    }
     
     override func didMove(to view: SKView) {
 
         createTouchToStartLabel()
-        
         createTimerLabel()
         setBackground()
         setObstacles()
@@ -129,6 +156,7 @@ class GameScene: SKScene {
         block = SKAction.run({
             [unowned self] in
             self.levelTimerValue = self.levelTimerValue + 0.01
+            self.loggedData += "\(Int(self.ball.position.x)),\(Int(self.ball.position.y)) -> \(self.levelTimerValue) \n"
         })
         
         sequence = SKAction.sequence([wait,block])
