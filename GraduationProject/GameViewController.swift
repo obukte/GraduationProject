@@ -19,6 +19,45 @@ class GameViewController: UIViewController {
         
         
         
+        let fileName = "myFileName.txt"
+        var filePath = ""
+        
+        // Fine documents directory on device
+        let dirs : [String] = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true)
+        
+        if dirs.count > 0 {
+            let dir = dirs[0] //documents directory
+            filePath = dir.appending("/" + fileName)
+            print("Local path = \(filePath)")
+        } else {
+            print("Could not find local directory to store file")
+            return
+        }
+        
+        // Set the contents
+        let fileContentToWrite = "Text to be recorded into file"
+        
+        do {
+            // Write contents to file
+            try fileContentToWrite.write(toFile: filePath, atomically: false, encoding: String.Encoding.utf8)
+        }
+        catch let error as NSError {
+            print("An error took place: \(error)")
+        }
+        
+        
+        // Read file content. Example in Swift
+        do {
+            // Read file content
+            let contentFromFile = try NSString(contentsOfFile: filePath, encoding: String.Encoding.utf8.rawValue)
+            print(contentFromFile)
+        }
+        catch let error as NSError {
+            print("An error took place: \(error)")
+        }
+        
+        
+        /*
         let path = Bundle.main.path(forResource: "dataLogs", ofType: "txt")
         print("the path is: " + path!)
         
@@ -93,9 +132,7 @@ class GameViewController: UIViewController {
         
         
         
-        
-        
-        /* -----------DENEME BAŞARILI---------
+        /* -----------DENEME EN BAŞARILI---------
          let file = "file.txt" //this is the file. we will write to and read from it
          
          let text = "some text" //just a text
@@ -159,7 +196,7 @@ class GameViewController: UIViewController {
          print("Read from the file: \(inString)")
          }
          */
-        
+        */
         
         
         if let view = self.view as! SKView? {
