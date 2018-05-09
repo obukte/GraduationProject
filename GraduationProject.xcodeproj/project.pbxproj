@@ -22,6 +22,7 @@
 		42AB2D1A208D39EC0019FE9F /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AB2D19208D39EC0019FE9F /* ButtonView.swift */; };
 		42E63650200D69FE0083E6F9 /* SetHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E6364F200D69FE0083E6F9 /* SetHeight.swift */; };
 		860FC502200DE2CD005C179B /* GameOverRestartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860FC501200DE2CD005C179B /* GameOverRestartScene.swift */; };
+		8616978E20A30F0100C78276 /* dataLogs.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8616978D20A30F0100C78276 /* dataLogs.txt */; };
 		86592A182087A182009E8C93 /* StartSceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86592A172087A182009E8C93 /* StartSceneController.swift */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +44,7 @@
 		42AB2D19208D39EC0019FE9F /* ButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		42E6364F200D69FE0083E6F9 /* SetHeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetHeight.swift; sourceTree = "<group>"; };
 		860FC501200DE2CD005C179B /* GameOverRestartScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverRestartScene.swift; sourceTree = "<group>"; };
+		8616978D20A30F0100C78276 /* dataLogs.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dataLogs.txt; path = "../../../../../Desktop/09.05.2018 ömerle merge yapamdan önce write read yapabiliyor/GraduationProject/GraduationProject/GraduationProject/dataLogs.txt"; sourceTree = "<group>"; };
 		86592A172087A182009E8C93 /* StartSceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartSceneController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -93,6 +95,7 @@
 				4269770C1FC0DB9900B493C5 /* LaunchScreen.storyboard */,
 				4269770F1FC0DB9900B493C5 /* Info.plist */,
 				86592A172087A182009E8C93 /* StartSceneController.swift */,
+				8616978D20A30F0100C78276 /* dataLogs.txt */,
 			);
 			path = GraduationProject;
 			sourceTree = "<group>";
@@ -157,6 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				426977091FC0DB9900B493C5 /* Main.storyboard in Resources */,
+				8616978E20A30F0100C78276 /* dataLogs.txt in Resources */,
 				426977001FC0DB9900B493C5 /* GameScene.sks in Resources */,
 				4269770B1FC0DB9900B493C5 /* Assets.xcassets in Resources */,
 				4269770E1FC0DB9900B493C5 /* LaunchScreen.storyboard in Resources */,
@@ -319,11 +323,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 37HK3NBDAT;
+				DEVELOPMENT_TEAM = B22JVP99MH;
 				INFOPLIST_FILE = GraduationProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = omer.bukte.ozu;
+				PRODUCT_BUNDLE_IDENTIFIER = "faris.akdem-ozu.edu.tr";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -335,11 +339,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 37HK3NBDAT;
+				DEVELOPMENT_TEAM = B22JVP99MH;
 				INFOPLIST_FILE = GraduationProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = omer.bukte.ozu;
+				PRODUCT_BUNDLE_IDENTIFIER = "faris.akdem-ozu.edu.tr";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
