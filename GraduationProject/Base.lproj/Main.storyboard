@@ -50,6 +50,9 @@
                                 <state key="normal" title="How To Play?">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                 </state>
+                                <connections>
+                                    <segue destination="4Nz-5J-Tqd" kind="show" id="krB-qy-1Bb"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.25882352941176467" green="0.6470588235294118" blue="0.96078431372549022" alpha="1" colorSpace="deviceRGB"/>
@@ -69,9 +72,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kDt-Zx-T1e">
-                                <rect key="frame" x="336" y="0.0" width="39" height="30"/>
+                                <rect key="frame" x="0.0" y="637" width="39" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Menu"/>
+                                <connections>
+                                    <segue destination="Hxe-KO-3xW" kind="show" id="y07-WK-FB0"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -80,7 +86,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="398" y="114"/>
+            <point key="canvasLocation" x="397.60000000000002" y="113.79310344827587"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="yIC-M3-AdN">
@@ -138,10 +144,10 @@
             </objects>
             <point key="canvasLocation" x="-4" y="858"/>
         </scene>
-        <!--View Controller-->
+        <!--End Menu View Controller-->
         <scene sceneID="cqF-Fq-zXc">
             <objects>
-                <viewController id="Hxe-KO-3xW" sceneMemberID="viewController">
+                <viewController id="Hxe-KO-3xW" customClass="EndMenuViewController" customModule="GraduationProject" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nE9-zk-nUS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -153,6 +159,9 @@
                                 <state key="normal" title="SEND DATA">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="sendDataButtonTapped:" destination="Hxe-KO-3xW" eventType="touchUpInside" id="tdK-YG-Bd6"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NEc-sC-gZ8">
                                 <rect key="frame" x="142" y="370" width="101" height="36"/>
@@ -169,7 +178,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F5w-9W-1LD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="713" y="858"/>
+            <point key="canvasLocation" x="732" y="858"/>
         </scene>
     </scenes>
 </document>

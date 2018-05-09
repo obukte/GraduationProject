@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		42244CB4200BA24A002B43D9 /* SetBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42244CB3200BA24A002B43D9 /* SetBackground.swift */; };
+		4250469E20A3227600C36FF6 /* EndMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4250469D20A3227600C36FF6 /* EndMenuViewController.swift */; };
 		426976FE1FC0DB9900B493C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426976FD1FC0DB9900B493C5 /* AppDelegate.swift */; };
 		426977001FC0DB9900B493C5 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 426976FF1FC0DB9900B493C5 /* GameScene.sks */; };
 		426977021FC0DB9900B493C5 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 426977011FC0DB9900B493C5 /* Actions.sks */; };
@@ -22,12 +23,12 @@
 		42AB2D1A208D39EC0019FE9F /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AB2D19208D39EC0019FE9F /* ButtonView.swift */; };
 		42E63650200D69FE0083E6F9 /* SetHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E6364F200D69FE0083E6F9 /* SetHeight.swift */; };
 		860FC502200DE2CD005C179B /* GameOverRestartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860FC501200DE2CD005C179B /* GameOverRestartScene.swift */; };
-		8616978E20A30F0100C78276 /* dataLogs.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8616978D20A30F0100C78276 /* dataLogs.txt */; };
 		86592A182087A182009E8C93 /* StartSceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86592A172087A182009E8C93 /* StartSceneController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		42244CB3200BA24A002B43D9 /* SetBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetBackground.swift; sourceTree = "<group>"; };
+		4250469D20A3227600C36FF6 /* EndMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndMenuViewController.swift; sourceTree = "<group>"; };
 		426976FA1FC0DB9900B493C5 /* GraduationProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GraduationProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		426976FD1FC0DB9900B493C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		426976FF1FC0DB9900B493C5 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -44,7 +45,6 @@
 		42AB2D19208D39EC0019FE9F /* ButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		42E6364F200D69FE0083E6F9 /* SetHeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetHeight.swift; sourceTree = "<group>"; };
 		860FC501200DE2CD005C179B /* GameOverRestartScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverRestartScene.swift; sourceTree = "<group>"; };
-		8616978D20A30F0100C78276 /* dataLogs.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dataLogs.txt; path = "../../../../../Desktop/09.05.2018 ömerle merge yapamdan önce write read yapabiliyor/GraduationProject/GraduationProject/GraduationProject/dataLogs.txt"; sourceTree = "<group>"; };
 		86592A172087A182009E8C93 /* StartSceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartSceneController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,12 +90,12 @@
 				860FC501200DE2CD005C179B /* GameOverRestartScene.swift */,
 				42AB2D19208D39EC0019FE9F /* ButtonView.swift */,
 				426977051FC0DB9900B493C5 /* GameViewController.swift */,
+				4250469D20A3227600C36FF6 /* EndMenuViewController.swift */,
 				426977071FC0DB9900B493C5 /* Main.storyboard */,
 				4269770A1FC0DB9900B493C5 /* Assets.xcassets */,
 				4269770C1FC0DB9900B493C5 /* LaunchScreen.storyboard */,
 				4269770F1FC0DB9900B493C5 /* Info.plist */,
 				86592A172087A182009E8C93 /* StartSceneController.swift */,
-				8616978D20A30F0100C78276 /* dataLogs.txt */,
 			);
 			path = GraduationProject;
 			sourceTree = "<group>";
@@ -127,7 +127,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0910;
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Omer Bukte";
 				TargetAttributes = {
 					426976F91FC0DB9900B493C5 = {
@@ -160,7 +160,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				426977091FC0DB9900B493C5 /* Main.storyboard in Resources */,
-				8616978E20A30F0100C78276 /* dataLogs.txt in Resources */,
 				426977001FC0DB9900B493C5 /* GameScene.sks in Resources */,
 				4269770B1FC0DB9900B493C5 /* Assets.xcassets in Resources */,
 				4269770E1FC0DB9900B493C5 /* LaunchScreen.storyboard in Resources */,
@@ -180,6 +179,7 @@
 				426977061FC0DB9900B493C5 /* GameViewController.swift in Sources */,
 				426977161FC0DBE700B493C5 /* ImageProccessor.swift in Sources */,
 				860FC502200DE2CD005C179B /* GameOverRestartScene.swift in Sources */,
+				4250469E20A3227600C36FF6 /* EndMenuViewController.swift in Sources */,
 				429EDF9B200BF1A100D44221 /* SetObstacles.swift in Sources */,
 				429EDF9D200BF1B600D44221 /* SetFriction.swift in Sources */,
 				42244CB4200BA24A002B43D9 /* SetBackground.swift in Sources */,
@@ -225,6 +225,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -232,6 +233,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -282,6 +284,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -289,6 +292,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -323,11 +327,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = B22JVP99MH;
+				DEVELOPMENT_TEAM = 37HK3NBDAT;
 				INFOPLIST_FILE = GraduationProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "faris.akdem-ozu.edu.tr";
+				PRODUCT_BUNDLE_IDENTIFIER = "omer.bukte-ozu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -339,11 +343,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = B22JVP99MH;
+				DEVELOPMENT_TEAM = 37HK3NBDAT;
 				INFOPLIST_FILE = GraduationProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "faris.akdem-ozu.edu.tr";
+				PRODUCT_BUNDLE_IDENTIFIER = "omer.bukte-ozu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
