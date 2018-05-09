@@ -20,8 +20,6 @@
 		429EDF9B200BF1A100D44221 /* SetObstacles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429EDF9A200BF1A100D44221 /* SetObstacles.swift */; };
 		429EDF9D200BF1B600D44221 /* SetFriction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429EDF9C200BF1B600D44221 /* SetFriction.swift */; };
 		42AB2D1A208D39EC0019FE9F /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AB2D19208D39EC0019FE9F /* ButtonView.swift */; };
-		42B4C6F6200D21220096258C /* StartScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 42B4C6F5200D21220096258C /* StartScene.sks */; };
-		42B4C6F8200D21560096258C /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B4C6F7200D21560096258C /* StartScene.swift */; };
 		42E63650200D69FE0083E6F9 /* SetHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E6364F200D69FE0083E6F9 /* SetHeight.swift */; };
 		860FC502200DE2CD005C179B /* GameOverRestartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860FC501200DE2CD005C179B /* GameOverRestartScene.swift */; };
 		86592A182087A182009E8C93 /* StartSceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86592A172087A182009E8C93 /* StartSceneController.swift */; };
@@ -43,8 +41,6 @@
 		429EDF9A200BF1A100D44221 /* SetObstacles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetObstacles.swift; sourceTree = "<group>"; };
 		429EDF9C200BF1B600D44221 /* SetFriction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetFriction.swift; sourceTree = "<group>"; };
 		42AB2D19208D39EC0019FE9F /* ButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
-		42B4C6F5200D21220096258C /* StartScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = StartScene.sks; sourceTree = "<group>"; };
-		42B4C6F7200D21560096258C /* StartScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
 		42E6364F200D69FE0083E6F9 /* SetHeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetHeight.swift; sourceTree = "<group>"; };
 		860FC501200DE2CD005C179B /* GameOverRestartScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverRestartScene.swift; sourceTree = "<group>"; };
 		86592A172087A182009E8C93 /* StartSceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartSceneController.swift; sourceTree = "<group>"; };
@@ -84,13 +80,11 @@
 				426977151FC0DBE700B493C5 /* ImageProccessor.swift */,
 				426976FF1FC0DB9900B493C5 /* GameScene.sks */,
 				426977011FC0DB9900B493C5 /* Actions.sks */,
-				42B4C6F5200D21220096258C /* StartScene.sks */,
 				426977031FC0DB9900B493C5 /* GameScene.swift */,
 				429EDF9A200BF1A100D44221 /* SetObstacles.swift */,
 				429EDF9C200BF1B600D44221 /* SetFriction.swift */,
 				42E6364F200D69FE0083E6F9 /* SetHeight.swift */,
 				42244CB3200BA24A002B43D9 /* SetBackground.swift */,
-				42B4C6F7200D21560096258C /* StartScene.swift */,
 				860FC501200DE2CD005C179B /* GameOverRestartScene.swift */,
 				42AB2D19208D39EC0019FE9F /* ButtonView.swift */,
 				426977051FC0DB9900B493C5 /* GameViewController.swift */,
@@ -165,7 +159,6 @@
 				426977091FC0DB9900B493C5 /* Main.storyboard in Resources */,
 				426977001FC0DB9900B493C5 /* GameScene.sks in Resources */,
 				4269770B1FC0DB9900B493C5 /* Assets.xcassets in Resources */,
-				42B4C6F6200D21220096258C /* StartScene.sks in Resources */,
 				4269770E1FC0DB9900B493C5 /* LaunchScreen.storyboard in Resources */,
 				426977021FC0DB9900B493C5 /* Actions.sks in Resources */,
 			);
@@ -189,7 +182,6 @@
 				426976FE1FC0DB9900B493C5 /* AppDelegate.swift in Sources */,
 				42AB2D1A208D39EC0019FE9F /* ButtonView.swift in Sources */,
 				86592A182087A182009E8C93 /* StartSceneController.swift in Sources */,
-				42B4C6F8200D21560096258C /* StartScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,6 +14,7 @@ class GameScene: SKScene {
     var seconds: Double?
     var velocityX = CGFloat(0.0)
     var velocityY = CGFloat(0.0)
+    var touchTime = 0
     
     var sequence:SKAction!
     var wait:SKAction!
@@ -65,11 +66,13 @@ class GameScene: SKScene {
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
+        if touchTime == 0 {
         touchToBeginLabel.removeFromParent()
         addChild(timerLabel)
-        
         startTimer()
         ball.physicsBody?.isDynamic = true
+        touchTime = 1
+        }
         
     }
     
@@ -82,6 +85,7 @@ class GameScene: SKScene {
         levelTimerValue = 0.0
         ball.physicsBody?.isDynamic = false
         ball.position = CGPoint(x: frame.midX, y: -600)
+        touchTime = 0
         
     }
     
