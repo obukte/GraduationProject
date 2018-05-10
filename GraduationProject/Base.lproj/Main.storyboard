@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Main MenuVC-->
         <scene sceneID="J7V-78-FrD">
             <objects>
-                <viewController id="I86-YE-aab" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mainMenu" id="I86-YE-aab" customClass="MainMenuVC" customModule="GraduationProject" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ruf-OQ-ajT">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -40,7 +40,7 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="rPx-0k-KxI" kind="show" id="c6R-uU-DbG"/>
+                                    <action selector="playButtonTapped:" destination="I86-YE-aab" eventType="touchUpInside" id="ez3-yP-7gB"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wQP-9V-oIS">
@@ -58,6 +58,10 @@
                         <color key="backgroundColor" red="0.25882352941176467" green="0.6470588235294118" blue="0.96078431372549022" alpha="1" colorSpace="deviceRGB"/>
                         <viewLayoutGuide key="safeArea" id="eqp-X4-Bf0"/>
                     </view>
+                    <connections>
+                        <outlet property="subjectID" destination="Ass-9k-Nil" id="VRq-qq-CNB"/>
+                        <segue destination="rPx-0k-KxI" kind="show" identifier="goToMapSelect" id="Ebv-if-o6m"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MGw-QP-dBW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -103,49 +107,81 @@
             </objects>
             <point key="canvasLocation" x="-710" y="858"/>
         </scene>
-        <!--View Controller-->
+        <!--mapSelectMenu-->
         <scene sceneID="b0G-xu-ylO">
             <objects>
-                <viewController id="rPx-0k-KxI" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mapSelectMenu" title="mapSelectMenu" id="rPx-0k-KxI" customClass="SelectMapVC" customModule="GraduationProject" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ph0-7g-suM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="toX-If-ay0">
-                                <rect key="frame" x="148" y="259" width="80" height="34"/>
+                                <rect key="frame" x="147" y="203" width="80" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="MAP ONE">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="BV1-FR-VrT" kind="show" id="RRS-XO-023"/>
+                                    <action selector="mapOneTapped:" destination="rPx-0k-KxI" eventType="touchUpInside" id="7ov-TV-wrv"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BFQ-Xt-UbM">
-                                <rect key="frame" x="147" y="318" width="84" height="34"/>
+                                <rect key="frame" x="147" y="265" width="84" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="MAP TWO">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="mapTwoTapped:" destination="rPx-0k-KxI" eventType="touchUpInside" id="nMz-WG-uTl"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lQe-WG-2P4">
+                                <rect key="frame" x="138" y="391" width="99" height="38"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="MAP FOUR">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="mapFourTapped:" destination="rPx-0k-KxI" eventType="touchUpInside" id="dLv-fW-D1n"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SYd-UN-KEE">
-                                <rect key="frame" x="142" y="374" width="99" height="34"/>
+                                <rect key="frame" x="138" y="329" width="99" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="MAP THREE">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="mapThreeTapped:" destination="rPx-0k-KxI" eventType="touchUpInside" id="urk-94-Dao"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xhG-hd-hYg">
+                                <rect key="frame" x="140" y="596" width="99" height="38"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="MENU">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="mapFourTapped:" destination="rPx-0k-KxI" eventType="touchUpInside" id="Mpq-YS-tS9"/>
+                                    <segue destination="I86-YE-aab" kind="show" id="rcU-bG-QaL"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.25882352941176467" green="0.6470588235294118" blue="0.96078431372549022" alpha="1" colorSpace="deviceRGB"/>
                         <viewLayoutGuide key="safeArea" id="db9-nr-mgB"/>
                     </view>
+                    <connections>
+                        <segue destination="BV1-FR-VrT" kind="show" identifier="goToGame" id="0J7-6c-DKU"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yEg-Xh-aKY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4" y="858"/>
+            <point key="canvasLocation" x="-4" y="857.72113943028489"/>
         </scene>
         <!--End Menu View Controller-->
         <scene sceneID="cqF-Fq-zXc">
@@ -173,6 +209,9 @@
                                 <state key="normal" title="MAIN MENU">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                 </state>
+                                <connections>
+                                    <segue destination="I86-YE-aab" kind="show" id="gGl-6r-7pa"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.25882352941176467" green="0.6470588235294118" blue="0.96078431372549022" alpha="1" colorSpace="deviceRGB"/>
@@ -184,4 +223,7 @@
             <point key="canvasLocation" x="732" y="858"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="rcU-bG-QaL"/>
+    </inferredMetricsTieBreakers>
 </document>

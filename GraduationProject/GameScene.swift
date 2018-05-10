@@ -3,10 +3,17 @@ import CoreMotion
 import GameplayKit
 import UIKit
 
+struct Variables {
+    static var experimenterID = ""
+    static var mapCode = 0
+}
+
 class GameScene: SKScene {
     
     let deviceHeight = UIScreen.main.bounds.height
     let deviceWidth = UIScreen.main.bounds.width
+    
+    var backGroundImage: UIImage?
     
     var ball: SKSpriteNode!
     var manager: CMMotionManager?
@@ -25,6 +32,7 @@ class GameScene: SKScene {
     var touchToBeginLabel    = SKLabelNode(fontNamed: "ArialMT")
     
     var loggedData = ""
+    var attemptCount = 0
     
     var levelTimerValue: Double = 0.0 {
         didSet {
@@ -42,9 +50,6 @@ class GameScene: SKScene {
     private var spinnyNode : SKShapeNode?
     
     func setObstacles() {
-        
-        obstacleMap = SetObstacles().setObstacles(#imageLiteral(resourceName: "obstacle"))!
-        
         let height = 1334
         let width = 750
         
@@ -70,11 +75,13 @@ class GameScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if touchTime == 0 {
-        touchToBeginLabel.removeFromParent()
-        addChild(timerLabel)
-        startTimer()
-        ball.physicsBody?.isDynamic = true
-        touchTime = 1
+            touchToBeginLabel.removeFromParent()
+            addChild(timerLabel)
+            startTimer()
+            ball.physicsBody?.isDynamic = true
+            touchTime = 1
+            attemptCount += 1
+            self.loggedData += "ID:\(Variables.experimenterID)\nExperiment No:\(attemptCount)\n Map:\(Variables.mapCode)\n"
         }
     }
     
@@ -96,7 +103,6 @@ class GameScene: SKScene {
         
         let dir = dirs[0]
         filePath = dir.appending("/" + fileName)
-        print("Local path = \(filePath)")
         
         let fileContentToWrite = loggedData
         
@@ -122,13 +128,8 @@ class GameScene: SKScene {
 
         createTouchToStartLabel()
         createTimerLabel()
-        setBackground()
-        setObstacles()
-        
+        createMap()
         addChild(touchToBeginLabel)
-        
-        frictionMap = SetFriction().createFrictionMap(#imageLiteral(resourceName: "newFriction"))!
-        heightMap = SetHeight().createHeightMap(#imageLiteral(resourceName: "height"))!
 
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(GameScene.increaseTimer), userInfo: nil, repeats: true)
 
@@ -143,6 +144,25 @@ class GameScene: SKScene {
         }
     }
     
+    func createMap() {
+        
+        if Variables.mapCode == 1 {
+            frictionMap = SetFriction().createFrictionMap(#imageLiteral(resourceName: "MapOne_Friction"))!
+            obstacleMap = SetObstacles().setObstacles(#imageLiteral(resourceName: "MapOne_Obstacle"))!
+            backGroundImage = SetBackground().createBackground(#imageLiteral(resourceName: "MapOne_Obstacle"), #imageLiteral(resourceName: "MapOne_Friction"), #imageLiteral(resourceName: "BackGroundImage"))
+        }else if Variables.mapCode == 2{
+            
+            
+        }else if Variables.mapCode == 3{
+            
+            
+        }else if Variables.mapCode == 4{
+            
+            
+        }
+        setBackground()
+        setObstacles()
+    }
     
     func createTimerLabel() {
         
@@ -266,8 +286,7 @@ class GameScene: SKScene {
     }
     
     func setBackground() {
-        let newImage = SetBackground().createBackground(#imageLiteral(resourceName: "obstacle"), #imageLiteral(resourceName: "blueRedYellowGreenFriction"), #imageLiteral(resourceName: "emptyImage"))
-        let Texture = SKTexture(image: newImage!)
+        let Texture = SKTexture(image: backGroundImage!)
         let background = SKSpriteNode(texture:Texture)
         background.position = CGPoint(x: 0, y: 0 )
         background.zPosition = -1

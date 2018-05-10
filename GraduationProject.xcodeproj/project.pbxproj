@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		42244CB4200BA24A002B43D9 /* SetBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42244CB3200BA24A002B43D9 /* SetBackground.swift */; };
 		4250469E20A3227600C36FF6 /* EndMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4250469D20A3227600C36FF6 /* EndMenuViewController.swift */; };
+		4267DC0020A424CD00FA0B14 /* MainMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4267DBFF20A424CD00FA0B14 /* MainMenuVC.swift */; };
+		4267DC0220A424F300FA0B14 /* SelectMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4267DC0120A424F300FA0B14 /* SelectMapVC.swift */; };
 		426976FE1FC0DB9900B493C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426976FD1FC0DB9900B493C5 /* AppDelegate.swift */; };
 		426977001FC0DB9900B493C5 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 426976FF1FC0DB9900B493C5 /* GameScene.sks */; };
 		426977021FC0DB9900B493C5 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 426977011FC0DB9900B493C5 /* Actions.sks */; };
@@ -26,6 +28,8 @@
 /* Begin PBXFileReference section */
 		42244CB3200BA24A002B43D9 /* SetBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetBackground.swift; sourceTree = "<group>"; };
 		4250469D20A3227600C36FF6 /* EndMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndMenuViewController.swift; sourceTree = "<group>"; };
+		4267DBFF20A424CD00FA0B14 /* MainMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuVC.swift; sourceTree = "<group>"; };
+		4267DC0120A424F300FA0B14 /* SelectMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectMapVC.swift; sourceTree = "<group>"; };
 		426976FA1FC0DB9900B493C5 /* GraduationProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GraduationProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		426976FD1FC0DB9900B493C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		426976FF1FC0DB9900B493C5 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -82,6 +86,8 @@
 				42244CB3200BA24A002B43D9 /* SetBackground.swift */,
 				426977051FC0DB9900B493C5 /* GameViewController.swift */,
 				4250469D20A3227600C36FF6 /* EndMenuViewController.swift */,
+				4267DBFF20A424CD00FA0B14 /* MainMenuVC.swift */,
+				4267DC0120A424F300FA0B14 /* SelectMapVC.swift */,
 				426977071FC0DB9900B493C5 /* Main.storyboard */,
 				4269770A1FC0DB9900B493C5 /* Assets.xcassets */,
 				4269770C1FC0DB9900B493C5 /* LaunchScreen.storyboard */,
@@ -167,10 +173,12 @@
 			files = (
 				42E63650200D69FE0083E6F9 /* SetHeight.swift in Sources */,
 				426977041FC0DB9900B493C5 /* GameScene.swift in Sources */,
+				4267DC0220A424F300FA0B14 /* SelectMapVC.swift in Sources */,
 				426977061FC0DB9900B493C5 /* GameViewController.swift in Sources */,
 				4250469E20A3227600C36FF6 /* EndMenuViewController.swift in Sources */,
 				429EDF9B200BF1A100D44221 /* SetObstacles.swift in Sources */,
 				429EDF9D200BF1B600D44221 /* SetFriction.swift in Sources */,
+				4267DC0020A424CD00FA0B14 /* MainMenuVC.swift in Sources */,
 				42244CB4200BA24A002B43D9 /* SetBackground.swift in Sources */,
 				426976FE1FC0DB9900B493C5 /* AppDelegate.swift in Sources */,
 				86592A182087A182009E8C93 /* StartSceneController.swift in Sources */,
