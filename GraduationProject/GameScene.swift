@@ -181,7 +181,9 @@ class GameScene: SKScene {
             self.levelTimerValue = self.levelTimerValue + 0.1
             self.dataLogTime = self.dataLogTime + 0.1
             self.dataLogTime = round(10*self.levelTimerValue)/10
-            self.loggedData += "\(Int(self.ball.position.x)),\(Int(self.ball.position.y)) -> \(self.dataLogTime)\n"
+            let posX = Int(self.ball.position.x) + 375
+            let posY = 667 - Int(self.ball.position.y)
+            self.loggedData += "\(posX),\(posY) -> \(self.dataLogTime)\n"
         })
         
         sequence = SKAction.sequence([wait,block])
