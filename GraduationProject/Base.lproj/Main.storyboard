@@ -160,15 +160,14 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xhG-hd-hYg">
-                                <rect key="frame" x="140" y="596" width="99" height="38"/>
+                                <rect key="frame" x="140" y="567" width="99" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="MENU">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="mapFourTapped:" destination="rPx-0k-KxI" eventType="touchUpInside" id="Mpq-YS-tS9"/>
-                                    <segue destination="I86-YE-aab" kind="show" id="rcU-bG-QaL"/>
+                                    <segue destination="I86-YE-aab" kind="show" id="3J6-el-vPU"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -224,6 +223,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="rcU-bG-QaL"/>
+        <segue reference="gGl-6r-7pa"/>
     </inferredMetricsTieBreakers>
 </document>

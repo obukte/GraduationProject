@@ -40,4 +40,6 @@ class SelectMapVC: UIViewController {
         Variables.mapCode = 4
         performSegue(withIdentifier: "goToGame", sender: nil)
     }
+    
+    
 }

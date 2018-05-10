@@ -7,9 +7,9 @@ import UIKit
 
 class SetFriction {
     
-    var friction = [[Double]](repeating: [Double](repeating: 0.0, count: 750), count: 1334)
+    var friction = [[Int]](repeating: [Int](repeating: 0, count: 750), count: 1334)
     
-    func createFrictionMap(_ frictionImage:UIImage) -> [[Double]]? {
+    func createFrictionMap(_ frictionImage:UIImage) -> [[Int]]? {
         
         guard let inputFricCGImage = frictionImage.cgImage else {
             print("unable to get friction cgImage")
@@ -44,17 +44,17 @@ class SetFriction {
             for column in 0 ..< Int(width) {
                 let offset = row * width + column
                 if (fricPixelBuffer[offset] == .fRedOne) || (fricPixelBuffer[offset] == .fBlueOne) {
-                    friction[row][column] = 0.2
+                    friction[row][column] = 3
                 } else if (fricPixelBuffer[offset] == .fRedTwo) || (fricPixelBuffer[offset] == .fBlueTwo) {
-                    friction[row][column] = 0.4
+                    friction[row][column] = 2
                 } else if (fricPixelBuffer[offset] == .fRedThree) || (fricPixelBuffer[offset] == .fBlueThree) {
-                    friction[row][column] = 0.6
+                    friction[row][column] = 1
                 } else if (fricPixelBuffer[offset] == .fYllwOne) || (fricPixelBuffer[offset] == .fGreenOne) {
-                    friction[row][column] = 1.3
+                    friction[row][column] = -2
                 } else if (fricPixelBuffer[offset] == .fYllwTwo) || (fricPixelBuffer[offset] == .fGreenTwo) {
-                    friction[row][column] = 1.6
+                    friction[row][column] = -1
                 } else {
-                    friction[row][column] = 0.0
+                    friction[row][column] = 0
                 }
             }
         }
@@ -89,7 +89,6 @@ class SetFriction {
             let A = (UInt32(alpha) << 0)
             color = R | G | B | A
         }
-        
         
         static let fRedOne    = RGBA32(red:150,  green: 0,   blue: 0,    alpha: 255)
         static let fRedTwo    = RGBA32(red:200,  green: 0,   blue: 0,    alpha: 255)

@@ -26,6 +26,10 @@ class GameScene: SKScene {
     var sequence:SKAction!
     var wait:SKAction!
     var block:SKAction!
+    var dataLogTime:Double = 0.0
+    
+    var ballPosX:Int = 0
+    var ballPosY:Int = 0
     
     var timerLabel = SKLabelNode(fontNamed: "ArialMT")
     var bestScoreLabel  = SKLabelNode(fontNamed: "ArialMT")
@@ -42,7 +46,7 @@ class GameScene: SKScene {
     
     let maxVelocity = CGFloat(50.0)
     
-    var frictionMap = [[Double]](repeating: [Double](repeating: 0.0, count: 1334), count: 750)
+    var frictionMap = [[Int]](repeating: [Int](repeating: 0, count: 1334), count: 750)
     var heightMap = [[Int]](repeating: [Int](repeating: 0, count: 1334), count: 750)
     var obstacleMap = [[Int]](repeating: [Int](repeating: 0, count: 1334), count: 750)
     
@@ -81,14 +85,14 @@ class GameScene: SKScene {
             ball.physicsBody?.isDynamic = true
             touchTime = 1
             attemptCount += 1
-            self.loggedData += "ID:\(Variables.experimenterID)\nExperiment No:\(attemptCount)\n Map:\(Variables.mapCode)\n"
+            levelTimerValue = 0.0
+            self.loggedData += "ID:\(Variables.experimenterID)\nExperiment No:\(attemptCount)\nMap:\(Variables.mapCode)\n"
         }
     }
     
     func endGame(){
         addChild(touchToBeginLabel)
         timerLabel.removeFromParent()
-        levelTimerValue = 0.0
         ball.physicsBody?.isDynamic = false
         ball.position = CGPoint(x: frame.midX, y: -600)
         touchTime = 0
@@ -97,10 +101,9 @@ class GameScene: SKScene {
     
     
     func writeToFile(){
-        let fileName = "experimentData.txt"
+        let fileName = "subject:\(Variables.experimenterID)-Data.txt"
         var filePath = ""
         let dirs : [String] = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true)
-        
         let dir = dirs[0]
         filePath = dir.appending("/" + fileName)
         
@@ -148,6 +151,7 @@ class GameScene: SKScene {
         
         if Variables.mapCode == 1 {
             frictionMap = SetFriction().createFrictionMap(#imageLiteral(resourceName: "MapOne_Friction"))!
+            print(frictionMap)
             obstacleMap = SetObstacles().setObstacles(#imageLiteral(resourceName: "MapOne_Obstacle"))!
             backGroundImage = SetBackground().createBackground(#imageLiteral(resourceName: "MapOne_Obstacle"), #imageLiteral(resourceName: "MapOne_Friction"), #imageLiteral(resourceName: "BackGroundImage"))
         }else if Variables.mapCode == 2{
@@ -172,15 +176,18 @@ class GameScene: SKScene {
         levelTimerValue = round(10*levelTimerValue)/10
         timerLabel.text = "\(levelTimerValue)"
         timerLabel.zPosition = 10
-        wait = SKAction.wait(forDuration: 0.01)
+        wait = SKAction.wait(forDuration: 0.1)
         block = SKAction.run({
             [unowned self] in
-            self.levelTimerValue = self.levelTimerValue + 0.01
-            self.loggedData += "\(Int(self.ball.position.x)),\(Int(self.ball.position.y)) -> \(self.levelTimerValue) \n"
+            self.levelTimerValue = self.levelTimerValue + 0.1
+            self.dataLogTime = self.dataLogTime + 0.1
+            self.dataLogTime = round(10*self.levelTimerValue)/10
+            self.loggedData += "\(Int(self.ball.position.x)),\(Int(self.ball.position.y)) -> \(self.dataLogTime)\n"
         })
         
         sequence = SKAction.sequence([wait,block])
     }
+    
     
     func startTimer() {
         run(SKAction.repeatForever(sequence), withKey: "countdown")
@@ -208,20 +215,15 @@ class GameScene: SKScene {
          
          bestScoreLabel.zPosition = 10
          addChild(bestScoreLabel)*/
-        
     }
     
     override func update(_ currentTime: TimeInterval) {
         
         if let gravityX = manager?.deviceMotion?.gravity.x, let gravityY = manager?.deviceMotion?.gravity.y, ball != nil {
-            var posY:Int
-            if ball.position.y > 0 {
-                posY = 667 - Int(ball.position.y)
-            } else {
-                posY = 667 - Int(ball.position.y)
-            }
-            let frictionFactor = frictionMap[posY-32][Int(ball.position.x) + 375]
-            let endGameCheck = obstacleMap[posY-32][Int(ball.position.x) + 375]
+            ballPosY = 667 - Int(ball.position.y)
+            ballPosX = Int(ball.position.x) + 375
+            let frictionFactor = frictionMap[ballPosY][ballPosX]
+            let endGameCheck = obstacleMap[ballPosY][ballPosX]
             let friction = CGFloat(frictionFactor) * (ball.physicsBody?.mass)! * CGFloat(9.8)
             let impulseX = CGFloat(gravityX) * (ball.physicsBody?.mass)! * CGFloat(9.8)
             let impulseY = CGFloat(gravityY) * (ball.physicsBody?.mass)! * CGFloat(9.8)
@@ -231,6 +233,7 @@ class GameScene: SKScene {
             let totalImpulse = sqrt((impulseX * impulseX ) + (impulseY * impulseY))
             let totalCalculatedImpulse = sqrt(((impulseX*10) * (impulseX*10) ) + ((impulseY*10) * (impulseY*10)))
             
+            print("\(ballPosX),\(ballPosY)->\(frictionFactor)")
             if endGameCheck == -1 {
                 endGame()
             }
@@ -242,26 +245,25 @@ class GameScene: SKScene {
                 frictionX = CGFloat(abs((impulseX * friction) / totalImpulse))
                 frictionY = CGFloat(abs((impulseY * friction) / totalImpulse))
             } else {
-                
-                if frictionFactor == 0.2 {
+                if frictionFactor == 3 {
                     frictionX = -CGFloat(velocityX/3.0)
                     frictionY = -CGFloat(velocityY/3.0)
-                }else if frictionFactor == 0.4{
+                }else if frictionFactor == 2{
                     frictionX = -CGFloat(velocityX/8.0)
                     frictionY = -CGFloat(velocityY/8.0)
-                }else if frictionFactor == 0.6{
+                }else if frictionFactor == 1{
                     frictionX = -CGFloat(velocityX/15.0)
                     frictionY = -CGFloat(velocityY/15.0)
-                }else if frictionFactor == 1.3{
+                }else if frictionFactor == -1{
                     frictionX = CGFloat(velocityX/30.0)
                     frictionY = CGFloat(velocityY/30.0)
-                }else if frictionFactor == 1.6{
+                }else if frictionFactor == -2{
                     frictionX = CGFloat(velocityX/25.0)
                     frictionY = CGFloat(velocityY/25.0)
                 }
             }
             
-            if frictionFactor == 0.0 {
+            if frictionFactor == 0 {
                 ball.physicsBody?.applyImpulse(CGVector(dx: impulseX , dy: impulseY ))
             } else {
                 if ballVelocity == 0.0 {

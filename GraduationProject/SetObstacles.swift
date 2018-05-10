@@ -85,7 +85,7 @@ class SetObstacles {
         
         static let black        = RGBA32(red: 0,   green: 0,   blue: 0,   alpha: 255)
         static let red          = RGBA32(red:150,  green: 0,   blue: 0,    alpha: 255)
-        static let blue     = RGBA32(red:0,    green: 0,   blue: 150,  alpha: 255)
+        static let blue         = RGBA32(red:0,    green: 0,   blue: 150,  alpha: 255)
         
         static let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue | CGBitmapInfo.byteOrder32Little.rawValue
         

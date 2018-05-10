@@ -17,8 +17,6 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        createLogFile()
-        
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             if let scene = SKScene(fileNamed: "GameScene") {
@@ -31,33 +29,6 @@ class GameViewController: UIViewController {
             view.ignoresSiblingOrder = true
             view.showsFPS = true
             view.showsNodeCount = true
-        }
-    }
-    
-    func createLogFile(){
-        let fileName = "experimentData.txt"
-        var filePath = ""
-        let dirs : [String] = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true)
-        
-        let dir = dirs[0]
-        filePath = dir.appending("/" + fileName)
-        print("Local path = \(filePath)")
-        
-        let fileContentToWrite = "Text to be recorded into file"
-        
-        do {
-            try fileContentToWrite.write(toFile: filePath, atomically: false, encoding: String.Encoding.utf8)
-        }
-        catch let error as NSError {
-            print("An error took place: \(error)")
-        }
-        
-        do {
-            let contentFromFile = try NSString(contentsOfFile: filePath, encoding: String.Encoding.utf8.rawValue)
-            print(contentFromFile)
-        }
-        catch let error as NSError {
-            print("An error took place: \(error)")
         }
     }
     
