@@ -101,7 +101,7 @@ class GameScene: SKScene {
     
     
     func writeToFile(){
-        let fileName = "subject:\(Variables.experimenterID)-Data.txt"
+        let fileName = "subject_\(Variables.experimenterID)_Data.txt"
         var filePath = ""
         let dirs : [String] = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true)
         let dir = dirs[0]
@@ -151,7 +151,6 @@ class GameScene: SKScene {
         
         if Variables.mapCode == 1 {
             frictionMap = SetFriction().createFrictionMap(#imageLiteral(resourceName: "MapOne_Friction"))!
-            print(frictionMap)
             obstacleMap = SetObstacles().setObstacles(#imageLiteral(resourceName: "MapOne_Obstacle"))!
             backGroundImage = SetBackground().createBackground(#imageLiteral(resourceName: "MapOne_Obstacle"), #imageLiteral(resourceName: "MapOne_Friction"), #imageLiteral(resourceName: "BackGroundImage"))
         }else if Variables.mapCode == 2{
@@ -233,7 +232,6 @@ class GameScene: SKScene {
             let totalImpulse = sqrt((impulseX * impulseX ) + (impulseY * impulseY))
             let totalCalculatedImpulse = sqrt(((impulseX*10) * (impulseX*10) ) + ((impulseY*10) * (impulseY*10)))
             
-            print("\(ballPosX),\(ballPosY)->\(frictionFactor)")
             if endGameCheck == -1 {
                 endGame()
             }

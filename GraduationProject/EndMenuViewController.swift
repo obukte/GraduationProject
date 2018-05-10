@@ -9,7 +9,7 @@
 import UIKit
 import MessageUI
 
-class EndMenuViewController: UIViewController, MFMessageComposeViewControllerDelegate {
+class EndMenuViewController: UIViewController, MFMailComposeViewControllerDelegate {
     
     
     override func viewDidLoad() {
@@ -37,19 +37,19 @@ class EndMenuViewController: UIViewController, MFMessageComposeViewControllerDel
     
     func configureMailComposeViewController() -> MFMailComposeViewController {
         let mailComposerVC = MFMailComposeViewController()
-        mailComposerVC.mailComposeDelegate = self as? MFMailComposeViewControllerDelegate
-        mailComposerVC.setToRecipients(["omer.bukte@ozu.edu.tr"])
-        mailComposerVC.setSubject("Experiment Data of Subject:\(Variables.experimenterID)")
+        mailComposerVC.mailComposeDelegate = self
+        mailComposerVC.setToRecipients([""])
+        mailComposerVC.setSubject("Experiment Data of Subject \(Variables.experimenterID)")
         mailComposerVC.setMessageBody("Subject \(Variables.experimenterID) experiment data is attached.", isHTML: false)
         
-        let fileName = "subject:\(Variables.experimenterID)-Data.txt"
+        let fileName = "subject_\(Variables.experimenterID)_Data.txt"
         var filePath = ""
         let dirs : [String] = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true)
         let dir = dirs[0]
         filePath = dir.appending("/" + fileName)
         
         if let fileData = NSData(contentsOfFile: filePath) {
-            mailComposerVC.addAttachmentData(fileData as Data, mimeType: "text/txt", fileName: "subject:\(Variables.experimenterID)-Data")
+            mailComposerVC.addAttachmentData(fileData as Data, mimeType: "text/txt", fileName: "subject_\(Variables.experimenterID)_Data")
         }
         
         return mailComposerVC
@@ -63,12 +63,9 @@ class EndMenuViewController: UIViewController, MFMessageComposeViewControllerDel
         self.present(sendMailErrorAlert, animated: true, completion: nil)
     }
     
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
-            controller.dismiss(animated: true, completion: nil)
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        dismiss(animated: true, completion: nil)
     }
     
-    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-            controller.dismiss(animated: true, completion: nil)
-    }
     
 }
