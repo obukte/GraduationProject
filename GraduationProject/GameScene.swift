@@ -35,8 +35,9 @@ class GameScene: SKScene {
     var bestScoreLabel  = SKLabelNode(fontNamed: "ArialMT")
     var touchToBeginLabel    = SKLabelNode(fontNamed: "ArialMT")
     
-    var loggedData = ""
+    var loggedData = "ID,Time,Map\n"
     var attemptCount = 0
+    var dataWriteCheck = 1
     
     var levelTimerValue: Double = 0.0 {
         didSet {
@@ -73,12 +74,12 @@ class GameScene: SKScene {
                 }
             }
         }
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if touchTime == 0 {
+            dataWriteCheck = 1
             touchToBeginLabel.removeFromParent()
             addChild(timerLabel)
             startTimer()
@@ -86,28 +87,30 @@ class GameScene: SKScene {
             touchTime = 1
             attemptCount += 1
             levelTimerValue = 0.0
-            self.loggedData += "ID:\(Variables.experimenterID)\nExperiment No:\(attemptCount)\nMap:\(Variables.mapCode)\n"
+            self.loggedData += "\(Variables.experimenterID),\(attemptCount),\(Variables.mapCode)\n"
         }
     }
     
     func endGame(){
+        touchTime = 0
+        dataWriteCheck = 0
+        writeToFile(loggedTime: loggedData)
         addChild(touchToBeginLabel)
         timerLabel.removeFromParent()
-        ball.physicsBody?.isDynamic = false
         ball.position = CGPoint(x: frame.midX, y: -600)
-        touchTime = 0
-        writeToFile()
+        ball.physicsBody?.isDynamic = false
     }
     
     
-    func writeToFile(){
+    func writeToFile(loggedTime: String){
         let fileName = "subject_\(Variables.experimenterID)_Data.txt"
         var filePath = ""
         let dirs : [String] = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true)
         let dir = dirs[0]
         filePath = dir.appending("/" + fileName)
         
-        let fileContentToWrite = loggedData
+        
+        let fileContentToWrite = loggedTime
         
         do {
             try fileContentToWrite.write(toFile: filePath, atomically: false, encoding: String.Encoding.utf8)
@@ -154,11 +157,14 @@ class GameScene: SKScene {
             obstacleMap = SetObstacles().setObstacles(#imageLiteral(resourceName: "MapOne_Obstacle"))!
             backGroundImage = SetBackground().createBackground(#imageLiteral(resourceName: "MapOne_Obstacle"), #imageLiteral(resourceName: "MapOne_Friction"), #imageLiteral(resourceName: "BackGroundImage"))
         }else if Variables.mapCode == 2{
-            
+            frictionMap = SetFriction().createFrictionMap(#imageLiteral(resourceName: "MapTwo_Friction"))!
+            obstacleMap = SetObstacles().setObstacles(#imageLiteral(resourceName: "MapTwo_Obstacle"))!
+            backGroundImage = SetBackground().createBackground(#imageLiteral(resourceName: "MapTwo_Obstacle"), #imageLiteral(resourceName: "MapTwo_Friction"), #imageLiteral(resourceName: "BackGroundImage"))
             
         }else if Variables.mapCode == 3{
-            
-            
+            frictionMap = SetFriction().createFrictionMap(#imageLiteral(resourceName: "MapThree_Friction"))!
+            obstacleMap = SetObstacles().setObstacles(#imageLiteral(resourceName: "MapThree_Obstacle"))!
+            backGroundImage = SetBackground().createBackground(#imageLiteral(resourceName: "MapThree_Obstacle"), #imageLiteral(resourceName: "MapThree_Friction"), #imageLiteral(resourceName: "BackGroundImage"))
         }else if Variables.mapCode == 4{
             
             
@@ -182,8 +188,11 @@ class GameScene: SKScene {
             self.dataLogTime = self.dataLogTime + 0.1
             self.dataLogTime = round(10*self.levelTimerValue)/10
             let posX = Int(self.ball.position.x) + 375
-            let posY = 667 - Int(self.ball.position.y)
-            self.loggedData += "\(posX),\(posY) -> \(self.dataLogTime)\n"
+            let posY = 1334 - (667 - Int(self.ball.position.y))
+            
+            if self.dataWriteCheck == 1{
+            self.loggedData += "\(posX),\(posY),\(self.dataLogTime)\n"
+            }
         })
         
         sequence = SKAction.sequence([wait,block])
@@ -226,8 +235,8 @@ class GameScene: SKScene {
             let frictionFactor = frictionMap[ballPosY][ballPosX]
             let endGameCheck = obstacleMap[ballPosY][ballPosX]
             let friction = CGFloat(frictionFactor) * (ball.physicsBody?.mass)! * CGFloat(9.8)
-            let impulseX = CGFloat(gravityX) * (ball.physicsBody?.mass)! * CGFloat(9.8)
-            let impulseY = CGFloat(gravityY) * (ball.physicsBody?.mass)! * CGFloat(9.8)
+            let impulseX = CGFloat(gravityX) * (ball.physicsBody?.mass)! * CGFloat(20.0)
+            let impulseY = CGFloat(gravityY) * (ball.physicsBody?.mass)! * CGFloat(20.0)
             let velocityX = CGFloat(ball.physicsBody!.velocity.dx)
             let velocityY = CGFloat(ball.physicsBody!.velocity.dy)
             let ballVelocity = sqrt((ball.physicsBody!.velocity.dx * ball.physicsBody!.velocity.dx) + (ball.physicsBody!.velocity.dy * ball.physicsBody!.velocity.dy))

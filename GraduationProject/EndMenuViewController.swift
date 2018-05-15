@@ -49,7 +49,7 @@ class EndMenuViewController: UIViewController, MFMailComposeViewControllerDelega
         filePath = dir.appending("/" + fileName)
         
         if let fileData = NSData(contentsOfFile: filePath) {
-            mailComposerVC.addAttachmentData(fileData as Data, mimeType: "text/txt", fileName: "subject_\(Variables.experimenterID)_Data")
+            mailComposerVC.addAttachmentData(fileData as Data, mimeType: "text/txt", fileName: "subject_\(Variables.experimenterID)_Data.txt")
         }
         
         return mailComposerVC
