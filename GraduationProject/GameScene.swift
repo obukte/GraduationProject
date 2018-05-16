@@ -166,7 +166,9 @@ class GameScene: SKScene {
             obstacleMap = SetObstacles().setObstacles(#imageLiteral(resourceName: "MapThree_Obstacle"))!
             backGroundImage = SetBackground().createBackground(#imageLiteral(resourceName: "MapThree_Obstacle"), #imageLiteral(resourceName: "MapThree_Friction"), #imageLiteral(resourceName: "BackGroundImage"))
         }else if Variables.mapCode == 4{
-            
+            frictionMap = SetFriction().createFrictionMap(#imageLiteral(resourceName: "MapFour_Friction"))!
+            obstacleMap = SetObstacles().setObstacles(#imageLiteral(resourceName: "MapFour_Obstacle"))!
+            backGroundImage = SetBackground().createBackground(#imageLiteral(resourceName: "MapFour_Obstacle"), #imageLiteral(resourceName: "MapFour_Friction"), #imageLiteral(resourceName: "BackGroundImage"))
             
         }
         setBackground()
