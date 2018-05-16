@@ -42,8 +42,8 @@ class EndMenuViewController: UIViewController, MFMailComposeViewControllerDelega
         mailComposerVC.setSubject("Experiment Data of Subject \(Variables.experimenterID)")
         mailComposerVC.setMessageBody("Subject \(Variables.experimenterID) experiment data is attached.", isHTML: false)
         
-        let fileName = "subject_\(Variables.experimenterID)_Data.txt"
-        let highScoreName = "subject_\(Variables.experimenterID)_Scores.txt"
+        let fileName = "subject_\(Variables.experimenterID)_Map\(Variables.mapCode)_Data.txt"
+        let highScoreName = "subject_\(Variables.experimenterID)_Map\(Variables.mapCode)_Scores.txt"
         var filePath = ""
         var filePathScores = ""
         let dirs : [String] = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true)
@@ -52,10 +52,10 @@ class EndMenuViewController: UIViewController, MFMailComposeViewControllerDelega
         filePath = dir.appending("/" + fileName)
         filePathScores = dirTwo.appending("/" + highScoreName)
         if let fileData = NSData(contentsOfFile: filePath) {
-            mailComposerVC.addAttachmentData(fileData as Data, mimeType: "text/txt", fileName: "subject_\(Variables.experimenterID)_Data.txt")
+            mailComposerVC.addAttachmentData(fileData as Data, mimeType: "text/txt", fileName: "subject_\(Variables.experimenterID)_Map\(Variables.mapCode)_Data.txt")
         }
         if let fileData = NSData(contentsOfFile: filePathScores) {
-            mailComposerVC.addAttachmentData(fileData as Data, mimeType: "text/txt", fileName: "subject_\(Variables.experimenterID)_Scores.txt")
+            mailComposerVC.addAttachmentData(fileData as Data, mimeType: "text/txt", fileName: "subject_\(Variables.experimenterID)_Map\(Variables.mapCode)_Scores.txt")
         }
         
         return mailComposerVC

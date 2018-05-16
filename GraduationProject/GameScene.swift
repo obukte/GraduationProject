@@ -120,7 +120,7 @@ class GameScene: SKScene {
     
     
     func writeToFile(loggedTime: String){
-        let fileName = "subject_\(Variables.experimenterID)_Data.txt"
+        let fileName = "subject_\(Variables.experimenterID)_Map\(Variables.mapCode)_Data.txt"
         var filePath = ""
         let dirs : [String] = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true)
         let dir = dirs[0]
@@ -145,7 +145,7 @@ class GameScene: SKScene {
     }
     
     func writeTimesToFile(highScores: String){
-        let fileName = "subject_\(Variables.experimenterID)_Scores.txt"
+        let fileName = "subject_\(Variables.experimenterID)_Map\(Variables.mapCode)_Scores.txt"
         var filePath = ""
         let dirs : [String] = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true)
         let dir = dirs[0]
