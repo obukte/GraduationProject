@@ -6,6 +6,7 @@ import UIKit
 struct Variables {
     static var experimenterID = ""
     static var mapCode = 0
+    static var attempt = 0
 }
 
 class GameScene: SKScene {
@@ -36,6 +37,8 @@ class GameScene: SKScene {
     var touchToBeginLabel    = SKLabelNode(fontNamed: "ArialMT")
     
     var loggedData = "ID,Time,Map\n"
+    var highScores = "Attempt,Time\n"
+    var attemptTime = 0.0
     var attemptCount = 0
     var dataWriteCheck = 1
     
@@ -92,13 +95,27 @@ class GameScene: SKScene {
     }
     
     func endGame(){
-        touchTime = 0
-        dataWriteCheck = 0
-        writeToFile(loggedTime: loggedData)
-        addChild(touchToBeginLabel)
-        timerLabel.removeFromParent()
-        ball.position = CGPoint(x: frame.midX, y: -600)
-        ball.physicsBody?.isDynamic = false
+        if attemptCount == Variables.attempt {
+            touchToBeginLabel.text = "You completed \(attemptCount) attemps."
+            addChild(touchToBeginLabel)
+            dataWriteCheck = 0
+            highScores += "\(attemptCount),\(attemptTime)\n"
+            writeTimesToFile(highScores: highScores)
+            writeToFile(loggedTime: loggedData)
+            timerLabel.removeFromParent()
+            ball.position = CGPoint(x: frame.midX, y: -600)
+            ball.physicsBody?.isDynamic = false
+        }else {
+            touchTime = 0
+            dataWriteCheck = 0
+            highScores += "\(attemptCount),\(attemptTime)\n"
+            writeTimesToFile(highScores: highScores)
+            writeToFile(loggedTime: loggedData)
+            addChild(touchToBeginLabel)
+            timerLabel.removeFromParent()
+            ball.position = CGPoint(x: frame.midX, y: -600)
+            ball.physicsBody?.isDynamic = false
+        }
     }
     
     
@@ -109,9 +126,7 @@ class GameScene: SKScene {
         let dir = dirs[0]
         filePath = dir.appending("/" + fileName)
         
-        
         let fileContentToWrite = loggedTime
-        
         do {
             try fileContentToWrite.write(toFile: filePath, atomically: false, encoding: String.Encoding.utf8)
         }
@@ -121,13 +136,29 @@ class GameScene: SKScene {
         
         do {
             let contentFromFile = try NSString(contentsOfFile: filePath, encoding: String.Encoding.utf8.rawValue)
-            print(contentFromFile)
         }
         catch let error as NSError {
             print("An error took place: \(error)")
         }
         
         
+    }
+    
+    func writeTimesToFile(highScores: String){
+        let fileName = "subject_\(Variables.experimenterID)_Scores.txt"
+        var filePath = ""
+        let dirs : [String] = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true)
+        let dir = dirs[0]
+        filePath = dir.appending("/" + fileName)
+        
+        let fileContentToWrite = highScores
+        
+        do {try fileContentToWrite.write(toFile: filePath, atomically: false, encoding: String.Encoding.utf8) }
+        catch let error as NSError { print("An error took place: \(error)") }
+        do {
+            let contentFromFile = try NSString(contentsOfFile: filePath, encoding: String.Encoding.utf8.rawValue)
+        }
+        catch let error as NSError { print("An error took place: \(error)") }
     }
     
     override func didMove(to view: SKView) {
@@ -160,7 +191,6 @@ class GameScene: SKScene {
             frictionMap = SetFriction().createFrictionMap(#imageLiteral(resourceName: "MapTwo_Friction"))!
             obstacleMap = SetObstacles().setObstacles(#imageLiteral(resourceName: "MapTwo_Obstacle"))!
             backGroundImage = SetBackground().createBackground(#imageLiteral(resourceName: "MapTwo_Obstacle"), #imageLiteral(resourceName: "MapTwo_Friction"), #imageLiteral(resourceName: "BackGroundImage"))
-            
         }else if Variables.mapCode == 3{
             frictionMap = SetFriction().createFrictionMap(#imageLiteral(resourceName: "MapThree_Friction"))!
             obstacleMap = SetObstacles().setObstacles(#imageLiteral(resourceName: "MapThree_Obstacle"))!
@@ -169,7 +199,6 @@ class GameScene: SKScene {
             frictionMap = SetFriction().createFrictionMap(#imageLiteral(resourceName: "MapFour_Friction"))!
             obstacleMap = SetObstacles().setObstacles(#imageLiteral(resourceName: "MapFour_Obstacle"))!
             backGroundImage = SetBackground().createBackground(#imageLiteral(resourceName: "MapFour_Obstacle"), #imageLiteral(resourceName: "MapFour_Friction"), #imageLiteral(resourceName: "BackGroundImage"))
-            
         }
         setBackground()
         setObstacles()
@@ -194,6 +223,7 @@ class GameScene: SKScene {
             
             if self.dataWriteCheck == 1{
             self.loggedData += "\(posX),\(posY),\(self.dataLogTime)\n"
+            self.attemptTime = self.dataLogTime
             }
         })
         

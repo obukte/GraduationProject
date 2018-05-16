@@ -12,6 +12,7 @@ class MainMenuVC: UIViewController {
 
     @IBOutlet weak var subjectID: UITextField!
     
+    @IBOutlet weak var attempTime: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,12 +21,13 @@ class MainMenuVC: UIViewController {
     
     @IBAction func playButtonTapped(_ sender: Any) {
         
-        if subjectID.text == "" {
+        if subjectID.text == "" || attempTime.text == ""{
             let alert = UIAlertController(title: "Error", message: "Enter the Subject ID!", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }else {
             Variables.experimenterID = subjectID.text!
+            Variables.attempt = Int(attempTime.text!)!
             performSegue(withIdentifier: "goToMapSelect", sender: nil)
         }
     }
